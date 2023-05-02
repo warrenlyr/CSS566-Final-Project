@@ -47,7 +47,7 @@ Besides the roles assigned above, the parties below are further responsible for:
 
 In this project, we will implement a three-tier client-server architecture. The first tier will be the client, where users engage in the game; the second tier will be the application server, hosting our backend functions; and the third tier will comprise the database, storing data such as user and game information. Each layer exposes an interface (API) for use by the layers above, with each layer depending solely on the facilities and services of the layer directly beneath it.
 
-<img src=".\images\Architecture Diagram.png" height="200" />
+<img src=".\images\Architecture Diagram.png" height="450" />
 
 ### 2.2 Client Tire (Frontend UI)
 
