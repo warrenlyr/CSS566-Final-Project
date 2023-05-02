@@ -1,6 +1,6 @@
 # Product Requirements Document
 
-## Table of Contents (update 5/1/2023)
+#### Table of Contents (update 5/1/2023)
 
 - [Overview](#Overview)
 - [Introduction](#Introduction)
