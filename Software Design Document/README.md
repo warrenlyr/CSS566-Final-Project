@@ -47,7 +47,7 @@ Besides the roles assigned above, the parties below are further responsible for:
 
 In this project, we will implement a three-tier client-server architecture. The first tier will be the client, where users engage in the game; the second tier will be the application server, hosting our backend functions; and the third tier will comprise the database, storing data such as user and game information. Each layer exposes an interface (API) for use by the layers above, with each layer depending solely on the facilities and services of the layer directly beneath it.
 
-<img src=".\images\Architecture Diagram.png" style="zoom: 25%;" />
+<img src=".\images\Architecture Diagram.png" height="200" />
 
 ### 2.2 Client Tire (Frontend UI)
 
@@ -118,7 +118,7 @@ The Landing Page serves as the main entry point for users and provides access to
 
    - Clicking the button immediately directs users to the game page.
 6. **Puzzle Design**
-   - Clicking the button immediately directs users to the "Design Puzzle" page (will be specified in [3.1.2](#3.1.2-Design-Puzzle)).
+   - Clicking the button immediately directs users to the "Design Puzzle" page (will be specified in [3.1.2](#3.1.2-design-puzzle)).
 
 #### 3.1.2 Design Puzzle
 
