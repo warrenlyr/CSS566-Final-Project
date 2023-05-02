@@ -110,15 +110,15 @@ The Landing Page serves as the main entry point for users and provides access to
 
    - A button for users to choose a level to play.
    - Clicking the button opens a modal with three buttons corresponding to the three levels.
-   - Clicking on a level button directs users to the game page for that level (will be specified in [3.1.3](#3.1.3-game-ui)).
+   - Clicking on a level button directs users to the game page for that level (will be specified in [3.1.3](#313-game-ui)).
 
 - **Today's Reward Game**
 
    - A button for users to play "Today's Reward Game" directly.
 
-   - Clicking the button immediately directs users to the game page (will be specified in [3.1.3](#3.1.3-game-ui)).
+   - Clicking the button immediately directs users to the game page (will be specified in [3.1.3](#313-game-ui)).
 - **Puzzle Design**
-   - Clicking the button immediately directs users to the "Design Puzzle" page (will be specified in [3.1.2](#3.1.2-design-puzzle)).
+   - Clicking the button immediately directs users to the "Design Puzzle" page (will be specified in [3.1.2](#312-design-puzzle)).
 
 #### 3.1.2 Design Puzzle
 
@@ -201,7 +201,7 @@ We should write some customized error pages when backend throw an error code, su
 #### 4.1.1 Authentication
 
 - Implement user authentication, this will be handled by Flask built-in authentication.
-- Provide functionality for user registration and login (if [3.1.4](#3.1.4-user-account-management) is implemented, more functions will be added here).
+- Provide functionality for user registration and login (if [3.1.4](#314-user-account-management) is implemented, more functions will be added here).
 
 #### 4.1.2 Game Data Management
 
