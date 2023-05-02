@@ -1,10 +1,17 @@
 # Product Requirements Document
 
-v0.1
+## Table of Contents (update 5/1/2023)
 
-Update: 5/1/2023
-
-[TOC]
+- [Overview](#Overview)
+- [Introduction](#Introduction)
+- [Goals and Objectives](#Goals-and-Objectives)
+- [User Stories](#User-Stories)
+- [Features](#Features)
+- [Functional Requirements](#Functional-Requirements)
+- [Non-Functional Requirements](#Non-Functional-Requirements)
+- [Assumptions and Constraints](#Assumptions-and-Constraints)
+- [Acceptance Criteria](#Acceptance-Criteria)
+- [Reference](#Reference)
 
 ## Overview
 
