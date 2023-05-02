@@ -92,32 +92,32 @@ Key responsibilities of the data tier include:
 
 The Landing Page serves as the main entry point for users and provides access to key features of the application, such as logging in, viewing leaderboards, accessing play history, and selecting games to play.
 
-1. **User Authentication**
+- **User Authentication**
    - A `Login` button is located in the top right corner.
    - Clicking the `Login` button opens a modal for users to log in or register for an account (via POST requests).
-   
-2. **Leaderboard (Data will be fetched via Ajax)** 
+
+- **Leaderboard (Data will be fetched via Ajax)** 
    - A large leaderboard displays the top N scores for each of the three levels.
    - A `Refresh` button to refresh the data.
    - Clicking on a level's text opens a modal with the top 100 scores for that level.
 
-3. **Play History (Visible after user login, data will be fetched via Ajax)**
+- **Play History (Visible after user login, data will be fetched via Ajax)**
    - A list of the user's last 10 games is displayed.
    - Clicking on an item in the play history allows users to replay that game and attempt to achieve a higher score.
    - Clicking on the `Full History` opens a modal with all game histories.
-   
-4. **Level Selection**
+
+- **Level Selection**
 
    - A button for users to choose a level to play.
    - Clicking the button opens a modal with three buttons corresponding to the three levels.
    - Clicking on a level button directs users to the game page for that level (will be specified in [3.1.3](#3.1.3-game-ui)).
 
-5. **Today's Reward Game**
+- **Today's Reward Game**
 
    - A button for users to play "Today's Reward Game" directly.
 
    - Clicking the button immediately directs users to the game page (will be specified in [3.1.3](#3.1.3-game-ui)).
-6. **Puzzle Design**
+- **Puzzle Design**
    - Clicking the button immediately directs users to the "Design Puzzle" page (will be specified in [3.1.2](#3.1.2-design-puzzle)).
 
 #### 3.1.2 Design Puzzle
