@@ -5,3 +5,8 @@ from app import app
 @app.route('/')
 def hello_world():
     return render_template('testuse.html')
+
+# Test get request
+@app.route('/testget', methods=['GET'])
+def test_get():
+    return 'Response from GET request'
