@@ -17,9 +17,12 @@ Stakeholders:
 - Arsheya Raj (Designer)
 
 ## Objective of the project
-Develop a straightforward Word Search game. Instead of emphasizing software development, the project seeks to provide an opportunity to experience the Scrum management framework.
+The primary objective of this project is to develop a straightforward Word Search game. Instead of emphasizing software development, the project seeks to provide an opportunity to experience the Scrum management framework.
 
 ## Toolsets
-- Typora - markdown (paid)
-- Visual Code - markdown (free)
-- React.js - UI framework
+- Backend language: Python
+- Web server: Flask
+- Frontend language: HTML, JavaScript, CSS
+- Frontend UI framework: React.js
+- Project management tool: Jira (Scrum)
+
