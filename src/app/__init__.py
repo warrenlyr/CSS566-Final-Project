@@ -40,7 +40,4 @@ from flask import Flask
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 
-# Test environment configuration
-@app.route('/')
-def hello_world():
-    return 'Hello, World!'
+from app.routes import *
