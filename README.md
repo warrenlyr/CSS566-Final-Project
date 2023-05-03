@@ -1,5 +1,14 @@
 # CSS566-Final-Project
 
+**TO TEAMS**: please commit your changes using corresponding branches:
+
+- Documentation related updates: doc
+- Backend source code related updates: backend
+- Frontend source code related updates: frontend
+- Testing source code related updates: testing
+
+All changes will be reviewed and merged to the master branch.
+
 ## Team Information
 CSS 566 Software Management
 
@@ -16,10 +25,13 @@ Stakeholders:
 - Amalaye Oyake (Sprint 2 Scrum Master)
 - Arsheya Raj (Designer)
 
-## Objective of the project
-Develop a straightforward Word Search game. Instead of emphasizing software development, the project seeks to provide an opportunity to experience the Scrum management framework.
+## Objective of The Project
+The primary objective of this project is to develop a straightforward Word Search game. Instead of emphasizing software development, the project seeks to provide an opportunity to experience the Scrum management framework.
 
 ## Toolsets
-- Typora - markdown (paid)
-- Visual Code - markdown (free)
-- React.js - UI framework
+- Backend language: Python
+- Web server: Flask
+- Frontend language: HTML, JavaScript, CSS
+- Frontend UI framework: React.js
+- Project management tool: Jira (Scrum)
+

@@ -1,0 +1,1 @@
+from app.routes.landing_page import *
