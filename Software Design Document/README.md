@@ -133,7 +133,7 @@ Users are able to design their own puzzles on this page. The page has a form tha
   - The backend receives the information, generates a puzzle, and sends it back to the client via Ajax.
   - The generated puzzle is displayed to the user.
 - **Puzzle Modification**
-  - If the user is not satisfied with the generated puzzle, they can either click the `Confirm` button again or modify the input text and level, then click the `Confirm` button again to submit their updated design.
+  - There are two buttions, `Confirm` and `Regenerate`. If the user is not satisfied with the generated puzzle, they can either click the `Regenerate` button again or modify the input text and level, then click the `Confirm` button again to submit their updated design. If the user is satisfied with the generated puzzle, they can directly click the `Confirm` to submit their puzzle.
 
 #### 3.1.3 Game UI
 
