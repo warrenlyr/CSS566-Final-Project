@@ -40,6 +40,7 @@ Besides the roles assigned above, the parties below are further responsible for:
 - Shahruz Mannan: Game program development
 - Arsheya Raj: Website frontend UI/UX development
 - Haihan Jiang: QA
+- Barack Liu: Manage development progress and maintain all the supporting documentation
 
 ## 2 System Architecture
 
