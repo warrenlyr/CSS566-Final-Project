@@ -16,7 +16,7 @@ Stakeholders:
 - Amalaye Oyake (Sprint 2 Scrum Master)
 - Arsheya Raj (Designer)
 
-## Objective of the project
+## Objective of The Project
 The primary objective of this project is to develop a straightforward Word Search game. Instead of emphasizing software development, the project seeks to provide an opportunity to experience the Scrum management framework.
 
 ## Toolsets
