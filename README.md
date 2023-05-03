@@ -1,5 +1,14 @@
 # CSS566-Final-Project
 
+**TO TEAMS**: please commit your changes using corresponding branches:
+
+- Documentation related updates: doc
+- Backend source code related updates: backend
+- Frontend source code related updates: frontend
+- Testing source code related updates: testing
+
+All changes will be reviewed and merged to the master branch.
+
 ## Team Information
 CSS 566 Software Management
 
