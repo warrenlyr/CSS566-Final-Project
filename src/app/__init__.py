@@ -37,7 +37,10 @@ dotenv.load_dotenv(env_file_path)
 
 # Flask app configuration
 from flask import Flask
+from flask_cors import CORS #comment this on deployment
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
+CORS(app)
 
 from app.routes import *
