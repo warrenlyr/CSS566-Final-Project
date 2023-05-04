@@ -46,11 +46,11 @@ The frontend is built using Node.js, currently actively tested with version 18.1
 
 Download link: https://nodejs.org/en, use the "Recommended For Most Users" version.
 
-![](./images/NodeJS Installer.png)
+<img src="./images/NodeJS Installer.png">
 
 To validate the installation, open a terminal and type `node -v`, you'll see the version number if Node.js is installed correctly.
 
-![](./images/NodeJS Version Check.png)
+<img src="./images/NodeJS Version Check.png">
 
 #### 2 Install Required Dependencies
 
@@ -68,7 +68,7 @@ cd src/client
 npm install
 ```
 
-#### 3 Start the NodeJS Clie
+#### 3 Start the NodeJS Client Server
 
 Once all dependencies are installed without error, start the frontend Node.js client server.
 
