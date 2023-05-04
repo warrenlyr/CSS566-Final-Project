@@ -35,3 +35,15 @@ The primary objective of this project is to develop a straightforward Word Searc
 - Frontend UI framework: React.js
 - Project management tool: Jira (Scrum)
 
+## Setting up
+The application consist of a frontend, backend, and database. The different parts can be setup manually. The frontend is built using Node.js, currently actively tested with version 18.16.
+
+The simple manual setup requires the following steps.
+
+```bash
+# Install the required dependencies and build the frontend environment
+cd src/client
+
+npm install
+npm start
+```
