@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from app import app
 
 # Test environment configuration
@@ -10,3 +10,9 @@ def hello_world():
 @app.route('/testget', methods=['GET'])
 def test_get():
     return 'Response from GET request'
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    data = request.get_json()
+    print(data)
+    return data;
