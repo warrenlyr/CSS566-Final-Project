@@ -41,7 +41,7 @@ The application consist of a frontend, backend, and database. The different part
 The simple manual setup requires the following steps.
 
 ```bash
-# Install the required dependencies and build the frontend environment
+# Install the required dependencies and build the client environment
 cd src/client
 
 npm install
