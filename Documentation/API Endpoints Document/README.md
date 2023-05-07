@@ -121,7 +121,7 @@ POST
 
 ```json
 {
-	'message': 'Logout successful'
+	"message": "Logout successful"
 }
 ```
 
