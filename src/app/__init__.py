@@ -26,18 +26,21 @@ application and running it.
 
 import os
 import sys
-import dotenv
+# import dotenv
 
 # Insert the parent directory into the sys path
 this_path = os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir))
 sys.path.insert(0, this_path)
 # Load the environment variables
-env_file_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), os.pardir, '.env')
-dotenv.load_dotenv(env_file_path)
+# env_file_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), os.pardir, '.env')
+# dotenv.load_dotenv(env_file_path)
 
 # Flask app configuration
 from flask import Flask
+from flask_cors import CORS #comment this on deployment
+
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
+app.config['SECRET_KEY'] = 'test'
+CORS(app)
 
 from app.routes import *
