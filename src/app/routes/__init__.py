@@ -1,1 +1,4 @@
-from app.routes.landing_page import *
+from app.routes.test import *
+from app.routes.auth import *
+from app.routes.error_handler import *
+from app.routes.leaderboards import *

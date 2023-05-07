@@ -26,6 +26,7 @@ application and running it.
 
 import os
 import sys
+from datetime import timedelta
 # import dotenv
 
 # Insert the parent directory into the sys path
@@ -37,10 +38,19 @@ sys.path.insert(0, this_path)
 
 # Flask app configuration
 from flask import Flask
+from flask_jwt_extended import JWTManager
 from flask_cors import CORS #comment this on deployment
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'test'
+app.config['SECRET_KEY'] = 'test-remember-to-change-this' # will be loaded from .env file when deployed
+app.config['JWT_SECRET_KEY'] = 'test-remember-to-change-this' # will be loaded from .env file when deployed
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
+app.config['JWT_REFRESH_DELTA'] = timedelta(minutes=30)
 CORS(app)
+jwt = JWTManager(app)
+
+# API URL prefix
+API_VERSION = 'v0'
+API_URL_PREFIX = '/api/' + API_VERSION
 
 from app.routes import *
