@@ -1,7 +1,9 @@
 # API Endpoints Documentation
 
 Update: 5/6/2023
+
 Current API version: v0
+
 API endpoints prefix: `/api/<api_version>`
 
 **Table of Contents**
