@@ -30,13 +30,18 @@ The primary objective of this project is to develop a straightforward Word Searc
 
 ## Toolsets
 - Backend language: Python
-- Web server: Flask
+- Backend web server framework: Flask
 - Frontend language: HTML, JavaScript, CSS
 - Frontend UI framework: React.js
 - Project management tool: Jira (Scrum)
 
 ## Local Environment Setting Up
 The application consists of a frontend, backend, and database, all of them should be running at the same time so the application can be executed correctly. The different parts can be set up manually. 
+
+### Requirements
+
+- Python 3.10+
+- Node.js 18.16+
 
 ### Frontend
 
