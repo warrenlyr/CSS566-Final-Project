@@ -15,7 +15,8 @@ The test plan outlines the testing objectives, strategies, and methodologies for
 - Collaborate with the development team to create a testing schedule aligned with the project timeline and milestones.
 - Regularly review test results and address any defects or issues identified during the testing process.
 - Here is a figure for demonstrating the test procedure:
-  ![alt text](../../images/testProcess.png)
+
+  ![test](../../images/testProcess.png)
 
 ## 3. Test Strategy
 
