@@ -1,31 +1,42 @@
 import { React, useState } from "react";
 import "./styles.css";
 import { Link } from "react-router-dom";
+import { apiInstance } from "../../services/apiInstance";
 
-const Login = (onClose) => {
-	const [email, setEmail] = useState("");
+const Login = ({ onClose, setToken }) => {
+	const [username, setUsername] = useState("");
 	const [pass, setPass] = useState("");
 
-	const handleSubmit = (e) => {
-		e.preventDefault();
+	const handleLogin = (e) => {
 		const data = {
-			type: "log in",
-			email: email,
+			username: username,
 			password: pass,
 		};
-		console.log(data);
+
+		apiInstance
+			.post("/auth/login", data)
+			.then((res) => {
+				setToken(res.data.access_token);
+				setUsername("");
+				setPass("");
+				onClose();
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+		e.preventDefault();
 	};
 
 	return (
 		<>
 			<div className="modalTitle">Sign in</div>
-			<form onSubmit={handleSubmit}>
-				<label htmlFor="email" className="formLabel">
-					email
+			<form onSubmit={handleLogin}>
+				<label htmlFor="username" className="formLabel">
+					username
 				</label>
 				<input
-					value={email}
-					onChange={(e) => setEmail(e.target.value)}
+					value={username}
+					onChange={(e) => setUsername(e.target.value)}
 					type="text"
 					className="formInput"
 				/>

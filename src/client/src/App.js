@@ -5,7 +5,7 @@ import LandingPage from "./pages/Landing Page/landing";
 import GamePage from "./pages/Today's Rewards Game/game";
 import CustomizePage from "./pages/User Puzzle Design/customize";
 import NotFound from "./pages/notFound";
-import Register from "./pages/register";
+import Register from "./pages/Register/register";
 
 function App() {
 	return (
