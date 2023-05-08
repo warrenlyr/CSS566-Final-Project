@@ -1,35 +1,59 @@
-.Landing{
+.Landing {
 	background-color: grey;
 	flex-wrap: wrap;
 	justify-content: space-between;
 	align-items: center;
 }
-.Board{
+.Board {
 	border: 1px;
 }
-.leaderboard{
+.leaderboard {
 	text-align: left;
 	margin-left: 300px;
 }
-.buttons{
-	background-color: white;
+
+.gameButtons {
+	display: flex;
+	align-items: end;
+	justify-content: center;
+	margin-top: 50px;
+}
+
+.buttons {
+	/* background-color: white;
 	color: black;
 	border-radius: 5px;
 	cursor: pointer;
 	display: flexbox;
 	text-align: center;
-	justify-items: center;
+	justify-items: center; */
+
+	width: 15%;
+	height: 20%;
+	font-size: 16px;
+	border-radius: 10px;
+	padding: 4px 12px;
+	background-color: purple;
+	margin-left: 20px;
+	margin-right: 20px;
 }
-.buttonsspecial{
-	background-color: green;
+.buttonsspecial {
+	/* background-color: green;
 	color: black;
 	border-radius: 5px;
 	cursor: pointer;
 	display: flexbox;
 	text-align: center;
-	justify-items: center;	
+	justify-items: center; */
+
+	width: 15%;
+	height: 50px;
+	font-size: 20px;
+	border-radius: 10px;
+	padding: 4px 12px;
+	background-color: purple;
 }
+
 h1 {
 	text-align: center;
 }
-
