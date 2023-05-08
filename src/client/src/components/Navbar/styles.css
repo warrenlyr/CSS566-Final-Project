@@ -1,0 +1,21 @@
+.navbar {
+	background-color: salmon;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	height: 70px;
+}
+
+.logo {
+	height: 50px;
+	margin-left: 20px;
+}
+.sign-btn {
+	height: 40%;
+	margin-right: 20px;
+	background-color: black;
+	color: white;
+	border-radius: 5px;
+	cursor: pointer;
+}
