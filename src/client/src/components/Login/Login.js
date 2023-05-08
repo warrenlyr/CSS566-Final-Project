@@ -6,6 +6,7 @@ import { apiInstance } from "../../services/apiInstance";
 const Login = ({ onClose, setToken }) => {
 	const [username, setUsername] = useState("");
 	const [pass, setPass] = useState("");
+	const [wrong, setWrong] = useState(false);
 
 	const handleLogin = (e) => {
 		const data = {
@@ -19,10 +20,11 @@ const Login = ({ onClose, setToken }) => {
 				setToken(res.data.access_token);
 				setUsername("");
 				setPass("");
+				setWrong(false);
 				onClose();
 			})
 			.catch((error) => {
-				console.log(error);
+				setWrong(true);
 			});
 		e.preventDefault();
 	};
@@ -49,6 +51,9 @@ const Login = ({ onClose, setToken }) => {
 					type="password"
 					className="formInput"
 				/>
+				{wrong ? (
+					<span className="wrongPassword">Wrong password. Try again</span>
+				) : null}
 				<Link to={"./forgot"} onClick={onClose} className="forgotLink">
 					Forgot Password?
 				</Link>

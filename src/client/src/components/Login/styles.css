@@ -7,12 +7,11 @@
 
 .formLabel {
 	display: block;
-	margin-top: 10px;
+	margin-top: 30px;
 	margin-bottom: 3px;
 }
 
 .formInput {
-	margin-bottom: 20px;
 	width: 100%;
 	border: none;
 	border-bottom: 1px solid;
@@ -22,10 +21,16 @@ input:focus {
 	outline: none;
 }
 
+.wrongPassword {
+	color: red;
+	font-size: 12px;
+}
+
 .forgotLink {
 	display: block;
 	font-size: 12px;
 	text-align: right;
+	margin-top: 20px;
 	margin-bottom: 40px;
 }
 

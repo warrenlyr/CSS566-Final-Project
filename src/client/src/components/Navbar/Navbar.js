@@ -1,5 +1,7 @@
 import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./styles.css";
 import Modal from "../Modal/modal";
 import Login from "../Login/Login";
@@ -24,6 +26,7 @@ const Navbar = () => {
 		apiInstance
 			.post("/auth/logout")
 			.then((res) => {
+				toast.success(res.data.message);
 				removeToken();
 				setUser("");
 			})
@@ -40,38 +43,52 @@ const Navbar = () => {
 	};
 
 	return (
-		<div className="navbar">
-			<Link to="/">
-				<img
-					src={process.env.PUBLIC_URL + "/logo192.png"}
-					alt="logo"
-					className="logo"
-				></img>
-			</Link>
-			{!token && token !== "" && token !== undefined ? (
-				<Button
-					additionalStyles={"signButton"}
-					buttonType={"button"}
-					handleClick={() => setIsOpen(true)}
-				>
-					Log in
-				</Button>
-			) : (
-				<div>
-					<span className="userGreeting">{`Hi, ${user}`}</span>
+		<>
+			<div className="navbar">
+				<Link to="/">
+					<img
+						src={process.env.PUBLIC_URL + "/logo192.png"}
+						alt="logo"
+						className="logo"
+					></img>
+				</Link>
+				{!token && token !== "" && token !== undefined ? (
 					<Button
 						additionalStyles={"signButton"}
 						buttonType={"button"}
-						handleClick={handleLogout}
+						handleClick={() => setIsOpen(true)}
 					>
-						Log out
+						Log in
 					</Button>
-				</div>
-			)}
-			<Modal open={isOpen} onClose={() => setIsOpen(false)}>
-				<Login onClose={() => setIsOpen(false)} setToken={setToken} />
-			</Modal>
-		</div>
+				) : (
+					<div>
+						<span className="userGreeting">{`Hi, ${user}`}</span>
+						<Button
+							additionalStyles={"signButton"}
+							buttonType={"button"}
+							handleClick={handleLogout}
+						>
+							Log out
+						</Button>
+					</div>
+				)}
+				<Modal open={isOpen} onClose={() => setIsOpen(false)}>
+					<Login onClose={() => setIsOpen(false)} setToken={setToken} />
+				</Modal>
+			</div>
+			<ToastContainer
+				position="top-right"
+				autoClose={3000}
+				hideProgressBar
+				newestOnTop
+				closeOnClick={false}
+				rtl={false}
+				pauseOnFocusLoss
+				draggable={false}
+				pauseOnHover={false}
+				theme="dark"
+			/>
+		</>
 	);
 };
 

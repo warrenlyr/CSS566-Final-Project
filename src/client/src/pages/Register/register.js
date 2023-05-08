@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./styles.css";
 import { apiInstance } from "../../services/apiInstance";
 
@@ -16,14 +18,13 @@ const Register = () => {
 		apiInstance
 			.post("/auth/register", data)
 			.then((res) => {
-				console.log(res);
-				// add toast
+				toast.success(`${res.data.message}, Redirecting`);
 				setTimeout(() => {
 					navigate("/");
-				}, 5000);
+				}, 3500);
 			})
 			.catch((error) => {
-				console.log(error);
+				toast.error(error.response.data.error);
 			});
 
 		setUsername("");
@@ -56,6 +57,18 @@ const Register = () => {
 					REGISTER
 				</button>
 			</form>
+			<ToastContainer
+				position="top-right"
+				autoClose={3000}
+				hideProgressBar
+				newestOnTop
+				closeOnClick={false}
+				rtl={false}
+				pauseOnFocusLoss
+				draggable={false}
+				pauseOnHover={false}
+				theme="dark"
+			/>
 		</>
 	);
 };
