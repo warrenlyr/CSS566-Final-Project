@@ -16,3 +16,15 @@ def endpoint_not_found(e: Exception):
         dict(error=str(e)),
         404
     )
+
+
+@app.errorhandler(405)
+def endpoint_not_found(e: Exception):
+    '''
+    Handle 404 not found error.
+    '''
+    return make_response(
+        dict(error=str(e)),
+        405
+    )
+
