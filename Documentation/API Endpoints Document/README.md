@@ -78,11 +78,23 @@ POST
 
 **Response**
 
+Success (200)
+
 ```json
 {
     "access_token": "an_access_token"
 }
 ```
+
+Failed (401)
+
+```json
+{
+    "error": "Incorrect password"
+}
+```
+
+
 
 **Token Refresh**
 
@@ -107,6 +119,42 @@ However, when the user's authentication token is close to expiration, the system
 }
 ```
 
+### Register
+
+`/auth/register`
+
+Register a user in the database by giving `username` and `password`. If the username is already taken or failed to create the user in database, an error will be thrown with status code 400 along with an error message. Otherwise, status code 200 and a message will be thrown.
+
+ **Accepted request types**
+
+POST
+
+**Response**
+
+Success (200)
+
+```json
+{
+    "message": "User registered successfully"
+}
+```
+
+Failed (400)
+
+```json
+{
+    "error": "Username is already taken"
+}
+```
+
+Failed (422)
+
+```json
+{
+    "error": "Failed to create user"
+}
+```
+
 ### Logout
 
 `/auth/logout`
@@ -127,11 +175,11 @@ POST
 
 ## User Account
 
-### Profile
+### Profile (Login Required)
 
 `/auth/profile`
 
-Get user profile.
+ Get a user profile.
 
 **Accepted request types**
 
@@ -145,11 +193,46 @@ GET
 
 ```json
 {
-    "account_created": "2023/05/06",
-    "games_played": 100,
+    "game_played": 0,
+    "registration_date": "2023-05-07T16:29:32.971000",
+    "reward_points": 0,
     "username": "test"
 }
 ```
+
+### Delete Account (Login Required)
+
+`/auth/deleteaccount`
+
+Delete a user from the database. If successful, status code 200 and a message will be returned, status code 400 with an error message otherwise.
+
+**Accepted request types**
+
+GET
+
+**Required Header**
+
+`Authorization: Bearer <access_token>`
+
+**Response**
+
+Success (200)
+
+```json
+{
+    "message": "User deleted successfully"
+}
+```
+
+Failed (422)
+
+```json
+{
+    "error": "Failed to remove user"
+}
+```
+
+
 
 ## Leaderboards
 
