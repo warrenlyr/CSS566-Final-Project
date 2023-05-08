@@ -120,7 +120,7 @@ def auth_register():
     )
 
 
-@app.route(API_URL_PREFIX + '/auth/deleteaccount', methods=['POST'])
+@app.route(API_URL_PREFIX + '/auth/deleteaccount', methods=['DELETE'])
 @jwt_required()
 def auth_delete_account():
     '''
