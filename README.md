@@ -26,17 +26,22 @@ Stakeholders:
 - Arsheya Raj (Designer, UI developer)
 
 ## Objective of The Project
-The primary objective of this project is to develop a straightforward Word Search game. Instead of emphasizing software development, the project seeks to provide an opportunity to experience the Scrum management framework.
+The primary objective of this project is to develop a web-based straightforward Word Search game. Instead of emphasizing software development, the project seeks to provide an opportunity to experience the Scrum management framework.
 
 ## Toolsets
 - Backend language: Python
-- Web server: Flask
+- Backend web server framework: Flask
 - Frontend language: HTML, JavaScript, CSS
 - Frontend UI framework: React.js
 - Project management tool: Jira (Scrum)
 
 ## Local Environment Setting Up
 The application consists of a frontend, backend, and database, all of them should be running at the same time so the application can be executed correctly. The different parts can be set up manually. 
+
+### Requirements
+
+- Python 3.10+
+- Node.js 18.16+
 
 ### Frontend
 
@@ -188,4 +193,12 @@ Now navigate to http://127.0.0.1:5000 in your browser, you'll see a webpage with
 
 ### Database
 
-We use MongoDB as our database. To install MongoDB on your local system, please follow the official documentation: https://www.mongodb.com/try/download/community-kubernetes-operator.
+Our project utilizes MongoDB as the primary database solution.
+
+Specifically, we leverage MongoDB Atlas, an online database service provided and managed by MongoDB. This means we don't need to install the database locally, which simplifies our setup and maintenance processes.
+
+We interface with our Atlas database through the MongoDB Python connector within our Python code. In addition, we use MongoDB Compass, a powerful GUI application, for direct interactions with the database.
+
+For instructions on how to connect to a MongoDB database, please refer to this link: https://www.mongodb.com/try/download/compass.
+
+While we utilize the cloud-based MongoDB Atlas, you may also choose to install MongoDB on your local system if it better suits your needs. The official documentation for this process can be found here: https://www.mongodb.com/try/download/community-kubernetes-operator.
