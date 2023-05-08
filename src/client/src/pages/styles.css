@@ -1,0 +1,61 @@
+.Landing{
+	background-color: grey;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+}
+.Board{
+	border: 1px;
+}
+.leaderboard{
+	text-align: left;
+	margin-left: 300px;
+}
+.buttons{
+	background-color: white;
+	color: black;
+	border-radius: 5px;
+	cursor: pointer;
+	display: flexbox;
+	text-align: center;
+	justify-items: center;
+}
+.buttonsspecial{
+	background-color: green;
+	color: black;
+	border-radius: 5px;
+	cursor: pointer;
+	display: flexbox;
+	text-align: center;
+	justify-items: center;	
+}
+h1 {
+	text-align: center;
+}
+
+#profile{
+    /* display: flex; */
+
+    margin-top: 3em;
+}
+
+#profile .flex{
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+    text-align: left;
+    margin-bottom: 2em;
+}
+
+#profile .flex .item{
+    display: flex;
+    align-items: center;
+}
+
+#profile .flex .info{
+   padding: 1em;
+}
+
+.text-dark{
+    color: var(--color-dark);
+}
