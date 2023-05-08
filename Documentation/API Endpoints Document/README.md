@@ -210,7 +210,7 @@ Delete a user from the database. If successful, status code 200 and a message wi
 
 **Accepted request types**
 
-GET
+DELETE
 
 **Required Header**
 
