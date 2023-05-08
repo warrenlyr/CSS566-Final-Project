@@ -10,6 +10,7 @@ from datetime import datetime
 import json
 
 from app import app, API_URL_PREFIX
+from app.models import User
 
 
 @app.route(API_URL_PREFIX + '/status', methods=['GET'])
@@ -31,13 +32,19 @@ def auth_login():
     username = request.json.get('username', None)
     password = request.json.get('password', None)
 
-    # validate the username and password
-    # TEST WARNING: this is a test, we will use dummy data for now
-    # later, we will use the database to validate the user
-    # and also encrypt the password
-    if username != 'test' and password != 'test':
+    # validate request
+    if not username or not password:
         return make_response(
-            jsonify(dict(error='Invalid credentials')),
+            jsonify(dict(error='Username and password are required')),
+            400
+        )
+    
+    # validate user
+    user = User()
+    validated, error = user.validate(username, password)
+    if not validated:
+        return make_response(
+            jsonify(dict(error=error)),
             401
         )
 
@@ -71,17 +78,72 @@ def auth_user_profile():
     '''
     # get the user identity
     user_identity = get_jwt_identity()
+    print(user_identity)
 
-    # TEST WARNING: this is a test, we will use dummy data for now
-    # later, we will use the database to get the user profile
-    user_profile = {
-        'username': user_identity,
-        'account_created': '2023/05/06',
-        'games_played': 100,
-    }
+    user = User()
+    user_profile = user.get_profile(user_identity)
 
     return make_response(
         jsonify(user_profile),
+        200
+    )
+
+
+@app.route(API_URL_PREFIX + '/auth/register', methods=['POST'])
+def auth_register():
+    '''
+    Register a new user.
+    '''
+    username = request.json.get('username', None)
+    password = request.json.get('password', None)
+
+    # validate request
+    if not username or not password:
+        return make_response(
+            jsonify(dict(error='Username and password are required')),
+            400
+        )
+    
+    # register user
+    user = User()
+    registered, error = user.create(username, password)
+    
+    if not registered:
+        return make_response(
+            jsonify(dict(error=error)),
+            400
+        )
+    
+    return make_response(
+        jsonify(dict(message='User registered successfully')),
+        200
+    )
+
+
+@app.route(API_URL_PREFIX + '/auth/deleteaccount', methods=['POST'])
+@jwt_required()
+def auth_delete_account():
+    '''
+    Delete the user account.
+
+    Since this function is jwt_required, the user must be logged in.
+    Therefore, we don't need to validate the user identity.
+    '''
+    # get the user identity
+    user_identity = get_jwt_identity()
+
+    # delete the user
+    user = User()
+    deleted, error = user.remove_user(user_identity)
+
+    if not deleted:
+        return make_response(
+            jsonify(dict(error=error)),
+            422
+        )
+    
+    return make_response(
+        jsonify(dict(message='User deleted successfully')),
         200
     )
 
