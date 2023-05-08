@@ -1,8 +1,13 @@
-import React from "react";
+import { React, useState } from "react";
 import { Link } from "react-router-dom";
 import "./styles.css";
+import Modal from "../Modal/modal";
+import Login from "../Login/Login";
+import Button from "../Button/Button";
 
 const Navbar = () => {
+	const [isOpen, setIsOpen] = useState(false);
+
 	return (
 		<div className="navbar">
 			<Link to="/">
@@ -12,9 +17,16 @@ const Navbar = () => {
 					className="logo"
 				></img>
 			</Link>
-			<button className="sign-btn" onClick={() => alert("hello")}>
+			<Button
+				additionalStyles={"signButton"}
+				buttonType={"button"}
+				handleClick={() => setIsOpen(true)}
+			>
 				Log in
-			</button>
+			</Button>
+			<Modal open={isOpen} onClose={() => setIsOpen(false)}>
+				<Login onClose={() => setIsOpen(false)} />
+			</Modal>
 		</div>
 	);
 };

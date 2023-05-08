@@ -5,6 +5,7 @@ import LandingPage from "./pages/landing";
 import GamePage from "./pages/game";
 import CustomizePage from "./pages/customize";
 import NotFound from "./pages/notFound";
+import Register from "./pages/register";
 
 function App() {
 	return (
@@ -14,6 +15,7 @@ function App() {
 				<Route exact path="/" element={<LandingPage />} />
 				<Route path="/game" element={<GamePage />} />
 				<Route path="/customize" element={<CustomizePage />} />
+				<Route path="/register" element={<Register />} />
 				<Route path="*" element={<NotFound />} />
 			</Routes>
 		</Router>
