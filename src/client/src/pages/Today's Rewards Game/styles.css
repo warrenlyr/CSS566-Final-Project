@@ -1,0 +1,24 @@
+.Landing {
+	background-color: grey;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+}
+.Board {
+	border: 1px;
+}
+.leaderboard {
+	text-align: left;
+	margin-left: 300px;
+}
+
+.gameButtons {
+	display: flex;
+	align-items: end;
+	justify-content: center;
+	margin-top: 50px;
+}
+
+h1 {
+	text-align: center;
+}
