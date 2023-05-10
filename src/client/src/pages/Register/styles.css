@@ -1,0 +1,42 @@
+.title {
+	text-align: center;
+	font-size: 28px;
+	font-weight: 500;
+	margin-top: 40px;
+	margin-bottom: 30px;
+}
+
+.registerForm {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.registerLabel {
+	display: block;
+	margin-top: 10px;
+	margin-bottom: 5px;
+	width: 40%;
+}
+
+.registerInput {
+	margin-bottom: 20px;
+	width: 100%;
+	border: none;
+	border-bottom: 1px solid;
+	width: 40%;
+}
+
+input:focus {
+	outline: none;
+}
+
+.registerButton {
+	border-radius: 15px;
+	font-size: 16px;
+	margin: 0;
+	min-height: 60px;
+	min-width: 0;
+	padding: 16px 24px;
+	width: 40%;
+	margin-top: 40px;
+}

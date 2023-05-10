@@ -1,10 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
-import LandingPage from "./pages/landing";
-import GamePage from "./pages/game";
-import CustomizePage from "./pages/customize";
+import LandingPage from "./pages/Landing Page/landing";
+import GamePage from "./pages/Today's Rewards Game/game";
+import CustomizePage from "./pages/User Puzzle Design/customize";
 import NotFound from "./pages/notFound";
+import Register from "./pages/Register/register";
 
 function App() {
 	return (
@@ -14,6 +15,7 @@ function App() {
 				<Route exact path="/" element={<LandingPage />} />
 				<Route path="/game" element={<GamePage />} />
 				<Route path="/customize" element={<CustomizePage />} />
+				<Route path="/register" element={<Register />} />
 				<Route path="*" element={<NotFound />} />
 			</Routes>
 		</Router>

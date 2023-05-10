@@ -1,0 +1,58 @@
+.modalTitle {
+	text-align: center;
+	font-size: 28px;
+	font-weight: 500;
+	margin-bottom: 16px;
+}
+
+.formLabel {
+	display: block;
+	margin-top: 30px;
+	margin-bottom: 3px;
+}
+
+.formInput {
+	width: 100%;
+	border: none;
+	border-bottom: 1px solid;
+}
+
+input:focus {
+	outline: none;
+}
+
+.wrongPassword {
+	color: red;
+	font-size: 12px;
+}
+
+.forgotLink {
+	display: block;
+	font-size: 12px;
+	text-align: right;
+	margin-top: 20px;
+	margin-bottom: 40px;
+}
+
+.formButton {
+	border-radius: 15px;
+	font-size: 16px;
+	margin: 0;
+	min-height: 60px;
+	min-width: 0;
+	padding: 16px 24px;
+	width: 100%;
+}
+
+.lineBreak {
+	margin-top: 40px;
+	border: none;
+	border-top: 1px solid;
+}
+
+.register {
+	display: block;
+	text-decoration: none;
+	font-size: 12px;
+	text-align: right;
+}
