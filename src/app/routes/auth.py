@@ -14,10 +14,23 @@ from app.models import User
 
 
 @app.route(API_URL_PREFIX + '/status', methods=['GET'])
+@jwt_required(optional=True)
 def api_status():
     '''
     API status endpoint, return OK if the API is running.
+    If the user is logged in, return the user identity as well.
     '''
+    # get the user identity
+    user_identity = get_jwt_identity()
+
+    # if the user is logged in, return the user identity
+    if user_identity:
+        return make_response(
+            jsonify(dict(status='OK', user=user_identity)),
+            200
+        )
+    
+    # if the user is not logged in, return OK
     return make_response(
         jsonify(dict(status='OK')),
         200
@@ -78,7 +91,6 @@ def auth_user_profile():
     '''
     # get the user identity
     user_identity = get_jwt_identity()
-    print(user_identity)
 
     user = User()
     user_profile = user.get_profile(user_identity)
@@ -159,11 +171,15 @@ def refresh_expiring_jwts(response):
     Automatically refresh the access token when it is about to expire.
     '''
     try:
+        # get the expiration timestamp
         exp_timestamp = get_jwt()['exp']
+        # print(get_jwt())
+        # print(get_jwt_identity())
         now = datetime.now()
         target_timestamp = datetime.timestamp(
             now + app.config['JWT_REFRESH_DELTA'])
 
+        # if the access token is about to expire, refresh it
         if target_timestamp > exp_timestamp:
             access_token = create_access_token(identity=get_jwt_identity())
             data = response.get_json()

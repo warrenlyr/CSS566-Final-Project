@@ -1,5 +1,5 @@
 .navbar {
-	background-color: salmon;
+	background-color: purple;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
@@ -11,11 +11,14 @@
 	height: 50px;
 	margin-left: 20px;
 }
-.sign-btn {
-	height: 40%;
+.signButton {
 	margin-right: 20px;
-	background-color: black;
-	color: white;
+	font-size: 14px;
 	border-radius: 5px;
-	cursor: pointer;
+	padding: 2px 6px;
+}
+
+.userGreeting {
+	color: white;
+	margin-right: 10px;
 }

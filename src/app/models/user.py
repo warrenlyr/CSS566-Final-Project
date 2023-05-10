@@ -18,7 +18,7 @@ from app import app
 
 class User:
     def __init__(self):
-        self.collection = app.database['user']
+        self._collection = app.database['user']
 
     def create(self, username: str, password: str):
         '''
@@ -33,7 +33,7 @@ class User:
             msg (str): error message if the user is not created successfully
         '''
         # check if the username is already taken
-        if self.collection.find_one({'username': username}):
+        if self._collection.find_one({'username': username}):
             return False, 'Username is already taken'
         
         # create the user in MongoDB
@@ -46,7 +46,7 @@ class User:
         }
         
         # insert the user into MongoDB and get the inserted id
-        inserted_id = self.collection.insert_one(user).inserted_id
+        inserted_id = self._collection.insert_one(user).inserted_id
 
         # if the user is created successfully
         if inserted_id:
@@ -67,7 +67,7 @@ class User:
             msg (str): error message if the user is not validated successfully
         '''
         # check if the username exists in MongoDB
-        this_user = self.collection.find_one({'username': username})
+        this_user = self._collection.find_one({'username': username})
         if not this_user:
             return False, 'Username does not exist'
         
@@ -94,7 +94,7 @@ class User:
         '''
         # get the user from MongoDB
         # only return the username, registration_date, game_played, and reward_points
-        data = self.collection.find_one({'username': username}, {'_id': 0, 'password': 0})
+        data = self._collection.find_one({'username': username}, {'_id': 0, 'password': 0})
         # Covert the MongoDB Date to datetime
         data['registration_date'] = data['registration_date'].isoformat()
         return data
@@ -115,7 +115,7 @@ class User:
             msg (str): error message if the user is not removed successfully
         '''
         # remove the user from MongoDB
-        result = self.collection.delete_one({'username': username})
+        result = self._collection.delete_one({'username': username})
         # if the user is removed successfully
         if result.deleted_count == 1:
             return True, None
