@@ -179,7 +179,7 @@ Windows
 py app.py
 ```
 
-MacOS
+MacOS/Linux
 
 ```bash
 python3 app.py

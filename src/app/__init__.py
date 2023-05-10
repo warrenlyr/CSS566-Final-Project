@@ -68,7 +68,7 @@ API_URL_PREFIX = '/api/' + API_VERSION
 MongoDB configuration
 '''
 mongodb = MongoClient(
-    f'mongodb+srv://css566dev:{os.getenv("MONGODB_PASSWORD")}@{os.getenv("MONGODB_USERNAME")}.k5uskbd.mongodb.net/'
+    f'''mongodb+srv://css566dev:{os.getenv("MONGODB_PASSWORD")}@{os.getenv("MONGODB_USERNAME")}.k5uskbd.mongodb.net/'''
 )
 app.database = mongodb[f'{os.getenv("MONGODB_DB_NAME_TEST")}']
 
