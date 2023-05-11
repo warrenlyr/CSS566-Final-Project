@@ -1,0 +1,10 @@
+.wordsContainer {
+	background-color: red;
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+
+.gameWord {
+	color: white;
+}
