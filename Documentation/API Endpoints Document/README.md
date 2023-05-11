@@ -1,6 +1,6 @@
 # API Endpoints Documentation
 
-Update: 5/6/2023
+Update: 5/10/2023
 
 Current API version: v0
 
@@ -17,6 +17,10 @@ API endpoints prefix: `/api/<api_version>`
 - [User Account](#user-account)
   - [Profile (Login Required)](#profile-login-required)
   - [Delete Account (Login Required)](#delete-account-login-required)
+- [Game](#game)
+  - [Get a Normal Game](#get-a-normal-game)
+  - [Get Today's Reward Game](#get-todays-reward-game)
+  - [Get Game Key](#get-game-key)
 - [Leaderboards](#leaderboards)
   - [Today's Reward Game](#todays-reward-game)
   - [Normal Game](#normal-game)
@@ -32,7 +36,7 @@ Some common statuses used in this project are as follows:
 - 201: A new resource was created
 - 400: Bad request
 - 401: Unauthorized
-- 404: Endpoint not found
+- 404: Not found
 - 422: Unprocessable content (usually the request is incomplete or does not match requirements)
 
 ## Public/Common
@@ -234,7 +238,224 @@ Failed (422)
 }
 ```
 
+## Game
 
+`/game`
+
+### Get a Normal Game
+
+`/game/normal/<level>`
+
+- level must be an integer in 1 to 3
+
+Randomly get the game data of a normal game by given game level. If the user has finished a game and wants to get a new one, or the user just wants to play another game, a `currect_game_id` can be passed as a parameter, so we will exclude the current game when querying in the backend. If no game is found, an error will throw instead of returning blank data.
+
+**Accepted request types**
+
+GET
+
+**Optional Parameter**
+
+`current_game_id`: a string of id
+
+**Response**
+
+```json
+{
+    "_id": "645b3a0d3db0a3e3b50a3f67",
+    "level": 1,
+    "puzzle": [
+        [
+            "J",
+            "Z",
+            "V",
+            "S",
+            "H"
+        ],
+        [
+            "K",
+            "K",
+            "A",
+            "N",
+            "G"
+        ],
+        [
+            "B",
+            "P",
+            "L",
+            "M",
+            "W"
+        ],
+        [
+            "Z",
+            "X",
+            "U",
+            "S",
+            "H"
+        ],
+        [
+            "I",
+            "D",
+            "E",
+            "A",
+            "E"
+        ]
+    ],
+    "size": 5,
+    "type": "normal",
+    "words": [
+        "VALUE",
+        "IDEA",
+        "FATHER"
+    ]
+}
+```
+
+### Get Today's Reward Game
+
+`/game/todaysrewardgame`
+
+Get today's reward game data. The algorithm in the backend is to find today's reward game which is created today. So it's possible that no game is found if we forgot to create a new one day (when deployed, we should have automation to generate a new one every day). If no game is found, an error will throw instead of returning blank data.
+
+Current today's reward game is set to level 2 with a 7x7 puzzle.
+
+**Accepted request types**
+
+GET
+
+**Response**
+
+```json
+{
+    "_id": "645c3094612528742bd9ae46",
+    "created_at": "2023-05-10",
+    "level": 2,
+    "puzzle": [
+        [
+            "K",
+            "Z",
+            "G",
+            "Y",
+            "Z",
+            "X",
+            "K"
+        ],
+        [
+            "O",
+            "P",
+            "H",
+            "V",
+            "D",
+            "P",
+            "W"
+        ],
+        [
+            "F",
+            "L",
+            "Q",
+            "W",
+            "U",
+            "R",
+            "H"
+        ],
+        [
+            "T",
+            "E",
+            "N",
+            "H",
+            "F",
+            "A",
+            "I"
+        ],
+        [
+            "A",
+            "M",
+            "O",
+            "U",
+            "N",
+            "T",
+            "T"
+        ],
+        [
+            "A",
+            "E",
+            "Y",
+            "U",
+            "U",
+            "W",
+            "E"
+        ],
+        [
+            "B",
+            "G",
+            "G",
+            "R",
+            "O",
+            "X",
+            "C"
+        ]
+    ],
+    "size": 7,
+    "type": "todaysrewards",
+    "words": [
+        "AMOUNT",
+        "TEN",
+        "WHITE",
+        "INTERNATIONAL",
+        "GUN"
+    ]
+}
+```
+
+### Get Game Key
+
+`/game/key/<game_id>`
+
+Get the answer key of a game by given `game_id`.  If no game is found, an error will throw instead of returning blank data.
+
+**Accepted request types**
+
+GET
+
+**Response**
+
+```json
+{
+    "_id": "645b3922f60f61e02f80e740",
+    "key": [
+        {
+            "direction": "E",
+            "start_col": 0,
+            "start_row": 4,
+            "word": "MONTH"
+        },
+        {
+            "direction": "E",
+            "start_col": 1,
+            "start_row": 2,
+            "word": "VOICE"
+        },
+        {
+            "direction": "S",
+            "start_col": 6,
+            "start_row": 0,
+            "word": "STRONG"
+        },
+        {
+            "direction": "E",
+            "start_col": 1,
+            "start_row": 1,
+            "word": "SAVE"
+        },
+        {
+            "direction": "E",
+            "start_col": 3,
+            "start_row": 6,
+            "word": "SAY"
+        }
+    ]
+}
+```
 
 ## Leaderboards
 
