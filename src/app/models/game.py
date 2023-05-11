@@ -69,7 +69,7 @@ class Game:
 
             # extract the puzzle, words, and key
             puzzle = game.puzzle
-            words = [w.text for w in game.words]
+            words = [w for w in game.key]
             key = [
                 {
                     'word': k,
@@ -79,7 +79,7 @@ class Game:
                 }
                 for k in game.key
             ]
-
+            
             return puzzle, words, key
         except Exception as e:
             raise e
@@ -361,5 +361,5 @@ if __name__ == '__main__':
     # print(game.get_todays_reward_game())
 
     # test get key of a game
-    game = Game()
-    print(game.get_key_of_a_game('645b3922f60f61e02f80e740'))
+    # game = Game()
+    # print(game.get_key_of_a_game('645b3922f60f61e02f80e740'))
