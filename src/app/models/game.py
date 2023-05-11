@@ -227,43 +227,30 @@ class Game:
         Returns:
             A random game from the database.
             None if no game is found.
-
-        Returned game format
-        ---
-        ```json
-        {
-            "_id": "game id",
-            "level": "difficulty level",
-            "size": "size of the puzzle",
-            "puzzle": "2d array of characters",
-            "words": "array of words to find",
-            "key": [
-                {
-                    "word": "word to find",
-                    "start_row": "row index of the starting letter",
-                    "start_column": "column index of the starting letter",
-                    "direction": "direction of the word",
-                }
-            ]
-        }
-        ```
         '''
         # validate the level
         if level not in [1, 2, 3]:
             raise ValueError('Invalid level. Must be 1, 2, or 3.')
         
         # get a random game from the database
-        # exclude the created_by, created_at, and customized fields
+        # exclude the created_by, created_at, customized, and key fields
         if current_game_id:
-            game = self._collection.find_one(
-                {'level': level, '_id': {'$ne': ObjectId(current_game_id)}},
-                {'created_by': 0, 'customized': 0, 'created_at': 0}
-            )
+            try:
+                game = self._collection.find_one(
+                    {'level': level, '_id': {'$ne': ObjectId(current_game_id)}},
+                    {'created_by': 0, 'customized': 0, 'created_at': 0, 'key': 0}
+                )
+            except:
+                game = None
         else:
             game = self._collection.find_one(
                 {'level': level},
-                {'created_by': 0, 'customized': 0}
+                {'created_by': 0, 'customized': 0, 'created_at': 0, 'key': 0}
             )
+
+        # convert the ObjectId to string
+        if game:
+            game['_id'] = str(game['_id'])
 
         return game
     
@@ -278,11 +265,43 @@ class Game:
         # get today's reward game from the database
         # which is the only game with type 'todaysrewards'
         # and its created_at is today
-        # exclude the created_by, created_at, and customized fields
+        # exclude the created_by, customized, and key fields
         game = self._collection.find_one(
             {'type': 'todaysrewards', 'created_at': datetime.today().strftime('%Y-%m-%d')},
-            {'created_by': 0, 'customized': 0, 'created_at': 0}
+            {'created_by': 0, 'customized': 0, 'key': 0}
         )
+
+        # convert the ObjectId to string
+        if game:
+            game['_id'] = str(game['_id'])
+
+        return game
+    
+    def get_key_of_a_game(self, game_id: str):
+        '''
+        Get the key of a game by the given game id if user wants to see the answer.
+
+        Args:
+            game_id: The id of the game.
+
+        Returns:
+            list of dict: The key of the game.
+            None if no game is found.
+        '''
+
+        # get the key of game from the database
+        try:
+            game = self._collection.find_one(
+                {'_id': ObjectId(game_id)},
+                {'created_by': 0, 'customized': 0, 'created_at': 0, 'puzzle': 0, 'words': 0,
+                'type': 0, 'level': 0, 'size': 0}
+            )
+        except:
+            game = None
+
+        # convert the ObjectId to string
+        if game:
+            game['_id'] = str(game['_id'])
 
         return game
 
@@ -325,8 +344,8 @@ if __name__ == '__main__':
     # print(status, error)
 
     # test create random game
-    game = Game()
-    print(game.create_all_random_games(replace=True))
+    # game = Game()
+    # print(game.create_all_random_games(replace=True))
 
 
     # clean all the games
@@ -335,8 +354,12 @@ if __name__ == '__main__':
 
     # test get a random game
     # game = Game()
-    # print(game.get_a_random_game(level=3, current_game_id=None))
+    # print(game.get_a_random_game(level=4, current_game_id=None))
 
     # test get today's reward game
     # game = Game()
     # print(game.get_todays_reward_game())
+
+    # test get key of a game
+    game = Game()
+    print(game.get_key_of_a_game('645b3922f60f61e02f80e740'))
