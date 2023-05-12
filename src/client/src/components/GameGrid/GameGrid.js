@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import BoardSquare from "../BoardSquare/BoardSquare";
 import Timer from "../Timer/Timer";
 import Modal from "../Modal/modal";
+import Leaderboardlanding from "../LeaderBoard/leaderboard";
 
 const GameGrid = ({ puzzle, size, words }) => {
 	const [selectedBlocks, setSelectedBlocks] = useState([]);
@@ -187,6 +188,7 @@ const GameGrid = ({ puzzle, size, words }) => {
 						</div>
 					</div>
 				</div>
+				<Leaderboardlanding />
 			</div>
 			<Modal open={isOpen} onClose={() => setIsOpen(false)}>
 				<div className="modalTitle">Puzzle Solved!</div>
