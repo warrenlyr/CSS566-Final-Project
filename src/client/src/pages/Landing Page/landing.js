@@ -48,6 +48,33 @@ export class LandingPage extends Component {
 					time: "XX:XX",
 				},
 			],
+
+			dummyHistory: [
+				{
+					name: "Last Login:",
+					time: "XXX",
+				},
+				{
+					name: "Highest Score:",
+					time: "XXX",
+				},
+				{
+					name: "Number of Sessions:",
+					time: "XXX",
+				},
+				{
+					name: "Average Login per Day:",
+					time: "XXX",
+				},
+				{
+					name: "Total Rewards Earned:",
+					time: "XXX",
+				},
+				{
+					name: "User's recent games:",
+					time: "XXX",
+				},
+			],
 		};
 	}
 
@@ -75,7 +102,26 @@ export class LandingPage extends Component {
 					</table>
 				</div>
 
-				<div className="userhistory"></div>
+				<div className="userHistory">
+					<h1 className="userHistory">User History</h1>
+					<table className="table">
+						<col style={{width: "10%"}} />
+						<col style={{width: "80%"}} />
+						<col style={{width: "10%"}} />
+						<tbody>
+							{this.state.dummyHistory.map((el, Rank) => {
+								return(
+									<tr>
+										<td className="border-0">{Rank + 1}</td>
+										<td className="border-0">{el.name}</td>
+										<td className="border-0">{el.time}</td>
+									</tr>
+								);
+							})}
+						</tbody>
+					</table>
+				</div>
+
 				<div className="gameButtons">
 					<Button
 						additionalStyles={"buttons"}
