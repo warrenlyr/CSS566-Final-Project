@@ -83,7 +83,16 @@ export class LandingPage extends Component {
 			<div className="Landing">
 				<h1>Landing Page</h1>
 				<div className="Board">
-					<h1 className="leaderboard"> Leaderboard</h1>
+					<h2 className="leaderboard"> Leaderboard</h2>
+					
+					<Button
+						additionalStyles={"buttons"}
+						buttonType={"button"}
+						handleClick={() => alert("Refresh")}
+					>
+						Refresh
+					</Button>
+
 					<table className="table ">
 						<col style={{ width: "10%" }} />
 						<col style={{ width: "80%" }} />
@@ -102,17 +111,16 @@ export class LandingPage extends Component {
 					</table>
 				</div>
 
-				<div className="userHistory">
-					<h1 className="userHistory">User History</h1>
+				<div className="History">
+					<h2 className="userHistory">User History</h2>
 					<table className="table">
 						<col style={{width: "10%"}} />
 						<col style={{width: "80%"}} />
 						<col style={{width: "10%"}} />
 						<tbody>
-							{this.state.dummyHistory.map((el, Rank) => {
+							{this.state.dummyHistory.map((el) => {
 								return(
 									<tr>
-										<td className="border-0">{Rank + 1}</td>
 										<td className="border-0">{el.name}</td>
 										<td className="border-0">{el.time}</td>
 									</tr>
@@ -128,21 +136,23 @@ export class LandingPage extends Component {
 						buttonType={"button"}
 						handleClick={() => alert("Level-Based Game")}
 					>
-						Free Play
+						Level-Based Game
 					</Button>
+
 					<Button
 						additionalStyles={"buttonsspecial"}
 						buttonType={"button"}
 						handleClick={() => alert("Today's Rewards Game")}
 					>
-						Daily Puzzle
+						Today's Rewards Game
 					</Button>
+
 					<Button
 						additionalStyles={"buttons"}
 						buttonType={"button"}
 						handleClick={() => alert("User Puzzle Design")}
 					>
-						Customize Puzzle
+						User Puzzle Design
 					</Button>
 				</div>
 				{/* <button className="buttons" onClick={() => alert("Level-Based Game")}>

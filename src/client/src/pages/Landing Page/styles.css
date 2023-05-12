@@ -11,7 +11,13 @@
 	text-align: left;
 	margin-left: 300px;
 }
-
+.History{
+	border: 1px;
+}
+.userHistory {
+	text-align: left;
+	margin-left: 300px;
+}
 .gameButtons {
 	display: flex;
 	align-items: end;

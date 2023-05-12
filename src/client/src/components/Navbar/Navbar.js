@@ -75,6 +75,15 @@ const Navbar = () => {
 				<Modal open={isOpen} onClose={() => setIsOpen(false)}>
 					<Login onClose={() => setIsOpen(false)} setToken={setToken} />
 				</Modal>
+
+				<Button
+						additionalStyles={"signbutton"}
+						buttonType={"button"}
+						handleClick={() => alert("Continue as Guest")}
+					>
+						Continue as Guest
+					</Button>
+
 			</div>
 			<ToastContainer
 				position="top-right"
