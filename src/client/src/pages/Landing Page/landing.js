@@ -99,18 +99,6 @@ export class LandingPage extends Component {
 						Customize Puzzle
 					</Button>
 				</div>
-				{/* <button className="buttons" onClick={() => alert("Level-Based Game")}>
-					Level-Based Game
-				</button>
-				<button
-					className="buttonsspecial"
-					onClick={() => alert("Today's Rewards Game")}
-				>
-					Today's Rewards Game
-				</button>
-				<button className="buttons" onClick={() => alert("User Puzzle Design")}>
-					User Puzzle Design
-				</button> */}
 			</div>
 		);
 	}

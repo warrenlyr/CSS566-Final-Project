@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-const Timer = ({ stopTimer }) => {
+const Timer = ({ stopTimer, time, setTime }) => {
 	const [isActive, setIsActive] = useState(true);
-	const [time, setTime] = useState(0);
 
 	useEffect(() => {
 		let interval = null;
@@ -16,7 +15,7 @@ const Timer = ({ stopTimer }) => {
 		return () => {
 			clearInterval(interval);
 		};
-	}, [isActive]);
+	}, [isActive, setTime]);
 
 	useEffect(() => {
 		if (stopTimer) {
