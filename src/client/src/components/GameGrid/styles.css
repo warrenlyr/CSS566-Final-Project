@@ -8,3 +8,7 @@
 .gameWord {
 	color: white;
 }
+
+.boardRow {
+	display: flex;
+}

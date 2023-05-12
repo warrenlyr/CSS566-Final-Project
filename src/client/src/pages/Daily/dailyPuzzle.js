@@ -83,23 +83,27 @@
 import React, { useEffect, useState } from "react";
 import GameGrid from "../../components/GameGrid/GameGrid";
 import { apiInstance } from "../../services/apiInstance";
+import "./styles.css";
+import Spinner from "../../components/Spinner/Spinner";
 
 const DailyPuzzle = () => {
 	const [puzzle, setPuzzle] = useState([]);
 	const [puzzleSize, setPuzzleSize] = useState(0);
 	const [words, setWords] = useState([]);
+	const [noGame, setNoGame] = useState(null);
 
-	const getGame = () => {
-		apiInstance
+	const getGame = async () => {
+		await apiInstance
 			.get("/game/todaysrewardgame")
 			.then((res) => {
 				const data = res.data;
 				setPuzzle(data.puzzle);
 				setPuzzleSize(data.size);
 				setWords(data.words);
+				setNoGame(false);
 			})
 			.catch((error) => {
-				console.log(error);
+				setNoGame(true);
 			});
 	};
 
@@ -109,8 +113,16 @@ const DailyPuzzle = () => {
 
 	return (
 		<>
-			<div className="pageTitle">Daily Puzzle</div>
-			<GameGrid puzzle={puzzle} size={puzzleSize} words={words} />
+			{noGame === null ? (
+				<Spinner />
+			) : noGame ? (
+				<div>Sorry No Daily Puzzle Available, come back later!</div>
+			) : (
+				<>
+					<div className="pageTitle">Daily Puzzle</div>
+					<GameGrid puzzle={puzzle} size={puzzleSize} words={words} />
+				</>
+			)}
 		</>
 	);
 };
