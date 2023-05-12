@@ -54,7 +54,8 @@ const Navbar = () => {
 				</Link>
 				{!token && token !== "" && token !== undefined ? (
 					<Button
-						additionalStyles={"signButton"}
+						id = "logIn"
+						additionalStyles={"loginButton"}
 						buttonType={"button"}
 						handleClick={() => setIsOpen(true)}
 					>
@@ -77,7 +78,8 @@ const Navbar = () => {
 				</Modal>
 
 				<Button
-						additionalStyles={"signbutton"}
+						id = "ContinueGuest"
+						additionalStyles={"continueButton"}
 						buttonType={"button"}
 						handleClick={() => alert("Continue as Guest")}
 					>
