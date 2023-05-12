@@ -116,7 +116,12 @@ const DailyPuzzle = () => {
 			{noGame === null ? (
 				<Spinner />
 			) : noGame ? (
-				<div>Sorry No Daily Puzzle Available, come back later!</div>
+				<>
+					<div className="pageTitle">Daily Puzzle</div>
+					<div className="noGameText">
+						Sorry No Daily Puzzle Available, come back later!
+					</div>
+				</>
 			) : (
 				<>
 					<div className="pageTitle">Daily Puzzle</div>

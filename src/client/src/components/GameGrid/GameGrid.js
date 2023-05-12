@@ -79,14 +79,11 @@ const GameGrid = ({ puzzle, size, words }) => {
 		} else {
 			setCanContinue(false);
 			toast.error("Wrong word, Try again");
-			// setTimeout(() => {
-			// 	setOpenedLetters(prevOpenedLetters);
-			// 	setCanContinue(true);
-			// 	handleClear();
-			// }, 3700);
-			// setOpenedLetters(prevOpenedLetters);
-			setCanContinue(true);
-			handleClear();
+			setTimeout(() => {
+				setOpenedLetters(prevOpenedLetters);
+				setCanContinue(true);
+				handleClear();
+			}, 3700);
 		}
 	};
 
@@ -136,55 +133,60 @@ const GameGrid = ({ puzzle, size, words }) => {
 
 	return (
 		<>
-			<div className="wordsContainer">
-				{remainingWords.map((word) => {
-					return (
-						<div className="gameWord" key={word}>
-							{word}
+			<div className="gameContainer">
+				<div className="wordsContainer">
+					{remainingWords.map((word) => {
+						return (
+							<div className="gameWord" key={word}>
+								{word}
+							</div>
+						);
+					})}
+				</div>
+				<div className="game">
+					<div className="puzzleBoard">
+						{puzzle.map((row, rowIndex) => {
+							return (
+								<div className="boardRow" key={rowIndex}>
+									{row.map((letter, colIndex) => {
+										return (
+											<BoardSquare
+												key={`${rowIndex}-${colIndex}`}
+												letter={letter}
+												row={rowIndex}
+												col={colIndex}
+												handleClick={handleClick}
+												clicked={
+													canContinue
+														? selectedBlocks.some(
+																(b) =>
+																	b.row === rowIndex &&
+																	b.col === colIndex &&
+																	b.letter === letter
+														  )
+														: false
+												}
+												opened={openedLetters.some(
+													(b) =>
+														b.row === rowIndex &&
+														b.col === colIndex &&
+														b.letter === letter
+												)}
+											/>
+										);
+									})}
+								</div>
+							);
+						})}
+					</div>
+					<div className="boardFunctions">
+						<Timer stopTimer={stopTimer} time={time} setTime={setTime} />
+						<div className="boardButtons">
+							<button onClick={handleConfirm}>Confirm</button>
+							<button onClick={handleClear}>Clear</button>
 						</div>
-					);
-				})}
-			</div>
-
-			<div className="puzzleBoard">
-				{puzzle.map((row, rowIndex) => {
-					return (
-						<div className="boardRow" key={rowIndex}>
-							{row.map((letter, colIndex) => {
-								return (
-									<BoardSquare
-										key={`${rowIndex}-${colIndex}`}
-										letter={letter}
-										row={rowIndex}
-										col={colIndex}
-										handleClick={handleClick}
-										clicked={
-											canContinue
-												? selectedBlocks.some(
-														(b) =>
-															b.row === rowIndex &&
-															b.col === colIndex &&
-															b.letter === letter
-												  )
-												: false
-										}
-										opened={openedLetters.some(
-											(b) =>
-												b.row === rowIndex &&
-												b.col === colIndex &&
-												b.letter === letter
-										)}
-									/>
-								);
-							})}
-						</div>
-					);
-				})}
-			</div>
-			<Timer stopTimer={stopTimer} time={time} setTime={setTime} />
-			<div>
-				<button onClick={handleConfirm}>Confirm</button>
-				<button onClick={handleClear}>Clear</button>
+					</div>
+				</div>
 			</div>
 			<Modal open={isOpen} onClose={() => setIsOpen(false)}>
 				<div className="modalTitle">Puzzle Solved!</div>
