@@ -1,51 +1,36 @@
 import React, { Component } from "react";
 import "./styles.css";
 import Button from "../../components/Button/Button";
+import Leaderboardlanding from "../../components/LeaderBoard/leaderboard";
 
 export class LandingPage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			dummyplayers: [
+			dummyHistory: [
 				{
-					name: "User A",
-					time: "XX:XX",
+					name: "Last Login:",
+					time: "XXX",
 				},
 				{
-					name: "User B",
-					time: "XX:XX",
+					name: "Highest Score:",
+					time: "XXX",
 				},
 				{
-					name: "User C",
-					time: "XX:XX",
+					name: "Number of Sessions:",
+					time: "XXX",
 				},
 				{
-					name: "User D",
-					time: "XX:XX",
+					name: "Average Login per Day:",
+					time: "XXX",
 				},
 				{
-					name: "User E",
-					time: "XX:XX",
+					name: "Total Rewards Earned:",
+					time: "XXX",
 				},
 				{
-					name: "User F",
-					time: "XX:XX",
-				},
-				{
-					name: "User G",
-					time: "XX:XX",
-				},
-				{
-					name: "User H",
-					time: "XX:XX",
-				},
-				{
-					name: "User I",
-					time: "XX:XX",
-				},
-				{
-					name: "User J",
-					time: "XX:XX",
+					name: "User's recent games:",
+					time: "XXX",
 				},
 			],
 		};
@@ -54,20 +39,24 @@ export class LandingPage extends Component {
 	render() {
 		return (
 			<div className="Landing">
+
 				<h1>Landing Page</h1>
+				
 				<div className="Board">
-					<h1 className="leaderboard"> Leaderboard</h1>
-					<table className="table ">
-						<col style={{ width: "10%" }} />
-						<col style={{ width: "80%" }} />
-						<col style={{ width: "10%" }} />
+
+					< Leaderboardlanding />
+
+					<h2 className="userHistory">User History</h2>
+					<table className="table">
+						<col style={{width: "10%"}} />
+						<col style={{width: "80%"}} />
+						<col style={{width: "10%"}} />
 						<tbody>
-							{this.state.dummyplayers.map((el, Rank) => {
-								return (
+							{this.state.dummyHistory.map((el) => {
+								return(
 									<tr>
-										<td className="border-0"> {Rank + 1} </td>
-										<td className="border-0"> {el.name} </td>
-										<td className="border-0"> {el.time} </td>
+										<td className="border-0">{el.name}</td>
+										<td className="border-0">{el.time}</td>
 									</tr>
 								);
 							})}
@@ -75,42 +64,31 @@ export class LandingPage extends Component {
 					</table>
 				</div>
 
-				<div className="userhistory"></div>
 				<div className="gameButtons">
 					<Button
 						additionalStyles={"buttons"}
 						buttonType={"button"}
 						handleClick={() => alert("Level-Based Game")}
 					>
-						Free Play
+						Level-Based Game
 					</Button>
+
 					<Button
 						additionalStyles={"buttonsspecial"}
 						buttonType={"button"}
 						handleClick={() => alert("Today's Rewards Game")}
 					>
-						Daily Puzzle
+						Today's Rewards Game
 					</Button>
+
 					<Button
 						additionalStyles={"buttons"}
 						buttonType={"button"}
 						handleClick={() => alert("User Puzzle Design")}
 					>
-						Customize Puzzle
+						User Puzzle Design
 					</Button>
 				</div>
-				{/* <button className="buttons" onClick={() => alert("Level-Based Game")}>
-					Level-Based Game
-				</button>
-				<button
-					className="buttonsspecial"
-					onClick={() => alert("Today's Rewards Game")}
-				>
-					Today's Rewards Game
-				</button>
-				<button className="buttons" onClick={() => alert("User Puzzle Design")}>
-					User Puzzle Design
-				</button> */}
 			</div>
 		);
 	}
