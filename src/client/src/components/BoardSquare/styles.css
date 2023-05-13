@@ -1,0 +1,8 @@
+.square {
+	width: 5%;
+	height: 21px;
+}
+
+.squareClicked {
+	background-color: red;
+}
