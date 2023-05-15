@@ -304,6 +304,46 @@ class Game:
             game['_id'] = str(game['_id'])
 
         return game
+    
+    def validate(self, id: str):
+        '''
+        Validate if a game exists in the database by the given id.
+
+        Args:
+            id: The id of the game.
+
+        Returns:
+            True if the game exists.
+            False if the game does not exist.
+        '''
+        try:
+            if self._collection.find_one({'_id': ObjectId(id)}):
+                return True
+            else:
+                return False
+        except:
+            return False
+        
+    def get_game_level(self, id: str):
+        '''
+        Get the level of a game by the given id.
+
+        Args:
+            id: The id of the game.
+
+        Returns:
+            The level of the game.
+            None if no game is found.
+        '''
+        try:
+            game = self._collection.find_one({'_id': ObjectId(id)})
+        except:
+            game = None
+        
+        if game:
+            return game['level']
+        else:
+            return None
 
         
 
@@ -339,9 +379,9 @@ if __name__ == '__main__':
     # )
 
     # test create todays reward game
-    # game = Game()
-    # status, error = game.create_todays_reward_game()
-    # print(status, error)
+    game = Game()
+    status, error = game.create_todays_reward_game()
+    print(status, error)
 
     # test create random game
     # game = Game()
@@ -363,3 +403,7 @@ if __name__ == '__main__':
     # test get key of a game
     # game = Game()
     # print(game.get_key_of_a_game('645b3922f60f61e02f80e740'))
+
+    # test validate
+    # game = Game()
+    # print(game.validate('645ca867e442f82fc0cbc8f4'))
