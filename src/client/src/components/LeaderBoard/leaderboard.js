@@ -1,22 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./styles.css";
 import Button from "../../components/Button/Button";
 import { apiInstance } from "../../services/apiInstance";
 
-const Leaderboardlanding = () => {
-	const [rank, setRank] = useState(0);
-	const [score, setScore] = useState(0);
-	const [username, setUsername] = useState("Anonymous");
+const Leaderboardlanding = ({ type, level }) => {
+	const [leaderboardData, setLeaderboardData] = useState([]);
+	const [refreshClicked, setRefreshClicked] = useState(false);
 
-	const refreshbutton = () => {
-		alert("Refresh button to be tested with the backend");
-		apiInstance
-			.get("/leaderboards/todaysrewardgame")
+	useEffect(() => {
+		fetchData();
+	}, [refreshClicked]);
+
+	const fetchData = async () => {
+		let path = "";
+		if (type === "todaysrewards") {
+			path = "/leaderboards/todaysrewardgame";
+		} else {
+			path = `/game/level/${level}`;
+		}
+		await apiInstance
+			.get(path)
 			.then((res) => {
-				const data = res.data;
-				setRank(data.rank);
-				setScore(data.score);
-				setUsername(data.username);
+				const data = res.data.data;
+				console.log(data);
+				setLeaderboardData(data);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -25,26 +32,29 @@ const Leaderboardlanding = () => {
 
 	return (
 		<div className="Board">
+			<div className="leaderboardheader">
+				<div className="leaderboardTitle">Leaderboard</div>
+				<Button
+					additionalStyles={"leaderboardrefreshbutton"}
+					type={"buton"}
+					handleClick={() => setRefreshClicked(!refreshClicked)}
+				>
+					Refresh
+				</Button>
+			</div>
 			<table className="leaderboard ">
-				<div className="leaderboardheader">
-					<h2> Leaderboard </h2>
-					<Button
-						className="leaderboardrefreshbutton"
-						handleClick={() => refreshbutton()}
-					>
-						{" "}
-						Refresh{" "}
-					</Button>
-				</div>
-				<col style={{ width: "10%" }} />
-				<col style={{ width: "80%" }} />
-				<col style={{ width: "10%" }} />
 				<tbody>
-					<tr>
-						<td className="column-1"> {rank} </td>
-						<td className="column-2"> {username} </td>
-						<td className="column-3"> {score} </td>
-					</tr>
+					{leaderboardData.map((el) => {
+						return (
+							<tr className="leaderboardRow">
+								<td className="rankColumn"> {el.rank + 1} </td>
+								<td className="scoreColumn">
+									<span className="username">{el.username}</span>{" "}
+									<span>{el.score}</span>
+								</td>
+							</tr>
+						);
+					})}
 				</tbody>
 			</table>
 		</div>

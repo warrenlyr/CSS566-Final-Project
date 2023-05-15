@@ -24,7 +24,7 @@ input:focus {
 }
 
 .wrongPassword {
-	color: black;
+	color: red;
 	font-size: 12px;
 }
 

@@ -41,25 +41,24 @@ export class LandingPage extends Component {
 			<div className="Landing">
 				<div className="pageTitle">"Word Game Name"</div>
 
-				<div className="Board">
-					<Leaderboardlanding />
-
-					<h2 className="userHistory">User History</h2>
-					<table className="table">
-						<col style={{ width: "10%" }} />
-						<col style={{ width: "80%" }} />
-						<col style={{ width: "10%" }} />
-						<tbody>
-							{this.state.dummyHistory.map((el) => {
-								return (
-									<tr>
-										<td className="border-0">{el.name}</td>
-										<td className="border-0">{el.time}</td>
-									</tr>
-								);
-							})}
-						</tbody>
-					</table>
+				<div className="landingContainer">
+					<Leaderboardlanding type={"todaysrewards"} level={2} />
+					<div class="vl"></div>
+					<div className="userHistory">
+						<h2 className="userHistoryTitle">User History</h2>
+						<table className="table">
+							<tbody>
+								{this.state.dummyHistory.map((el) => {
+									return (
+										<tr>
+											<td className="border-0">{el.name}</td>
+											<td className="border-0">{el.time}</td>
+										</tr>
+									);
+								})}
+							</tbody>
+						</table>
+					</div>
 				</div>
 
 				<div className="gameButtons">

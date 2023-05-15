@@ -12,12 +12,19 @@
 	margin-top: 16px;
 }
 
+.landingContainer {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	height: 550px;
+	flex-wrap: wrap;
+}
+
 .History {
 	border: 1px;
 }
 .userHistory {
 	text-align: left;
-	margin-left: 300px;
 }
 .gameButtons {
 	display: flex;
@@ -45,8 +52,4 @@
 	border-radius: 10px;
 	padding: 4px 12px;
 	background-color: #df6c4f;
-}
-
-h1 {
-	text-align: center;
 }
