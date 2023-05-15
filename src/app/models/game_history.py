@@ -126,6 +126,10 @@ class GameHistory:
         if not game_history:
             return False, 0, 'Invalid game history id'
         
+        # validate if the game is already finished
+        if game_history['finished']:
+            return False, 0, 'Game is already finished'
+        
         # validate the given time_elapsed
         valid_time_elapsed = False
         start_time = game_history['start_time']
