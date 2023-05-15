@@ -1,5 +1,4 @@
 .Landing {
-	background-color: grey;
 	flex-wrap: wrap;
 	justify-content: space-between;
 	align-items: center;
@@ -9,24 +8,23 @@
 	border: 5px;
 	margin-left: 100px;
 	width: 300px;
-  	height: 500px;
+	height: 500px;
 }
 .leaderboard {
 	-webkit-transform: translate(0%, 0%);
-  	transform: translate(0%, 0%);
-  	width: 300px;
-  	height: 500px;
+	transform: translate(0%, 0%);
+	width: 300px;
+	height: 500px;
 	margin-left: 100px;
-  	background: -webkit-linear-gradient(top, #9bcb2a, #930eb5);
-  	background: linear-gradient(to bottom, #85b525, #6314b7);
-  	border-radius: 10px;
-  	box-shadow: 0 7px 30px rgba(62, 9, 11, 0.3);
-  	overflow-x: hidden;
+	background: -webkit-linear-gradient(top, #9bcb2a, #930eb5);
+	background: linear-gradient(to bottom, #85b525, #6314b7);
+	border-radius: 10px;
+	box-shadow: 0 7px 30px rgba(62, 9, 11, 0.3);
+	overflow-x: hidden;
 }
 .leaderboardheader {
-	display: flex;	
+	display: flex;
 	justify-content: space-evenly;
-
 }
 .leaderboardrefreshbutton {
 	width: 20px;
@@ -37,9 +35,9 @@
 	padding: 4px 12px;
 	background-color: rgb(255, 255, 255);
 	margin-left: 100px;
-	margin-right: 20px;	
+	margin-right: 20px;
 }
-.History{
+.History {
 	border: 1px;
 }
 .userHistory {
@@ -54,40 +52,24 @@
 }
 
 .buttons {
-	/* background-color: white;
-	color: black;
-	border-radius: 5px;
-	cursor: pointer;
-	display: flexbox;
-	text-align: center;
-	justify-items: center; */
-
 	width: 160px;
 	height: 20%;
-	border: 2px solid darkmagenta;
+	border: 2px solid #f28187;
 	font-size: 16px;
 	border-radius: 10px;
 	padding: 4px 12px;
-	background-color: purple;
+	background-color: #df6c4f;
 	margin-left: 20px;
 	margin-right: 20px;
 }
 .buttonsspecial {
-	/* background-color: green;
-	color: black;
-	border-radius: 5px;
-	cursor: pointer;
-	display: flexbox;
-	text-align: center;
-	justify-items: center; */
-
 	width: 200px;
 	height: 50px;
-	border: 2px solid darkmagenta;
+	border: 2px solid #f28187;
 	font-size: 20px;
 	border-radius: 10px;
 	padding: 4px 12px;
-	background-color: purple;
+	background-color: #df6c4f;
 }
 
 h1 {

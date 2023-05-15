@@ -7,7 +7,7 @@ import Timer from "../Timer/Timer";
 import Modal from "../Modal/modal";
 import Leaderboardlanding from "../LeaderBoard/leaderboard";
 
-const GameGrid = ({ puzzle, size, words }) => {
+const GameGrid = ({ puzzle, size, words, level }) => {
 	const [selectedBlocks, setSelectedBlocks] = useState([]);
 	const [remainingWords, setRemainingWords] = useState(words);
 	const [openedLetters, setOpenedLetters] = useState([]);
@@ -38,7 +38,7 @@ const GameGrid = ({ puzzle, size, words }) => {
 				}
 			}
 		} else {
-			toast.info("Wait", {
+			toast.info("Wait for the previous blocks to close", {
 				autoClose: 1000,
 			});
 		}
@@ -73,18 +73,31 @@ const GameGrid = ({ puzzle, size, words }) => {
 
 		if (remainingWords.includes(word)) {
 			setRemainingWords((wordsLeft) => wordsLeft.filter((w) => w !== word));
-			const newArray = openedLetters.concat(selectedBlocks);
-			setOpenedLetters(newArray);
 			toast.success(`Word found, ${word}`);
 			handleClear();
 		} else {
+			const closeTime = level === 1 || level === 3 ? 3000 : 4000;
 			setCanContinue(false);
-			toast.error("Wrong word, Try again");
-			setTimeout(() => {
-				setOpenedLetters(prevOpenedLetters);
+			toast.error("Wrong word, Try again", {
+				autoClose: closeTime,
+			});
+
+			if (level === 1) {
 				setCanContinue(true);
 				handleClear();
-			}, 3700);
+			} else if (level === 2) {
+				setTimeout(() => {
+					setOpenedLetters(prevOpenedLetters);
+					setCanContinue(true);
+					handleClear();
+				}, 4700);
+			} else {
+				setTimeout(() => {
+					setOpenedLetters(prevOpenedLetters);
+					setCanContinue(true);
+					handleClear();
+				}, 3700);
+			}
 		}
 	};
 
