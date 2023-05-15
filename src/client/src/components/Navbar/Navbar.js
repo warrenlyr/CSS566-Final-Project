@@ -47,7 +47,7 @@ const Navbar = () => {
 			<div className="navbar">
 				<Link to="/">
 					<img
-						src={process.env.PUBLIC_URL + "/logo192.png"}
+						src={process.env.PUBLIC_URL + "/logo.png"}
 						alt="logo"
 						className="logo"
 					></img>
