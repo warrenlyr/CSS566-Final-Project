@@ -93,7 +93,7 @@ Success (200)
 }
 ```
 
-Failed (401)
+Failed
 
 ```json
 {
@@ -146,19 +146,11 @@ Success (200)
 }
 ```
 
-Failed (400)
+Failed
 
 ```json
 {
-    "error": "Username is already taken"
-}
-```
-
-Failed (422)
-
-```json
-{
-    "error": "Failed to create user"
+    "error": "error message"
 }
 ```
 
@@ -231,7 +223,7 @@ Success (200)
 }
 ```
 
-Failed (422)
+Failed
 
 ```json
 {
@@ -266,6 +258,8 @@ GET
 - `Authorization: Bearer <access_token>`
 
 **Response**
+
+Success
 
 - `game_data`
   - `_id`: game data ID in the database
@@ -329,6 +323,14 @@ GET
 }
 ```
 
+Failed
+
+```json
+{
+    "error": "error message"
+}
+```
+
 ### Get Today's Reward Game
 
 `/game/dailypuzzle`
@@ -348,6 +350,8 @@ GET
 - `Authorization: Bearer <access_token>`
 
 **Response**
+
+Success (200)
 
 - `game_data`
   - `_id`: game data ID in the database
@@ -444,6 +448,14 @@ GET
 }
 ```
 
+Failed
+
+```json
+{
+    "error": "error message"
+}
+```
+
 ### Get Game Key
 
 `/game/key/<game_id>`
@@ -455,6 +467,8 @@ Get the answer key of a game by given `game_id`.  If no game is found, an error 
 GET
 
 **Response**
+
+Success (200)
 
 - `_id`: the game id in the database, used to validate if the key is for the correct game the frontend if requested for
 - `key`: the answer for the game
@@ -501,6 +515,14 @@ GET
 }
 ```
 
+Failed
+
+```json
+{
+    "error": "error message"
+}
+```
+
 ### Finish a Game
 
 `/game/finish/<game_history_id>`
@@ -522,14 +544,6 @@ POST
 
 **Response**
 
-Failed (400)
-
-```json
-{
-    "error": "error message if bad request"
-}
-```
-
 Success (200)
 
 ```json
@@ -546,6 +560,14 @@ Success (200)
     "error": "Invalid time elapsed (cheating) detected",
     "score": 0,
     "status": true
+}
+```
+
+Failed
+
+```json
+{
+    "error": "error message if bad request"
 }
 ```
 
