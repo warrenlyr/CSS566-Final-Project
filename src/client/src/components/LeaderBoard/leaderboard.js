@@ -31,7 +31,7 @@ const Leaderboardlanding = ({ type, level }) => {
 	};
 
 	return (
-		<div className="Board">
+		<div className="leaderboardContainer">
 			<div className="leaderboardheader">
 				<div className="leaderboardTitle">Leaderboard</div>
 				<Button
@@ -42,7 +42,7 @@ const Leaderboardlanding = ({ type, level }) => {
 					Refresh
 				</Button>
 			</div>
-			<table className="leaderboard ">
+			<table className="leaderboard">
 				<tbody>
 					{leaderboardData.map((el) => {
 						return (
