@@ -21,6 +21,7 @@ API endpoints prefix: `/api/<api_version>`
   - [Get a Normal Game](#get-a-normal-game)
   - [Get Today's Reward Game](#get-todays-reward-game)
   - [Get Game Key](#get-game-key)
+  - [Finish a Game](#finish-a-game)
 - [Leaderboards](#leaderboards)
   - [Today's Reward Game](#todays-reward-game)
   - [Normal Game](#normal-game)
