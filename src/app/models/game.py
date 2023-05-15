@@ -232,12 +232,12 @@ class Game:
         if level not in [1, 2, 3]:
             raise ValueError('Invalid level. Must be 1, 2, or 3.')
         
-        # get a random game from the database
+        # get a random game from the database of type 'normal'
         # exclude the created_by, created_at, customized, and key fields
         if current_game_id:
             try:
                 game = self._collection.find_one(
-                    {'level': level, '_id': {'$ne': ObjectId(current_game_id)}},
+                    {'level': level, 'type': 'normal', '_id': {'$ne': ObjectId(current_game_id)}},
                     {'created_by': 0, 'customized': 0, 'created_at': 0, 'key': 0}
                 )
             except:
