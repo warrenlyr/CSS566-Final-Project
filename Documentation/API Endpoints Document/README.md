@@ -1,6 +1,6 @@
 # API Endpoints Documentation
 
-Update: 5/10/2023
+Update: 5/15/2023
 
 Current API version: v0
 
