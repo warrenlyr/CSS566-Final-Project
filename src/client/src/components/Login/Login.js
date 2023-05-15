@@ -61,6 +61,13 @@ const Login = ({ onClose, setToken }) => {
 					SIGN IN
 				</button>
 			</form>
+			<span className="guestText">Or</span>
+			<button
+				className="guestButton"
+				onClick={() => alert("Continue as Guest")}
+			>
+				Continue as a guest
+			</button>
 			<hr className="lineBreak" />
 			<div className="register">
 				Not a member?{" "}

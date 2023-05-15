@@ -39,21 +39,19 @@ export class LandingPage extends Component {
 	render() {
 		return (
 			<div className="Landing">
+				<div className="pageTitle">"Word Game Name"</div>
 
-				<h1>Landing Page</h1>
-				
 				<div className="Board">
-
-					< Leaderboardlanding />
+					<Leaderboardlanding />
 
 					<h2 className="userHistory">User History</h2>
 					<table className="table">
-						<col style={{width: "10%"}} />
-						<col style={{width: "80%"}} />
-						<col style={{width: "10%"}} />
+						<col style={{ width: "10%" }} />
+						<col style={{ width: "80%" }} />
+						<col style={{ width: "10%" }} />
 						<tbody>
 							{this.state.dummyHistory.map((el) => {
-								return(
+								return (
 									<tr>
 										<td className="border-0">{el.name}</td>
 										<td className="border-0">{el.time}</td>

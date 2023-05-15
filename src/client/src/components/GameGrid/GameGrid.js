@@ -6,14 +6,17 @@ import BoardSquare from "../BoardSquare/BoardSquare";
 import Timer from "../Timer/Timer";
 import Modal from "../Modal/modal";
 import Leaderboardlanding from "../LeaderBoard/leaderboard";
+import Button from "../Button/Button";
 
 const GameGrid = ({ puzzle, size, words, level }) => {
 	const [selectedBlocks, setSelectedBlocks] = useState([]);
 	const [remainingWords, setRemainingWords] = useState(words);
 	const [openedLetters, setOpenedLetters] = useState([]);
+	const [time, setTime] = useState(0);
+	const [wrongAttempts, setWrongAttempts] = useState(0);
+
 	const [canContinue, setCanContinue] = useState(true);
 	const [isOpen, setIsOpen] = useState(false);
-	const [time, setTime] = useState(0);
 	const [stopTimer, setStopTimer] = useState(false);
 
 	const maxSelected = size;
@@ -78,6 +81,7 @@ const GameGrid = ({ puzzle, size, words, level }) => {
 		} else {
 			const closeTime = level === 1 || level === 3 ? 3000 : 4000;
 			setCanContinue(false);
+			setWrongAttempts(wrongAttempts + 1);
 			toast.error("Wrong word, Try again", {
 				autoClose: closeTime,
 			});
@@ -149,6 +153,7 @@ const GameGrid = ({ puzzle, size, words, level }) => {
 		<>
 			<div className="gameContainer">
 				<div className="wordsContainer">
+					<div>Words to find</div>
 					{remainingWords.map((word) => {
 						return (
 							<div className="gameWord" key={word}>
@@ -158,6 +163,12 @@ const GameGrid = ({ puzzle, size, words, level }) => {
 					})}
 				</div>
 				<div className="game">
+					<div className="gameFunctions">
+						<Timer stopTimer={stopTimer} time={time} setTime={setTime} />
+						<span className="blockSelect">
+							{selectedBlocks.length} selected
+						</span>
+					</div>
 					<div className="puzzleBoard">
 						{puzzle.map((row, rowIndex) => {
 							return (
@@ -186,6 +197,7 @@ const GameGrid = ({ puzzle, size, words, level }) => {
 														b.col === colIndex &&
 														b.letter === letter
 												)}
+												level={level}
 											/>
 										);
 									})}
@@ -193,12 +205,21 @@ const GameGrid = ({ puzzle, size, words, level }) => {
 							);
 						})}
 					</div>
-					<div className="boardFunctions">
-						<Timer stopTimer={stopTimer} time={time} setTime={setTime} />
-						<div className="boardButtons">
-							<button onClick={handleConfirm}>Confirm</button>
-							<button onClick={handleClear}>Clear</button>
-						</div>
+					<div className="boardButtons">
+						<Button
+							additionalStyles={"boardButton"}
+							buttonType={"button"}
+							handleClick={handleConfirm}
+						>
+							Confirm
+						</Button>
+						<Button
+							additionalStyles={"boardButton"}
+							buttonType={"button"}
+							handleClick={handleClear}
+						>
+							Clear
+						</Button>
 					</div>
 				</div>
 				<Leaderboardlanding />
@@ -210,11 +231,10 @@ const GameGrid = ({ puzzle, size, words, level }) => {
 					Your time:{" "}
 					<span className="digits">
 						{("0" + Math.floor((time / 60000) % 60)).slice(-2)}:
-					</span>
-					<span className="digits">
 						{("0" + Math.floor((time / 1000) % 60)).slice(-2)}
 					</span>
 				</div>
+				<div>Wrong attempts {wrongAttempts}</div>
 				<button>Share my score</button>
 				<button>Share my score anonymously</button>
 			</Modal>

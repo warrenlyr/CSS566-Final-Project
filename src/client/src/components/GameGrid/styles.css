@@ -1,14 +1,31 @@
-.wordsContainer {
-	background-color: red;
+.gameContainer {
 	display: flex;
-	justify-content: space-between;
-	flex-wrap: wrap;
+	justify-content: space-evenly;
 }
 
-.gameWord {
-	color: white;
+.wordsContainer {
+	background-color: red;
+}
+
+.gameFunctions {
+	display: flex;
+	justify-content: space-between;
 }
 
 .boardRow {
 	display: flex;
+}
+
+.boardButtons {
+	display: flex;
+	justify-content: center;
+}
+
+.boardButton {
+	margin-top: 20px;
+	margin-left: 10px;
+	margin-right: 10px;
+	font-size: 26px;
+	border-radius: 5px;
+	padding: 4px 12px;
 }
