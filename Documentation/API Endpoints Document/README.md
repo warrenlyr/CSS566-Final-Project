@@ -1,6 +1,6 @@
 # API Endpoints Documentation
 
-Update: 5/10/2023
+Update: 5/15/2023
 
 Current API version: v0
 
@@ -21,6 +21,7 @@ API endpoints prefix: `/api/<api_version>`
   - [Get a Normal Game](#get-a-normal-game)
   - [Get Today's Reward Game](#get-todays-reward-game)
   - [Get Game Key](#get-game-key)
+  - [Finish a Game](#finish-a-game)
 - [Leaderboards](#leaderboards)
   - [Today's Reward Game](#todays-reward-game)
   - [Normal Game](#normal-game)
@@ -73,7 +74,7 @@ Use `username` and `password` to gain an access token that will be refreshed aut
 
 POST
 
-**Required Data**
+**Required Body**
 
 ```json
 {
@@ -193,7 +194,7 @@ GET
 
 **Required Header**
 
-`Authorization: Bearer <access_token>`
+- `Authorization: Bearer <access_token>`
 
 **Response**
 
@@ -218,7 +219,7 @@ DELETE
 
 **Required Header**
 
-`Authorization: Bearer <access_token>`
+- `Authorization: Bearer <access_token>`
 
 **Response**
 
@@ -244,11 +245,13 @@ Failed (422)
 
 ### Get a Normal Game
 
-`/game/normal/<level>`
+`/game/normalpuzzle/<level>`
 
-- level must be an integer in 1 to 3
+- `level` must be an integer in 1 to 3
 
 Randomly get the game data of a normal game by given game level. If the user has finished a game and wants to get a new one, or the user just wants to play another game, a `currect_game_id` can be passed as a parameter, so we will exclude the current game when querying in the backend. If no game is found, an error will throw instead of returning blank data.
+
+When a game is fetched from the backend, a game history entry is generated for that game. If the user is logged in and an access token is supplied, the game history will be associated with the user. Otherwise, the game history remains unlinked to any user and serves solely for score calculation purposes. For further information on game history, refer to the [Finish a Game](#finish-a-game) section.
 
 **Accepted request types**
 
@@ -256,154 +259,188 @@ GET
 
 **Optional Parameter**
 
-`current_game_id`: a string of id
+- `current_game_id`: a string of id
+
+**Optional Header**
+
+- `Authorization: Bearer <access_token>`
 
 **Response**
 
+- `game_data`
+  - `_id`: game data ID in the database
+  - `level`: difficulty level
+  - `puzzle`: 2D array of characters representing the puzzle
+  - `size`: the size of the puzzle
+  - `type`: "normal" if it's a normal game, "todaysrewards" if it's today's reward game
+  - `words`: words need to be found in the puzzle
+- `game_history_id`: the game history ID in the database, needed to finish game
+
 ```json
 {
-    "_id": "645b3a0d3db0a3e3b50a3f67",
-    "level": 1,
-    "puzzle": [
-        [
-            "J",
-            "Z",
-            "V",
-            "S",
-            "H"
+    "game_data": {
+        "_id": "645ca865e442f82fc0cbc8d5",
+        "level": 1,
+        "puzzle": [
+            [
+                "Y",
+                "R",
+                "Z",
+                "W",
+                "H"
+            ],
+            [
+                "I",
+                "Z",
+                "H",
+                "R",
+                "K"
+            ],
+            [
+                "Z",
+                "U",
+                "I",
+                "I",
+                "W"
+            ],
+            [
+                "S",
+                "P",
+                "M",
+                "T",
+                "X"
+            ],
+            [
+                "Z",
+                "P",
+                "S",
+                "E",
+                "T"
+            ]
         ],
-        [
-            "K",
-            "K",
-            "A",
-            "N",
-            "G"
-        ],
-        [
-            "B",
-            "P",
-            "L",
-            "M",
-            "W"
-        ],
-        [
-            "Z",
-            "X",
-            "U",
-            "S",
-            "H"
-        ],
-        [
-            "I",
-            "D",
-            "E",
-            "A",
-            "E"
+        "size": 5,
+        "type": "normal",
+        "words": [
+            "SET",
+            "WRITE"
         ]
-    ],
-    "size": 5,
-    "type": "normal",
-    "words": [
-        "VALUE",
-        "IDEA",
-        "FATHER"
-    ]
+    },
+    "game_history_id": "6462ad6af595d88ebe9c300e"
 }
 ```
 
 ### Get Today's Reward Game
 
-`/game/todaysrewardgame`
+`/game/dailypuzzle`
 
 Get today's reward game data. The algorithm in the backend is to find today's reward game which is created today. So it's possible that no game is found if we forgot to create a new one day (when deployed, we should have automation to generate a new one every day). If no game is found, an error will throw instead of returning blank data.
 
 Current today's reward game is set to level 2 with a 7x7 puzzle.
 
+When a game is fetched from the backend, a game history entry is generated for that game. If the user is logged in and an access token is supplied, the game history will be associated with the user. Otherwise, the game history remains unlinked to any user and serves solely for score calculation purposes. For further information on game history, refer to the [Finish a Game](#finish-a-game) section.
+
 **Accepted request types**
 
 GET
 
+**Optional Header**
+
+- `Authorization: Bearer <access_token>`
+
 **Response**
+
+- `game_data`
+  - `_id`: game data ID in the database
+  - `created_at`: the date created this game, today's reward game only looks for the daily puzzle created at the same date
+  - `level`: difficulty level
+  - `puzzle`: 2D array of characters representing the puzzle
+  - `size`: the size of the puzzle
+  - `type`: "normal" if it's a normal game, "todaysrewards" if it's today's reward game
+  - `words`: words need to be found in the puzzle
+- `game_history_id`: the game history ID in the database, needed to finish game
 
 ```json
 {
-    "_id": "645c3094612528742bd9ae46",
-    "created_at": "2023-05-10",
-    "level": 2,
-    "puzzle": [
-        [
-            "K",
-            "Z",
-            "G",
-            "Y",
-            "Z",
-            "X",
-            "K"
+    "game_data": {
+        "_id": "6461e257bdbc156d701cfe30",
+        "created_at": "2023-05-15",
+        "level": 2,
+        "puzzle": [
+            [
+                "F",
+                "E",
+                "D",
+                "E",
+                "R",
+                "A",
+                "L"
+            ],
+            [
+                "P",
+                "U",
+                "R",
+                "P",
+                "O",
+                "S",
+                "E"
+            ],
+            [
+                "R",
+                "E",
+                "A",
+                "S",
+                "O",
+                "N",
+                "D"
+            ],
+            [
+                "D",
+                "E",
+                "X",
+                "P",
+                "E",
+                "R",
+                "T"
+            ],
+            [
+                "P",
+                "B",
+                "A",
+                "S",
+                "E",
+                "T",
+                "G"
+            ],
+            [
+                "T",
+                "X",
+                "H",
+                "M",
+                "B",
+                "M",
+                "C"
+            ],
+            [
+                "C",
+                "T",
+                "R",
+                "X",
+                "A",
+                "G",
+                "N"
+            ]
         ],
-        [
-            "O",
-            "P",
-            "H",
-            "V",
-            "D",
-            "P",
-            "W"
-        ],
-        [
-            "F",
-            "L",
-            "Q",
-            "W",
-            "U",
-            "R",
-            "H"
-        ],
-        [
-            "T",
-            "E",
-            "N",
-            "H",
-            "F",
-            "A",
-            "I"
-        ],
-        [
-            "A",
-            "M",
-            "O",
-            "U",
-            "N",
-            "T",
-            "T"
-        ],
-        [
-            "A",
-            "E",
-            "Y",
-            "U",
-            "U",
-            "W",
-            "E"
-        ],
-        [
-            "B",
-            "G",
-            "G",
-            "R",
-            "O",
-            "X",
-            "C"
+        "size": 7,
+        "type": "todaysrewards",
+        "words": [
+            "EXPERT",
+            "PURPOSE",
+            "FEDERAL",
+            "BASE",
+            "REASON"
         ]
-    ],
-    "size": 7,
-    "type": "todaysrewards",
-    "words": [
-        "AMOUNT",
-        "TEN",
-        "WHITE",
-        "INTERNATIONAL",
-        "GUN"
-    ]
+    },
+    "game_history_id": "6462ac50f595d88ebe9c300d"
 }
 ```
 
@@ -418,6 +455,13 @@ Get the answer key of a game by given `game_id`.  If no game is found, an error 
 GET
 
 **Response**
+
+- `_id`: the game id in the database, used to validate if the key is for the correct game the frontend if requested for
+- `key`: the answer for the game
+  - `direction`: N going up, S going down, W going left, E going right
+  - `start_col`: column index of the start point
+  - `start_row`: row index of the start point
+  - `word`: the word start at this index
 
 ```json
 {
@@ -454,6 +498,54 @@ GET
             "word": "SAY"
         }
     ]
+}
+```
+
+### Finish a Game
+
+`/game/finish/<game_history_id>`
+
+Complete a game session identified by the provided `game_history_id`.
+
+Upon retrieving a game, a game history record is generated, which includes the `game_id`, `user_id` (optional), and `start_time` details. To finalize the game session, submit a request with the `game_history_id` in the URL, and include `time_elapsed` and `attempts` in the request body.
+
+Upon receiving the request, the system logs the current time as the `end_time`. It then compares the actual time elapsed between the `start_time` and `end_time` with the submitted `time_elapsed` value. The system allows for a 10-second tolerance in this comparison. If the difference between the actual and submitted elapsed times is less than 10 seconds, the system proceeds to calculate the score using the provided `time_elapsed` and `attempts`. However, if the difference exceeds 10 seconds, the system assumes cheating has occurred and assigns a score of 0.
+
+**Accepted request types**
+
+POST
+
+**Required Body**
+
+- `time_elapsed`: time elapsed in ms (integer)
+- `attemps`: number of attempts (integer)
+
+**Response**
+
+Failed (400)
+
+```json
+{
+    "error": "error message if bad request"
+}
+```
+
+Success (200)
+
+```json
+// There are two types of success
+
+// 1. Finished without any issue
+{
+    "score": 2595.0,
+    "status": true
+}
+
+// 2. Finished successfully, but cheating is detected
+{
+    "error": "Invalid time elapsed (cheating) detected",
+    "score": 0,
+    "status": true
 }
 ```
 
