@@ -1,8 +1,32 @@
 .square {
-	width: 5%;
-	height: 21px;
+	appearance: none;
+	border: 1px solid black;
+	font-size: 32px;
+	font-weight: bold;
+	color: white;
+	background-color: #0c9d9e;
+	margin: 2px;
+}
+
+.one {
+	width: 60px;
+	height: 60px;
+}
+
+.two {
+	width: 54px;
+	height: 54px;
+}
+
+.three {
+	width: 46px;
+	height: 46px;
+}
+
+.squareOpened {
+	background-color: #df6c4f;
 }
 
 .squareClicked {
-	background-color: red;
+	background-color: #f28187;
 }

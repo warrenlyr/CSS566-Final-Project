@@ -6,13 +6,10 @@ import "./styles.css";
 import Modal from "../Modal/modal";
 import Login from "../Login/Login";
 import Button from "../Button/Button";
-import Token from "../Token";
 import { apiInstance } from "../../services/apiInstance";
 import { authApiInstance } from "../../services/authApiInstance";
 
-const Navbar = () => {
-	const { token, removeToken, setToken } = Token();
-
+const Navbar = ({ token, removeToken, setToken }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [user, setUser] = useState("");
 
@@ -47,15 +44,14 @@ const Navbar = () => {
 			<div className="navbar">
 				<Link to="/">
 					<img
-						src={process.env.PUBLIC_URL + "/logo192.png"}
+						src={process.env.PUBLIC_URL + "/logo.png"}
 						alt="logo"
 						className="logo"
 					></img>
 				</Link>
 				{!token && token !== "" && token !== undefined ? (
 					<Button
-						id = "logIn"
-						additionalStyles={"loginButton"}
+						additionalStyles={"signButton"}
 						buttonType={"button"}
 						handleClick={() => setIsOpen(true)}
 					>
@@ -76,16 +72,6 @@ const Navbar = () => {
 				<Modal open={isOpen} onClose={() => setIsOpen(false)}>
 					<Login onClose={() => setIsOpen(false)} setToken={setToken} />
 				</Modal>
-
-				<Button
-						id = "ContinueGuest"
-						additionalStyles={"continueButton"}
-						buttonType={"button"}
-						handleClick={() => alert("Continue as Guest")}
-					>
-						Continue as Guest
-					</Button>
-
 			</div>
 			<ToastContainer
 				position="top-right"

@@ -1,7 +1,7 @@
 .defaultButton {
 	appearance: none;
-	background-color: #000000;
-	border: 2px solid #1a1a1a;
+	background-color: #df6c4f;
+	border: 2px solid #f28187;
 	box-sizing: border-box;
 	color: #ffffff;
 	cursor: pointer;
@@ -18,6 +18,7 @@
 	touch-action: manipulation;
 	align-items: center;
 	will-change: transform;
+	padding: 4px 12px;
 }
 
 .defaultButton:disabled {

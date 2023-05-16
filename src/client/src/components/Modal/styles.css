@@ -34,6 +34,7 @@
 }
 
 .closeButton {
+	color: black;
 	display: block;
 	cursor: pointer;
 	height: 35px;

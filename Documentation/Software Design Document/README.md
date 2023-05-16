@@ -192,6 +192,14 @@ We should write some customized error pages when backend throw an error code, su
 
 **TODO**
 
+### 3.4 URLs
+
+- Landing Page: `/`
+- Daily Rewards Game: `/game/dailypuzzle`
+- Normal Game: `/game/normalpuzzle/level<level>`
+- Design Puzzle: `/game/designpuzzle`
+- User Account (Profile): `/account/profi`
+
 ## 4 Backend Server Design
 
 ### 4.1 Backend Components
