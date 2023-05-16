@@ -22,7 +22,6 @@ const Leaderboard = ({ styles, type, level }) => {
 			.get(path)
 			.then((res) => {
 				const data = res.data.data;
-				console.log(data);
 				setLeaderboardData(data);
 			})
 			.catch((error) => {
@@ -46,7 +45,7 @@ const Leaderboard = ({ styles, type, level }) => {
 				<tbody>
 					{leaderboardData.map((el) => {
 						return (
-							<tr className="leaderboardRow">
+							<tr className="leaderboardRow" key={el.rank + 1}>
 								<td className="rankColumn"> {el.rank + 1} </td>
 								<td className="scoreColumn">
 									<span className="username">{el.username}</span>{" "}

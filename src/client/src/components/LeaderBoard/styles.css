@@ -19,13 +19,12 @@
 .leaderboardTitle {
 	font-size: 30px;
 	font-weight: 500;
-	color: #000000;
 }
 
 .leaderboardrefreshbutton {
-	font-size: 14px;
-	border-radius: 5px;
-	padding: 2px 6px;
+	font-size: 16px;
+	border-radius: 10px;
+	padding: 4px 12px;
 }
 
 .leaderboard {

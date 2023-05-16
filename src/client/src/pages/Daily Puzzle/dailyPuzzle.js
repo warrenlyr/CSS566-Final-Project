@@ -1,24 +1,44 @@
 import React, { useEffect, useState } from "react";
-import GameGrid from "../../components/GameGrid/GameGrid";
 import { apiInstance } from "../../services/apiInstance";
+import { authApiInstance } from "../../services/authApiInstance";
 import "./styles.css";
 import Spinner from "../../components/Spinner/Spinner";
+import GameGrid from "../../components/GameGrid/GameGrid";
+import Token from "../../components/Token";
 
 const DailyPuzzle = () => {
 	const [gameData, setGameData] = useState({});
+	const [gameHistoryId, setGameHistoryId] = useState("");
 	const [noGame, setNoGame] = useState(null);
 
+	const { token, removeToken, setToken } = Token();
+
 	const getGame = async () => {
-		await apiInstance
-			.get("/game/normal/2")
-			.then((res) => {
-				const data = res.data;
-				setGameData(data);
-				setNoGame(false);
-			})
-			.catch((error) => {
-				setNoGame(true);
-			});
+		if (token === null) {
+			await apiInstance
+				.get("/game/normalpuzzle/2")
+				.then((res) => {
+					const data = res.data.game_data;
+					setGameData(data);
+					setGameHistoryId(res.data.game_history_id);
+					setNoGame(false);
+				})
+				.catch((error) => {
+					setNoGame(true);
+				});
+		} else {
+			await authApiInstance
+				.get("/game/normalpuzzle/2")
+				.then((res) => {
+					const data = res.data.game_data;
+					setGameData(data);
+					setGameHistoryId(res.data.game_history_id);
+					setNoGame(false);
+				})
+				.catch((error) => {
+					setNoGame(true);
+				});
+		}
 	};
 
 	useEffect(() => {
@@ -45,6 +65,8 @@ const DailyPuzzle = () => {
 						words={gameData.words}
 						level={gameData.level}
 						type={gameData.type}
+						gameHistoryId={gameHistoryId}
+						token={token}
 					/>
 				</>
 			)}

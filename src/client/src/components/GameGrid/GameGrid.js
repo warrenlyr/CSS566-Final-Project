@@ -1,19 +1,31 @@
 import React, { useEffect, useState } from "react";
-import "./styles.css";
+import { useNavigate } from "react-router-dom";
+import { apiInstance } from "../../services/apiInstance";
+import { authApiInstance } from "../../services/authApiInstance";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "./styles.css";
 import BoardSquare from "../BoardSquare/BoardSquare";
 import Timer from "../Timer/Timer";
 import Modal from "../Modal/modal";
 import Leaderboard from "../LeaderBoard/leaderboard";
 import Button from "../Button/Button";
 
-const GameGrid = ({ puzzle, size, words, level, type }) => {
+const GameGrid = ({
+	puzzle,
+	size,
+	words,
+	level,
+	type,
+	gameHistoryId,
+	token,
+}) => {
 	const [selectedBlocks, setSelectedBlocks] = useState([]);
 	const [guessedWords, setGuessedWords] = useState([]);
 	const [openedLetters, setOpenedLetters] = useState([]);
 	const [time, setTime] = useState(0);
-	const [wrongAttempts, setWrongAttempts] = useState(0);
+	const [numberOfAttempts, setNumberOfAttempts] = useState(0);
+	const [finishedGameData, setFinishedGameData] = useState({});
 
 	const [canContinue, setCanContinue] = useState(true);
 	const [openLeaderboard, setOpenLeaderboard] = useState(false);
@@ -36,7 +48,11 @@ const GameGrid = ({ puzzle, size, words, level, type }) => {
 				if (
 					selectedBlocks.some((block) => block.row === row && block.col === col)
 				) {
-					toast.info("Letter already selected");
+					setSelectedBlocks(
+						selectedBlocks.filter(
+							(block) => block.row !== row || block.col !== col
+						)
+					);
 				} else {
 					toast.info("Maximum amount of letters selected");
 				}
@@ -74,6 +90,7 @@ const GameGrid = ({ puzzle, size, words, level, type }) => {
 		const prevOpenedLetters = openedLetters;
 		const newArray = openedLetters.concat(selectedBlocks);
 		setOpenedLetters(newArray);
+		setNumberOfAttempts(numberOfAttempts + 1);
 
 		if (words.includes(word)) {
 			setGuessedWords([...guessedWords, word]);
@@ -82,7 +99,6 @@ const GameGrid = ({ puzzle, size, words, level, type }) => {
 		} else {
 			const closeTime = level === 1 || level === 3 ? 3000 : 4000;
 			setCanContinue(false);
-			setWrongAttempts(wrongAttempts + 1);
 			toast.error("Wrong word, Try again", {
 				autoClose: closeTime,
 			});
@@ -139,9 +155,38 @@ const GameGrid = ({ puzzle, size, words, level, type }) => {
 		return neighbors;
 	};
 
-	const endGame = () => {
-		setIsOpen(true);
+	const endGame = async () => {
 		setStopTimer(true);
+		const data = {
+			time_elapsed: time,
+			attemps: numberOfAttempts,
+		};
+		if (token === null) {
+			await apiInstance
+				.post(`/game/finish/${gameHistoryId}`, data)
+				.then((res) => {
+					setFinishedGameData(res.data);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		} else {
+			await authApiInstance
+				.post(`/game/finish/${gameHistoryId}`, data)
+				.then((res) => {
+					setFinishedGameData(res.data);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		}
+		setIsOpen(true);
+	};
+
+	let navigate = useNavigate();
+	const handleModalClose = () => {
+		setIsOpen(false);
+		navigate("/");
 	};
 
 	useEffect(() => {
@@ -250,19 +295,36 @@ const GameGrid = ({ puzzle, size, words, level, type }) => {
 				</div>
 			</div>
 
-			<Modal open={isOpen} onClose={() => setIsOpen(false)}>
-				<div className="modalTitle">Puzzle Solved!</div>
-				<p>Great job, you have solved the daily Puzzle!</p>
-				<div className="score">
-					Your time:{" "}
-					<span className="digits">
-						{("0" + Math.floor((time / 60000) % 60)).slice(-2)}:
-						{("0" + Math.floor((time / 1000) % 60)).slice(-2)}
-					</span>
-				</div>
-				<div>Wrong attempts {wrongAttempts}</div>
-				<button>Share my score</button>
-				<button>Share my score anonymously</button>
+			<Modal open={isOpen} onClose={handleModalClose}>
+				{finishedGameData.error && finishedGameData.score === 0 ? (
+					<>
+						<div className="modalTitle">Uh Oh!</div>
+						<p className="gameEndText">{finishedGameData.error}</p>
+						<div className="score">Your score: {finishedGameData.score}</div>
+					</>
+				) : (
+					<>
+						<div className="modalTitle">Puzzle Solved!</div>
+						<p className="gameEndText">
+							Great job, you have solved the Daily Puzzle!
+						</p>
+						<div className="score">Your score: {finishedGameData.score}</div>
+						<Button
+							additionalStyles={"boardButton"}
+							type={"button"}
+							handleClick={() => alert("shared")}
+						>
+							Share my score
+						</Button>
+						<Button
+							additionalStyles={"boardButton"}
+							type={"button"}
+							handleClick={() => alert("shared")}
+						>
+							Share my score anonymously
+						</Button>
+					</>
+				)}
 			</Modal>
 			<ToastContainer
 				position="top-right"
