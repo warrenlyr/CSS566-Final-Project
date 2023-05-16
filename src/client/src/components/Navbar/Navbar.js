@@ -6,13 +6,10 @@ import "./styles.css";
 import Modal from "../Modal/modal";
 import Login from "../Login/Login";
 import Button from "../Button/Button";
-import Token from "../Token";
 import { apiInstance } from "../../services/apiInstance";
 import { authApiInstance } from "../../services/authApiInstance";
 
-const Navbar = () => {
-	const { token, removeToken, setToken } = Token();
-
+const Navbar = ({ token, removeToken, setToken }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [user, setUser] = useState("");
 

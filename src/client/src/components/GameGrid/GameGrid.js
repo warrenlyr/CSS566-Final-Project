@@ -193,7 +193,8 @@ const GameGrid = ({
 		if (guessedWords.length === words.length) {
 			endGame();
 		}
-	}, [guessedWords]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [guessedWords, words]);
 
 	return (
 		<>
@@ -309,17 +310,19 @@ const GameGrid = ({
 							Great job, you have solved the Daily Puzzle!
 						</p>
 						<div className="score">Your score: {finishedGameData.score}</div>
+						{token !== null ? (
+							<Button
+								additionalStyles={"shareButton"}
+								type={"button"}
+								handleClick={() => alert("shared with username")}
+							>
+								Share my score
+							</Button>
+						) : null}
 						<Button
-							additionalStyles={"boardButton"}
+							additionalStyles={"shareButton"}
 							type={"button"}
-							handleClick={() => alert("shared")}
-						>
-							Share my score
-						</Button>
-						<Button
-							additionalStyles={"boardButton"}
-							type={"button"}
-							handleClick={() => alert("shared")}
+							handleClick={() => alert("shared anonymously")}
 						>
 							Share my score anonymously
 						</Button>

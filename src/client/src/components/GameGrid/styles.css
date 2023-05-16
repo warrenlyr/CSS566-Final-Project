@@ -10,6 +10,7 @@
 	flex-wrap: wrap;
 	justify-content: center;
 	gap: 1em;
+	margin-bottom: 20px;
 }
 
 .wordsContainer {
@@ -74,6 +75,7 @@
 }
 
 .gameEndText {
+	text-align: center;
 	color: black;
 }
 
@@ -83,18 +85,17 @@
 	font-weight: 500;
 }
 
+.shareButton {
+	width: 100%;
+	font-size: 12px;
+	border-radius: 10px;
+	padding: 10px;
+	margin: 10px 0 0 0;
+	text-align: center;
+}
+
 @media only screen and (max-width: 700px) {
 	.gameWordsContainter {
 		margin-left: 0%;
-	}
-}
-
-@media only screen and (max-width: 850px) {
-	.leadearboardButton {
-		margin-top: 50px;
-	}
-
-	.dailyLeaderboard {
-		height: 5%;
 	}
 }

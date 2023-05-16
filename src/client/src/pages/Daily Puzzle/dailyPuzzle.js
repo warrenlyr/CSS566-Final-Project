@@ -4,14 +4,11 @@ import { authApiInstance } from "../../services/authApiInstance";
 import "./styles.css";
 import Spinner from "../../components/Spinner/Spinner";
 import GameGrid from "../../components/GameGrid/GameGrid";
-import Token from "../../components/Token";
 
-const DailyPuzzle = () => {
+const DailyPuzzle = ({ token }) => {
 	const [gameData, setGameData] = useState({});
 	const [gameHistoryId, setGameHistoryId] = useState("");
 	const [noGame, setNoGame] = useState(null);
-
-	const { token, removeToken, setToken } = Token();
 
 	const getGame = async () => {
 		if (token === null) {
@@ -43,6 +40,7 @@ const DailyPuzzle = () => {
 
 	useEffect(() => {
 		getGame();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (

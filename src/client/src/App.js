@@ -6,14 +6,20 @@ import DailyPuzzle from "./pages/Daily Puzzle/dailyPuzzle";
 import CustomizePage from "./pages/Design Puzzle/customize";
 import NotFound from "./pages/notFound";
 import Register from "./pages/Register Page/register";
+import Token from "./components/Token";
 
 function App() {
+	const { token, removeToken, setToken } = Token();
+
 	return (
 		<Router>
-			<Navbar />
+			<Navbar token={token} removeToken={removeToken} setToken={setToken} />
 			<Routes>
 				<Route exact path="/" element={<LandingPage />} />
-				<Route path="/game/dailypuzzle" element={<DailyPuzzle />} />
+				<Route
+					path="/game/dailypuzzle"
+					element={<DailyPuzzle token={token} />}
+				/>
 				<Route path="/game/designpuzzle" element={<CustomizePage />} />
 				<Route path="/register" element={<Register />} />
 				<Route path="*" element={<NotFound />} />
