@@ -5,17 +5,18 @@ import "react-toastify/dist/ReactToastify.css";
 import BoardSquare from "../BoardSquare/BoardSquare";
 import Timer from "../Timer/Timer";
 import Modal from "../Modal/modal";
-import Leaderboardlanding from "../LeaderBoard/leaderboard";
+import Leaderboard from "../LeaderBoard/leaderboard";
 import Button from "../Button/Button";
 
-const GameGrid = ({ puzzle, size, words, level }) => {
+const GameGrid = ({ puzzle, size, words, level, type }) => {
 	const [selectedBlocks, setSelectedBlocks] = useState([]);
-	const [remainingWords, setRemainingWords] = useState(words);
+	const [guessedWords, setGuessedWords] = useState([]);
 	const [openedLetters, setOpenedLetters] = useState([]);
 	const [time, setTime] = useState(0);
 	const [wrongAttempts, setWrongAttempts] = useState(0);
 
 	const [canContinue, setCanContinue] = useState(true);
+	const [openLeaderboard, setOpenLeaderboard] = useState(false);
 	const [isOpen, setIsOpen] = useState(false);
 	const [stopTimer, setStopTimer] = useState(false);
 
@@ -74,8 +75,8 @@ const GameGrid = ({ puzzle, size, words, level }) => {
 		const newArray = openedLetters.concat(selectedBlocks);
 		setOpenedLetters(newArray);
 
-		if (remainingWords.includes(word)) {
-			setRemainingWords((wordsLeft) => wordsLeft.filter((w) => w !== word));
+		if (words.includes(word)) {
+			setGuessedWords([...guessedWords, word]);
 			toast.success(`Word found, ${word}`);
 			handleClear();
 		} else {
@@ -144,86 +145,111 @@ const GameGrid = ({ puzzle, size, words, level }) => {
 	};
 
 	useEffect(() => {
-		if (remainingWords.length === 0) {
+		if (guessedWords.length === words.length) {
 			endGame();
 		}
-	}, [remainingWords]);
+	}, [guessedWords]);
 
 	return (
 		<>
 			<div className="gameContainer">
-				<div className="wordsContainer">
-					<div>Words to find</div>
-					{remainingWords.map((word) => {
-						return (
-							<div className="gameWord" key={word}>
-								{word}
-							</div>
-						);
-					})}
-				</div>
-				<div className="game">
-					<div className="gameFunctions">
-						<Timer stopTimer={stopTimer} time={time} setTime={setTime} />
-						<span className="blockSelect">
-							{selectedBlocks.length} selected
-						</span>
-					</div>
-					<div className="puzzleBoard">
-						{puzzle.map((row, rowIndex) => {
+				<div className="gameWordsContainter">
+					<div className="wordsContainer">
+						<div>WORDS TO FIND</div>
+						<br />
+						{words.map((word) => {
 							return (
-								<div className="boardRow" key={rowIndex}>
-									{row.map((letter, colIndex) => {
-										return (
-											<BoardSquare
-												key={`${rowIndex}-${colIndex}`}
-												letter={letter}
-												row={rowIndex}
-												col={colIndex}
-												handleClick={handleClick}
-												clicked={
-													canContinue
-														? selectedBlocks.some(
-																(b) =>
-																	b.row === rowIndex &&
-																	b.col === colIndex &&
-																	b.letter === letter
-														  )
-														: false
-												}
-												opened={openedLetters.some(
-													(b) =>
-														b.row === rowIndex &&
-														b.col === colIndex &&
-														b.letter === letter
-												)}
-												level={level}
-											/>
-										);
-									})}
+								<div
+									className={`${
+										guessedWords.includes(word) ? "guessedWord" : null
+									} gameWord`}
+									key={word}
+								>
+									{word}
 								</div>
 							);
 						})}
 					</div>
-					<div className="boardButtons">
-						<Button
-							additionalStyles={"boardButton"}
-							buttonType={"button"}
-							handleClick={handleConfirm}
-						>
-							Confirm
-						</Button>
-						<Button
-							additionalStyles={"boardButton"}
-							buttonType={"button"}
-							handleClick={handleClear}
-						>
-							Clear
-						</Button>
+					<div className="game">
+						<div className="gameFunctions">
+							<Timer stopTimer={stopTimer} time={time} setTime={setTime} />
+							<span className="blockSelect">
+								{selectedBlocks.length} selected
+							</span>
+						</div>
+						<div className="puzzleBoard">
+							{puzzle.map((row, rowIndex) => {
+								return (
+									<div className="boardRow" key={rowIndex}>
+										{row.map((letter, colIndex) => {
+											return (
+												<BoardSquare
+													key={`${rowIndex}-${colIndex}`}
+													letter={letter}
+													row={rowIndex}
+													col={colIndex}
+													handleClick={handleClick}
+													clicked={
+														canContinue
+															? selectedBlocks.some(
+																	(b) =>
+																		b.row === rowIndex &&
+																		b.col === colIndex &&
+																		b.letter === letter
+															  )
+															: false
+													}
+													opened={openedLetters.some(
+														(b) =>
+															b.row === rowIndex &&
+															b.col === colIndex &&
+															b.letter === letter
+													)}
+													level={level}
+												/>
+											);
+										})}
+									</div>
+								);
+							})}
+						</div>
+						<div className="boardButtons">
+							<Button
+								additionalStyles={"boardButton"}
+								buttonType={"button"}
+								handleClick={handleConfirm}
+							>
+								Confirm
+							</Button>
+							<Button
+								additionalStyles={"boardButton"}
+								buttonType={"button"}
+								handleClick={handleClear}
+							>
+								Clear
+							</Button>
+						</div>
 					</div>
 				</div>
-				<Leaderboardlanding />
+
+				<div className="dailyLeaderboard">
+					<Button
+						additionalStyles={"leadearboardButton"}
+						type={"button"}
+						handleClick={() => setOpenLeaderboard(!openLeaderboard)}
+					>
+						{openLeaderboard ? "Close leaderboard" : "Open Leaderboard"}
+					</Button>
+					<Leaderboard
+						styles={`${
+							!openLeaderboard ? "hideLeaderboard" : null
+						} leaderboardStyles`}
+						type={type}
+						level={level}
+					/>
+				</div>
 			</div>
+
 			<Modal open={isOpen} onClose={() => setIsOpen(false)}>
 				<div className="modalTitle">Puzzle Solved!</div>
 				<p>Great job, you have solved the daily Puzzle!</p>

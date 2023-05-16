@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./styles.css";
 import Button from "../../components/Button/Button";
-import Leaderboardlanding from "../../components/LeaderBoard/leaderboard";
+import Leaderboard from "../../components/LeaderBoard/leaderboard";
 import GameHistory from "../../components/Game History/gameHistory";
 
 const LandingPage = () => {
@@ -10,7 +10,11 @@ const LandingPage = () => {
 		<>
 			<div className="pageTitle">"Word Game Name"</div>
 			<div className="landingContainer">
-				<Leaderboardlanding type={"todaysrewards"} level={2} />
+				<Leaderboard
+					styles={"landingLeaderboard"}
+					type={"todaysrewards"}
+					level={2}
+				/>
 				<GameHistory />
 			</div>
 			<div className="gameButtons">

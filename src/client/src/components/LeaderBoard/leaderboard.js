@@ -3,7 +3,7 @@ import "./styles.css";
 import Button from "../../components/Button/Button";
 import { apiInstance } from "../../services/apiInstance";
 
-const Leaderboardlanding = ({ type, level }) => {
+const Leaderboard = ({ styles, type, level }) => {
 	const [leaderboardData, setLeaderboardData] = useState([]);
 	const [refreshClicked, setRefreshClicked] = useState(false);
 
@@ -31,7 +31,7 @@ const Leaderboardlanding = ({ type, level }) => {
 	};
 
 	return (
-		<div className="leaderboardContainer">
+		<div className={`leaderboardContainer ${styles}`}>
 			<div className="leaderboardheader">
 				<div className="leaderboardTitle">Leaderboard</div>
 				<Button
@@ -61,4 +61,4 @@ const Leaderboardlanding = ({ type, level }) => {
 	);
 };
 
-export default Leaderboardlanding;
+export default Leaderboard;

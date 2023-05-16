@@ -15,9 +15,13 @@
 	margin-bottom: 100px;
 }
 
+.landingLeaderboard {
+	margin-right: 30px;
+}
+
 .gameButtons {
 	display: flex;
-	align-items: end;
+	align-items: center;
 	justify-content: center;
 }
 

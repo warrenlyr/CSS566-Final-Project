@@ -10,7 +10,7 @@ const DailyPuzzle = () => {
 
 	const getGame = async () => {
 		await apiInstance
-			.get("/game/normal/3")
+			.get("/game/normal/2")
 			.then((res) => {
 				const data = res.data;
 				setGameData(data);
@@ -44,6 +44,7 @@ const DailyPuzzle = () => {
 						size={gameData.size}
 						words={gameData.words}
 						level={gameData.level}
+						type={gameData.type}
 					/>
 				</>
 			)}
