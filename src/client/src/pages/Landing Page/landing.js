@@ -20,7 +20,7 @@ const LandingPage = () => {
 			<div className="gameButtons">
 				<Link to="/game/normalgame">
 					<Button additionalStyles={"buttons"} buttonType={"button"}>
-						Normal Game
+						Normal Puzzle
 					</Button>
 				</Link>
 				<Link to="/game/dailypuzzle">
