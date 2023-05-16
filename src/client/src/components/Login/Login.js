@@ -2,6 +2,7 @@ import { React, useState } from "react";
 import "./styles.css";
 import { Link } from "react-router-dom";
 import { apiInstance } from "../../services/apiInstance";
+import Button from "../Button/Button";
 
 const Login = ({ onClose, setToken }) => {
 	const [username, setUsername] = useState("");
@@ -57,10 +58,17 @@ const Login = ({ onClose, setToken }) => {
 				<Link to={"./forgot"} onClick={onClose} className="forgotLink">
 					Forgot Password?
 				</Link>
-				<button type="submit" className="defaultButton formButton">
+				<Button type={"submit"} additionalStyles={"formButton"}>
 					SIGN IN
-				</button>
+				</Button>
 			</form>
+			<span className="guestText">Or</span>
+			<button
+				className="guestButton"
+				onClick={() => alert("Continue as Guest")}
+			>
+				Continue as a guest
+			</button>
 			<hr className="lineBreak" />
 			<div className="register">
 				Not a member?{" "}
