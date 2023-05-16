@@ -69,7 +69,7 @@ class Game:
 
             # extract the puzzle, words, and key
             puzzle = game.puzzle
-            words = [w.text for w in game.words]
+            words = [w for w in game.key]
             key = [
                 {
                     'word': k,
@@ -79,7 +79,7 @@ class Game:
                 }
                 for k in game.key
             ]
-
+            
             return puzzle, words, key
         except Exception as e:
             raise e
@@ -232,12 +232,12 @@ class Game:
         if level not in [1, 2, 3]:
             raise ValueError('Invalid level. Must be 1, 2, or 3.')
         
-        # get a random game from the database
+        # get a random game from the database of type 'normal'
         # exclude the created_by, created_at, customized, and key fields
         if current_game_id:
             try:
                 game = self._collection.find_one(
-                    {'level': level, '_id': {'$ne': ObjectId(current_game_id)}},
+                    {'level': level, 'type': 'normal', '_id': {'$ne': ObjectId(current_game_id)}},
                     {'created_by': 0, 'customized': 0, 'created_at': 0, 'key': 0}
                 )
             except:
@@ -304,6 +304,46 @@ class Game:
             game['_id'] = str(game['_id'])
 
         return game
+    
+    def validate(self, id: str):
+        '''
+        Validate if a game exists in the database by the given id.
+
+        Args:
+            id: The id of the game.
+
+        Returns:
+            True if the game exists.
+            False if the game does not exist.
+        '''
+        try:
+            if self._collection.find_one({'_id': ObjectId(id)}):
+                return True
+            else:
+                return False
+        except:
+            return False
+        
+    def get_game_level(self, id: str):
+        '''
+        Get the level of a game by the given id.
+
+        Args:
+            id: The id of the game.
+
+        Returns:
+            The level of the game.
+            None if no game is found.
+        '''
+        try:
+            game = self._collection.find_one({'_id': ObjectId(id)})
+        except:
+            game = None
+        
+        if game:
+            return game['level']
+        else:
+            return None
 
         
 
@@ -339,9 +379,9 @@ if __name__ == '__main__':
     # )
 
     # test create todays reward game
-    # game = Game()
-    # status, error = game.create_todays_reward_game()
-    # print(status, error)
+    game = Game()
+    status, error = game.create_todays_reward_game()
+    print(status, error)
 
     # test create random game
     # game = Game()
@@ -361,5 +401,9 @@ if __name__ == '__main__':
     # print(game.get_todays_reward_game())
 
     # test get key of a game
-    game = Game()
-    print(game.get_key_of_a_game('645b3922f60f61e02f80e740'))
+    # game = Game()
+    # print(game.get_key_of_a_game('645b3922f60f61e02f80e740'))
+
+    # test validate
+    # game = Game()
+    # print(game.validate('645ca867e442f82fc0cbc8f4'))
