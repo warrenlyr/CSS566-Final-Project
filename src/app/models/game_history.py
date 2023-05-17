@@ -192,15 +192,18 @@ if __name__ == '__main__':
     # )
 
     # test finish
-    print(
-        history.finish(
-            game_history_id='646189eeebce2ec75c785857',
-            time_elapsed='20000',
-            attemps=26
-        )
-    )
+    # print(
+    #     history.finish(
+    #         game_history_id='646189eeebce2ec75c785857',
+    #         time_elapsed='20000',
+    #         attemps=26
+    #     )
+    # )
     
 
     # test calculate score
     # print(history._calculate_score(3.45*60*1000, 35, 1))
+
+    # clean up
+    history._collection.delete_many({})
     
