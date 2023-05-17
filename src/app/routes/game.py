@@ -39,7 +39,22 @@ def game_get_todays_reward_game():
     identity = get_jwt_identity()
     if identity:
         user = User()
+        # get the user id
         this_user = user.get_id(username=identity)
+
+        # check if the user has played the game today
+        # if played, we return 423 Locked error to prevent the user from playing again
+        if user.check_todays_reward_game_played(identity):
+            return make_response(
+                jsonify(dict(error='You have played today\'s reward game')),
+                423
+            )
+
+        # increase the game played count
+        user.increase_game_played(identity)
+
+        # set the today's reward game played flag
+        user.set_todays_reward_game_played(identity)
 
     game_history = GameHistory()
     history_id = game_history.create(
@@ -124,7 +139,10 @@ def game_get_random_game(level):
     identity = get_jwt_identity()
     if identity:
         user = User()
+        # get the user id
         this_user = user.get_id(username=identity)
+        # increase the game played count
+        user.increase_game_played(identity)
 
     game_history = GameHistory()
     history_id = game_history.create(

@@ -354,6 +354,27 @@ class Game:
             return game['level']
         else:
             return None
+        
+    def get_game_name(self, id: str):
+        '''
+        Get the name of a game by the given id.
+
+        Args:
+            id: The id of the game.
+
+        Returns:
+            The name of the game.
+            None if no game is found.
+        '''
+        try:
+            game = self._collection.find_one({'_id': ObjectId(id)})
+        except:
+            game = None
+
+        if game:
+            return game['name']
+        else:
+            return None
 
         
 

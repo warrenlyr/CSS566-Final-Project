@@ -187,6 +187,11 @@ def auth_user_game_history():
     history = GameHistory()
     game_history = history.get_game_history_of_user(user_id)
 
+    return make_response(
+        jsonify(game_history),
+        200
+    )
+
 
 '''
 Belower are helper functions, above are API endpoints.
