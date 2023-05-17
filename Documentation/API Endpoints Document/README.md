@@ -208,6 +208,64 @@ Success (200)
 }
 ```
 
+### User Game History
+
+`/auth/user/gamehistory`
+
+Get game history of a user.
+
+**Accepted request types**
+
+GET
+
+**Required Header**
+
+- `Authorization: Bearer <access_token>`
+
+**Response**
+
+Success (200)
+
+- `game_id`: ID of the game
+- `game_history_id`: ID of the game history
+- `game_name`: name of the game
+- `start_time`: time the game is requested
+- `end_time`: time the game is requested to finish (may be null if the user has not finished the game or left before finishing)
+- `finished`: if the game is finished
+- `valid_time_elapsed`: if the game is finished, a time_elapsed variable will be sent from the frontend to the backend. The backend server will use the system recorded time_elapsed (the difference between `start_time` and `end_time`) to validate if the time_elapsed from the frontend is valid. If not, we assume the user hacked or cheated on the game, this attribute will be set to true, and score will be marked as 0
+- `attempts`: if the game is finished, the number of attempt the user used
+- `score`: if the game is finished, and the time_elapsed is valid, a score will be calculat
+- 
+
+```json
+[
+    {
+        "attempts": 0,
+        "end_time": null,
+        "finished": false,
+        "game_history_id": "64655ebd0e646d425f3d820d",
+        "game_id": "646550aa7b1545c987e4e41b",
+        "game_name": "Today's Rewards Game 2023-05-17",
+        "score": 0,
+        "start_time": "Wed, 17 May 2023 16:09:49 GMT",
+        "valid_time_elapsed": false
+    },
+    {
+        "attempts": 0,
+        "end_time": null,
+        "finished": false,
+        "game_history_id": "64655ec10e646d425f3d820e",
+        "game_id": "646550aa7b1545c987e4e41c",
+        "game_name": "Level 1 Game 1",
+        "score": 0,
+        "start_time": "Wed, 17 May 2023 16:09:53 GMT",
+        "valid_time_elapsed": false
+    }
+]
+```
+
+
+
 ### Delete Account (Login Required)
 
 `/auth/deleteaccount`
