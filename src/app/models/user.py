@@ -97,7 +97,29 @@ class User:
         data = self._collection.find_one({'username': username}, {'_id': 0, 'password': 0})
         # Covert the MongoDB Date to datetime
         data['registration_date'] = data['registration_date'].isoformat()
+
+        # get game history
+        #TODO
+
         return data
+    
+    def get_id(self, username: str):
+        '''
+        Get the id of a user from the database with the given username.
+        Generally for the frontend to get the user data.
+
+        Username should be validated before calling this method. So we do not need to validate
+        the username in this method.
+
+        Args:
+            username (str): username of the user to get
+        
+        Returns:
+            bson.ObjectId: id of the user
+        '''
+        # get the user from MongoDB
+        data = self._collection.find_one({'username': username})
+        return data['_id']
     
     def remove_user(self, username: str):
         '''
@@ -121,6 +143,49 @@ class User:
             return True, None
         else:
             return False, 'Failed to remove user'
+        
+    def increase_game_played(self, username: str):
+        '''
+        Increase the game_played attribute of a user by 1.
+
+        Username should be validated before calling this method. So we do not need to validate
+        the username in this method.
+
+        Args:
+            username (str): username of the user to increase game_played
+
+        Returns:
+            bool: True if the user is updated successfully, False otherwise
+        '''
+        # increase the game_played attribute by 1
+        result = self._collection.update_one({'username': username}, {'$inc': {'game_played': 1}})
+        # if the user is updated successfully
+        if result.modified_count == 1:
+            return True
+        else:
+            return False
+        
+    def increase_reward_points(self, username: str, reward_points: float):
+        '''
+        Increase the reward_points attribute of a user by the given reward_points.
+
+        Username should be validated before calling this method. So we do not need to validate
+        the username in this method.
+
+        Args:
+            username (str): username of the user to increase reward_points
+            reward_points (float): reward_points to increase
+
+        Returns:
+            bool: True if the user is updated successfully, False otherwise
+        '''
+        # increase the reward_points attribute by the given reward_points
+        result = self._collection.update_one({'username': username}, {'$inc': {'reward_points': reward_points}})
+        # if the user is updated successfully
+        if result.modified_count == 1:
+            return True
+        else:
+            return False
         
 
 

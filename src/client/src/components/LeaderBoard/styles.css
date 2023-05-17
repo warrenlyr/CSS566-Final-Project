@@ -1,35 +1,41 @@
-.Board {
-	display: flex;
-	border: 5px;
-	margin-left: 100px;
-	width: 300px;
-  	height: 500px;
+.leaderboardContainer {
+	display: block;
+	border-radius: 10px;
+	width: 20%;
+	min-width: 350px;
+	height: 500px;
+	box-shadow: 0 7px 30px rgba(62, 9, 11, 0.3);
+	padding: 20px 20px 10px 10px;
+	overflow-y: auto;
 }
-.leaderboard {
-	-webkit-transform: translate(0%, 0%);
-  	transform: translate(0%, 0%);
-  	width: 300px;
-  	height: 500px;
-	margin-left: 100px;
-  	background: -webkit-linear-gradient(top, #9bcb2a, #930eb5);
-  	background: linear-gradient(to bottom, #85b525, #6314b7);
-  	border-radius: 10px;
-  	box-shadow: 0 7px 30px rgba(62, 9, 11, 0.3);
-  	overflow-x: hidden;
-}
-.leaderboardheader {
-	display: flex;	
-	justify-content: space-evenly;
 
+.leaderboardheader {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 15px;
+	flex-wrap: wrap;
 }
+
+.leaderboardTitle {
+	font-size: 30px;
+	font-weight: 500;
+}
+
 .leaderboardrefreshbutton {
-	width: 20px;
-	height: 20%;
-	border: 2px solid rgb(0, 0, 0);
 	font-size: 16px;
 	border-radius: 10px;
 	padding: 4px 12px;
-	background-color: rgb(255, 255, 255);
-	margin-left: 100px;
-	margin-right: 20px;	
+}
+
+.leaderboard {
+	width: 100%;
+}
+
+.leaderboardRow {
+	display: flex;
+	justify-content: space-between;
+}
+
+.username {
+	margin-right: 20px;
 }
