@@ -20,7 +20,7 @@ const DailyPuzzle = ({ token }) => {
 					setGameHistoryId(res.data.game_history_id);
 					setNoGame(false);
 				})
-				.catch((error) => {
+				.catch(() => {
 					setNoGame(true);
 				});
 		} else {
@@ -32,7 +32,7 @@ const DailyPuzzle = ({ token }) => {
 					setGameHistoryId(res.data.game_history_id);
 					setNoGame(false);
 				})
-				.catch((error) => {
+				.catch(() => {
 					setNoGame(true);
 				});
 		}
@@ -40,7 +40,6 @@ const DailyPuzzle = ({ token }) => {
 
 	useEffect(() => {
 		getGame();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
