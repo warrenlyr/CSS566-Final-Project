@@ -175,6 +175,28 @@ class GameHistory:
             return True, score if valid_time_elapsed else 0, None if valid_time_elapsed else 'Invalid time elapsed (cheating) detected'
         except Exception as e:
             return False, 0, str(e)
+        
+    def get_game_history_of_user(self, user_id: str):
+        '''
+        Get all the game histories of the given user.
+
+        Args:
+            user_id (str): user id of the user
+
+        Returns:
+            list: list of game histories of the user
+        '''
+        game_history = list(self._collection.find({'user_id': bson.ObjectId(user_id)}, {'user_id': 0}))
+
+        # convert the ObjectId to str
+        for gh in game_history:
+            # rename the _id to game_history_id and remove the _id
+            gh['game_history_id'] = str(gh['_id'])
+            del gh['_id']
+
+            gh['game_id'] = str(gh['game_id'])
+
+        return game_history 
 
             
 
@@ -205,5 +227,8 @@ if __name__ == '__main__':
     # print(history._calculate_score(3.45*60*1000, 35, 1))
 
     # clean up
-    history._collection.delete_many({})
+    # history._collection.delete_many({})
+
+    # test get game history of user
+    print(history.get_game_history_of_user('645875a9f49e2e790f72eee6'))
     

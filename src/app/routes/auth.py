@@ -10,7 +10,7 @@ from datetime import datetime
 import json
 
 from app import app, API_URL_PREFIX
-from app.models import User
+from app.models import User, GameHistory
 
 
 @app.route(API_URL_PREFIX + '/status', methods=['GET'])
@@ -83,24 +83,6 @@ def auth_logout():
     )
 
 
-@app.route(API_URL_PREFIX + '/auth/profile', methods=['GET'])
-@jwt_required()
-def auth_user_profile():
-    '''
-    Return the user profile.
-    '''
-    # get the user identity
-    user_identity = get_jwt_identity()
-
-    user = User()
-    user_profile = user.get_profile(user_identity)
-
-    return make_response(
-        jsonify(user_profile),
-        200
-    )
-
-
 @app.route(API_URL_PREFIX + '/auth/register', methods=['POST'])
 def auth_register():
     '''
@@ -158,6 +140,52 @@ def auth_delete_account():
         jsonify(dict(message='User deleted successfully')),
         200
     )
+
+
+@app.route(API_URL_PREFIX + '/auth/user/profile', methods=['GET'])
+@jwt_required()
+def auth_user_profile():
+    '''
+    Return the user profile.
+    '''
+    # get the user identity
+    user_identity = get_jwt_identity()
+    if not user_identity:
+        return make_response(
+            jsonify(dict(error='Invalid user identity')),
+            401
+        )
+
+    user = User()
+    user_profile = user.get_profile(user_identity)
+
+    return make_response(
+        jsonify(user_profile),
+        200
+    )
+
+
+@app.route(API_URL_PREFIX + '/auth/user/gamehistory', methods=['GET'])
+@jwt_required()
+def auth_user_game_history():
+    '''
+    Get the user game history.
+    '''
+    # get the user identity
+    user_identity = get_jwt_identity()
+    if not user_identity:
+        return make_response(
+            jsonify(dict(error='Invalid user identity')),
+            401
+        )
+    
+    # get user id
+    user = User()
+    user_id = user.get_id(user_identity)
+
+    # get game history related to the user
+    history = GameHistory()
+    game_history = history.get_game_history_of_user(user_id)
 
 
 '''
