@@ -97,6 +97,10 @@ class User:
         data = self._collection.find_one({'username': username}, {'_id': 0, 'password': 0})
         # Covert the MongoDB Date to datetime
         data['registration_date'] = data['registration_date'].isoformat()
+
+        # get game history
+        #TODO
+
         return data
     
     def get_id(self, username: str):
