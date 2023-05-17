@@ -193,7 +193,6 @@ const GameGrid = ({
 		if (guessedWords.length === words.length) {
 			endGame();
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [guessedWords, words]);
 
 	return (
@@ -238,11 +237,11 @@ const GameGrid = ({
 													clicked={
 														canContinue
 															? selectedBlocks.some(
-																	(b) =>
-																		b.row === rowIndex &&
-																		b.col === colIndex &&
-																		b.letter === letter
-															  )
+																(b) =>
+																	b.row === rowIndex &&
+																	b.col === colIndex &&
+																	b.letter === letter
+															)
 															: false
 													}
 													opened={openedLetters.some(

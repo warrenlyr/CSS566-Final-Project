@@ -1,5 +1,6 @@
 import { React, useState } from "react";
 import "./styles.css";
+import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 import { apiInstance } from "../../services/apiInstance";
 import Button from "../Button/Button";
@@ -24,7 +25,7 @@ const Login = ({ onClose, setToken }) => {
 				setWrong(false);
 				onClose();
 			})
-			.catch((error) => {
+			.catch(() => {
 				setWrong(true);
 			});
 		e.preventDefault();
