@@ -1,31 +1,31 @@
 import React, { useEffect, useState } from "react";
 import "./styles.css";
-import Button from "../../components/Button/Button";
 import { apiInstance } from "../../services/apiInstance";
 
-const GameHistory = ({styles, type, level}) => {
+const GameHistory = ({ styles, type, level }) => {
 	const [gameHistoryData, setGameHistoryData] = useState([]);
-	
-	useEffect(() => {fetchData();});
 
-	const fetchData = async() => {
+	useEffect(() => {
+		fetchData();
+	});
+
+	const fetchData = async () => {
 		let path = "";
-		if(type === "todaysrewards"){
+		if (type === "todaysrewards") {
 			path = "/gameHistory/todaysrewardgame";
-		}
-		else{
+		} else {
 			path = `/game/level/${level}`;
 		}
 		await apiInstance
-		.get(path)
-		.then((res) => {
-			const data = res.data.data;
-			console.log(data);
-			setGameHistoryData(data);
-		})
-		.catch((error) => {
-			console.log(error);
-		});
+			.get(path)
+			.then((res) => {
+				const data = res.data.data;
+				console.log(data);
+				setGameHistoryData(data);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 	};
 
 	// const dummyHistory = [
@@ -57,13 +57,13 @@ const GameHistory = ({styles, type, level}) => {
 	// ];
 
 	return (
-		<div className= {`gameHistoryContainer ${styles}`}>
+		<div className={`gameHistoryContainer ${styles}`}>
 			<div className="gameHistoryTitle">User History</div>
 			<table>
 				<tbody>
 					{gameHistoryData.map((el) => {
 						return (
-							<tr className = "gameHistoryItem">
+							<tr className="gameHistoryItem" key={el.item}>
 								<td className="item">{el.item}</td>
 								<td className="detail">{el.detail}</td>
 							</tr>
