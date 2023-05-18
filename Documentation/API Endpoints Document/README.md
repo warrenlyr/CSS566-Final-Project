@@ -233,9 +233,8 @@ Success (200)
 - `end_time`: time the game is requested to finish (may be null if the user has not finished the game or left before finishing)
 - `finished`: if the game is finished
 - `valid_time_elapsed`: if the game is finished, a time_elapsed variable will be sent from the frontend to the backend. The backend server will use the system recorded time_elapsed (the difference between `start_time` and `end_time`) to validate if the time_elapsed from the frontend is valid. If not, we assume the user hacked or cheated on the game, this attribute will be set to true, and score will be marked as 0
-- `attempts`: if the game is finished, the number of attempt the user used
-- `score`: if the game is finished, and the time_elapsed is valid, a score will be calculat
-- 
+- `attempts`: if the game is finished, the number of attempts the user used
+- `score`: if the game is finished, and the time_elapsed is valid, a score will be calculated
 
 ```json
 [
@@ -263,8 +262,6 @@ Success (200)
     }
 ]
 ```
-
-
 
 ### Delete Account (Login Required)
 
@@ -658,7 +655,7 @@ Failed
 
 ### Today's Reward Game
 
-`/leaderboards/todaysrewardgame`
+`/leaderboards/dailypuzzle`
 
 Get leaderboard data of today's reward game.
 
@@ -688,7 +685,7 @@ GET
 
 ### Normal Game
 
-`/game/level/<level>`
+`/leaderboards/normalpuzzle/<game_id>`
 
 e.g. `/game/level/1`
 

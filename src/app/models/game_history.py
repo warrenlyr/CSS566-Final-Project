@@ -203,6 +203,20 @@ class GameHistory:
                 gh['game_name'] = game.get_game_name(gh['game_id'])
 
         return game_history 
+    
+    def validate(self, game_history_id: str):
+        '''
+        Validate if the game history exists.
+
+        Args:
+            game_history_id (str): game history id of the game history to validate
+
+        Returns:
+            bool: True if the game history exists, False otherwise
+        '''
+        if not self._collection.find_one({'_id': bson.ObjectId(game_history_id)}):
+            return False
+        return True
 
             
 

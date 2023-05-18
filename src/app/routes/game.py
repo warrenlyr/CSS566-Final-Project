@@ -230,6 +230,14 @@ def finish_game(game_history_id: str):
             400
         )
     
+    # validate if the game history exists
+    game_history = GameHistory()
+    if not game_history.validate(game_history_id):
+        return make_response(
+            jsonify(dict(error='Game history not found')),
+            404
+        )
+    
     # get data from request body
     try:
         data = request.get_json()
@@ -272,8 +280,6 @@ def finish_game(game_history_id: str):
         )
     
     # finish the game
-    game_history = GameHistory()
-    
     finished, score, msg = game_history.finish(
         game_history_id=game_history_id,
         time_elapsed=time_elapsed,
@@ -300,6 +306,49 @@ def finish_game(game_history_id: str):
                 jsonify(dict(status=finished, score=score, error=msg)),
                 200
             )
-    
+        
 
+@app.route(API_URL_PREFIX + '/game/sharescore/<game_history_id>', methods=['POST'])
+@jwt_required()
+def game_share_score_to_leaderboard(game_history_id: str):
+    '''
+    When a game is finished and a score is calculated scuuessfully,
+    we give users an option to share their score to the leaderboard.
+    They can either share anonymously or share with their username.
+
+    This function can only be called when the user is logged in.
+    So the user id is retrieved from the JWT token.
+
+    Game history id is provided in the URL path.
+    '''
+    # validate and convert game_history_id to string
+    if game_history_id:
+        try:
+            game_history_id = str(game_history_id)
+        except Exception as e:
+            return make_response(
+                jsonify(dict(error='Game history id must be a string')),
+                400
+            )
+    else:
+        return make_response(
+            jsonify(dict(error='Game history id is required in the path: /game/finish/<game_history_id>')),
+            400
+        )
+    
+    # validate if the game history exists
+    game_history = GameHistory()
+    if not game_history.validate(game_history_id):
+        return make_response(
+            jsonify(dict(error='Game history not found')),
+            404
+        )
+    
+    # get user id from JWT token
+    this_user = get_jwt_identity()
+    if not this_user:
+        return make_response(
+            jsonify(dict(error='User not found')),
+            404
+        )
 

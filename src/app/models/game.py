@@ -219,7 +219,27 @@ class Game:
 
         status, error = self.create_random_game(level=2, type='todaysrewards')
         return status, error
+        
+    def validate(self, id: str):
+        '''
+        Validate if a game exists in the database by the given id.
+
+        Args:
+            id: The id of the game.
+
+        Returns:
+            True if the game exists.
+            False if the game does not exist.
+        '''
+        try:
+            if self._collection.find_one({'_id': ObjectId(id)}):
+                return True
+            else:
+                return False
+        except:
+            return False
     
+
     '''
     Below are getter functions for the game collection.
     '''
@@ -314,25 +334,6 @@ class Game:
             game['_id'] = str(game['_id'])
 
         return game
-    
-    def validate(self, id: str):
-        '''
-        Validate if a game exists in the database by the given id.
-
-        Args:
-            id: The id of the game.
-
-        Returns:
-            True if the game exists.
-            False if the game does not exist.
-        '''
-        try:
-            if self._collection.find_one({'_id': ObjectId(id)}):
-                return True
-            else:
-                return False
-        except:
-            return False
         
     def get_game_level(self, id: str):
         '''
@@ -375,6 +376,13 @@ class Game:
             return game['name']
         else:
             return None
+        
+    def get_all_games(self):
+        '''
+        Get all games from the database.
+        '''
+        games = self._collection.find()
+        return games
 
         
 
