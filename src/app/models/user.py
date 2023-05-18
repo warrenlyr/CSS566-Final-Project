@@ -41,6 +41,7 @@ class User:
             'username': username,
             'password': generate_password_hash(password),
             'registration_date': datetime.now(),
+            'todays_reward_game_played': False, # whether the user has played the reward game today
             'game_played': 0,
             'reward_points': 0
         }
@@ -187,10 +188,71 @@ class User:
         else:
             return False
         
+    def check_todays_reward_game_played(self, username: str):
+        '''
+        Check if the user has played the reward game today.
+
+        Username should be validated before calling this method. So we do not need to validate
+
+        Args:
+            username (str): username of the user to check todays_reward_game_played
+
+        Returns:
+            bool: True if the user has played the reward game today, False otherwise
+        '''
+        # get the user from MongoDB
+        data = self._collection.find_one({'username': username})
+        # if the user has played the reward game today
+        if data['todays_reward_game_played']:
+            return True
+        else:
+            return False
+        
+    def set_todays_reward_game_played(self, username: str):
+        '''
+        Set the todays_reward_game_played attribute of a user to 1.
+
+        Username should be validated before calling this method. So we do not need to validate
+
+        Args:
+            username (str): username of the user to set todays_reward_game_played
+
+        Returns:
+            bool: True if the user is updated successfully, False otherwise
+        '''
+        # set the todays_reward_game_played attribute to 1
+        result = self._collection.update_one({'username': username}, {'$set': {'todays_reward_game_played': True}})
+
+        # if the user is updated successfully
+        if result.modified_count == 1:
+            return True
+        else:
+            return False
+        
+    def clear_all_users_todays_reward_game_played(self):
+        '''
+        Set the todays_reward_game_played attribute of all users to 0.
+
+        Returns:
+            bool: True if the users are updated successfully, False otherwise
+        '''
+        # set the todays_reward_game_played attribute to 0 for all users
+        result = self._collection.update_many({}, {'$set': {'todays_reward_game_played': False}})
+
+        # if the users are updated successfully
+        if result.modified_count > 0:
+            return True
+        else:
+            return False
+
+        
 
 
 if __name__ == '__main__':
     # test the User class
     user = User()
-    # print(user.create('test', 'test'))
+    print(user.create('test', 'test'))
     print(user.validate('test', 'test'))
+
+    # delete all users
+    # user._collection.delete_many({})

@@ -1,4 +1,4 @@
-# Software Design Document
+# Software Design Document v2
 
 CSS 566 Software Management
 
@@ -6,54 +6,33 @@ Spring 2023, University of Washington Bothell
 
 Team: Purple Kitty Squad
 
-Author: Warren Liu (Lead Developer/Architecture)
+Author: Warren Liu (Lead Developer/Architecture/Backend Developer)
 
 Reviewers: 
 
 - Barack Liu (Product Owner)
 - Haihan Jiang (QA Engineer)
-- Shahruz Mannan (Sprint 1 Scrum Master)
-- Amalaye Oyake (Sprint 2 Scrum Master)
-- Arsheya Raj (Designer)
+- Shahruz Mannan (Sprint 1 Scrum Master/Frontend Developer)
+- Amalaye Oyake (Sprint 2 Scrum Master/QA Engineer)
+- Arsheya Raj (Designer/Frontend Developer)
 
-## 1 Introduction
-
-### 1.1 Purpose
+## Overview
 
 As a type of puzzle, word search games—also referred to as word find, word seek, word sleuth, or mystery word games—challenge players to locate words concealed within a grid of letters. Our main objective is to offer a captivating and enjoyable web-based word search gaming experience that appeals to a wide variety of players. By doing so, we hope to boost user engagement on the website hosting the game, as evidenced by the duration of visits and the number of return visits.
 
-The primary objective of this project is to develop a straightforward Word Search game. Instead of emphasizing software development, the project seeks to provide an opportunity to experience the Scrum management framework. We intend to complete this project within 2 sprints in 4 weeks.
+## System Architecture & Design Patterns
 
-### 1.2 Scope
+In this project, we will implement a three-tier client-server architecture. The first tier will be the client, which will be developed using React and JavaScript; the second tier will be the application server, which will be developed using Python, with the microframework Flask; and the third tier will comprise the database, which is MongoDB. Each layer exposes an interface (API) for use by the layers above, with each layer depending solely on the facilities and services of the layer directly beneath it.
 
-The scope of this document covers the design and architecture of a three-tiered client-server application that allows users to play games through a frontend user interface, which contains the game logic, a backend server managing user login/logout, user interaction, and puzzle generation, and a database for storing game data and user information. The key components included in the scope are:
+Due to time constraints and the labor we can use at the moment, we will sacrifice the security of the game so that the game algorithm will be completely developed in JavaScript in the frontend instead of processing the game stage and data in the backend. The game will use a Model-View-Controller (MVC) design pattern to separate the game logic from the presentation and user interaction.
 
-- Frontend UI: A responsive web-based user interface that handles game logic and provides users with access to game selection, gameplay, score uploading, designing customized puzzles, and leaderboards.
-- Backend Server: A server-side component that handles puzzle generation, user authentication, and data retrieval/storage. This component exposes a RESTful API for communication with the frontend UI.
-- Database: A database system for storing and managing game data, user information, and user scores.
-
-### 1.3 Roles and Responsibilities
-
-Besides the roles assigned above, the parties below are further responsible for:
-
-- Warren Liu: Website backend development and database schema configuration
-- Shahruz Mannan: Website frontend UI/UX development and Game program development
-- Arsheya Raj: UI design and Website frontend UI/UX development
-- Haihan Jiang: QA
-- Barack Liu: Manage development progress and maintain all the supporting documentation
-- Amalaye Oyake: Database schema design and QA 
-
-## 2 System Architecture
-
-### 2.1 Overview of the Three-Tier Architecture
-
-In this project, we will implement a three-tier client-server architecture. The first tier will be the client, where users engage in the game; the second tier will be the application server, hosting our backend functions; and the third tier will comprise the database, storing data such as user and game information. Each layer exposes an interface (API) for use by the layers above, with each layer depending solely on the facilities and services of the layer directly beneath it.
+### Three-Tier Architecture
 
 <img src=".\images\Architecture Diagram.png" height="450" />
 
-### 2.2 Client Tire (Frontend UI)
+#### Client Tier
 
-The client tier consists of a web-based user interface that allows users to interact with the application, select and play games, create customized puzzles, manage their user accounts, and view leaderboards. This frontend UI is built using modern web technologies such as HTML, CSS, and JavaScript, along with popular frameworks and libraries (React-native) for a responsive and user-friendly experience. The client tier communicates with the server tier through RESTful API calls to fetch data and submit user actions.
+The client tier consists of a web-based user interface that allows users to interact with the application, select and play games, create customized puzzles, manage their user accounts, and view leaderboards. This frontend UI is built using modern web technologies such as HTML, CSS, and JavaScript, along with popular frameworks and libraries (React-Node.JS) for a responsive and user-friendly experience. The client tier communicates with the server tier through RESTful API calls to fetch data and submit user actions.
 
 Key responsibilities of the client tier include:
 
@@ -64,7 +43,7 @@ Key responsibilities of the client tier include:
 - Managing user authentication and authorization
 - Communicating with the backend server via API calls
 
-### 2.3 Server Tier (Backend Server)
+#### Server Tier
 
 The server tier is responsible for managing user sessions, generating random puzzles, and handling API requests from the client tier. This backend server is developed using a suitable server-side programming language (Python) and web application microframework Flask. It exposes a RESTful API for the client tier to interact with, allowing for data retrieval and storage, user authentication, and game-related operations.
 
@@ -75,7 +54,7 @@ Key responsibilities of the server tier include:
 - Handling API requests from the client tier
 - Interacting with the database tier for data storage and retrieval
 
-### 2.4 Data Tier(Database)
+#### Database Tier
 
 The data tier is responsible for storing and managing application data, such as user information, puzzle data, and user scores. It consists of a database system, the NoSQL database (MongoDB). The server tier interacts with the data tier through a data access layer, which abstracts the database operations and provides a consistent interface for data manipulation.
 
@@ -86,329 +65,418 @@ Key responsibilities of the data tier include:
 - Ensuring data security and privacy
 - Providing data access and query capabilities to the server tier
 
-## 3 Frontend UI Design
+### UML Diagram
 
-### 3.1 User Interface Components
+<img src=".\images\UML Diagram.jpg" height="450" />
 
-#### 3.1.1 Landing Page
+### Packages Diagram
+
+<img src=".\images\Packages Diagram.jpg"/>
+
+### Classes Diagram
+
+<img src=".\images\Classes Diagram.jpg"/>
+
+### Integration with other systems
+
+The key advantage of implementing this game in a web-based format is that Roaming Kitty is a website. To embed our game into their website, we only need to add these pages to their existing pages, and deploy the required backend server and database separately without affecting their existing services at all.
+
+### Scalability and performance considerations
+
+As we are using OOP in this project, and the frontend and the backend communicate via API, we can easily handle an increasing number of users or higher loads by dividing the existing backend server into multiple microservices and adding an API gateway between the frontend and backend. If the database cannot handle the increasing traffic, we can horizontally scale the database so that each instance deals with a specific type of data (such as game, game history, and user).
+
+### Security considerations
+
+Our game is designed to be played both with and without login. We do not collect user information such as email addresses, but only require a username and password. To protect user information, we will encrypt passwords in the database, ensuring that the username and password pairs remain safe even if our data is leaked. Regarding game security, we must prevent users from cheating or hacking our game. Ideally, we would process all game stages and data in the backend to control operations on the timer, attempts used, and score calculation. However, due to time constraints and labor limitations, all game logic will be sent to the client-side, making it possible for users to modify game stages and data. In response, our backend will attempt to prevent cheating by recording the time the game data is requested and the time the game is finished, allowing us to validate the elapsed time at least. If we had more time, we would implement the entire game logic in the backend instead of on the client side.
+
+## Technologies and Frameworks Chosen
+
+### Client Side
+
+**TODO**
+
+The frontend is built using standard modern web development methodologies: It's written in JavaScript ES6 that is compiled to browser compatible JavaScript using Babel. User interface components are built using React.js and CSS. React.js was chosen as the frontend framework, React code is easier to maintain and is flexible due to its modular structure compared to other frameworks such as Angular.js or jQuery. One of the main benefits of using React is its potential to reuse components. This flexibility saves a huge amount of time and costs to businesses. Another reason why React was chosen because of its strong community support. A large number of individual React developers are contributing towards making React a better frontend framework and free tutorials can be found easily on the internet. Since there are just two sprints to develop the product and not all team members have worked with React before, this framework was an appropriate choice to be used for developing this product.
+
+### Server Side
+
+#### Python
+
+Python has garnered immense popularity as a programming language due to its robustness and versatility. Its easy-to-read syntax, which promotes clean and understandable code, makes it an excellent choice for rapid development. Python also boasts an extensive standard library and a rich ecosystem of third-party packages, facilitating the integration of various functionalities without the necessity of developing from scratch.
+
+Python's compatibility with numerous databases is another reason for choosing it for our project. Especially, its harmonious working relationship with MongoDB, facilitated by the MongoDB Python Connector API, is instrumental in managing our database operations.
+
+#### Flask
+
+Flask, a micro web framework written in Python, is another valuable asset to our project. Its lightweight nature allows for rapid development while its modularity offers the flexibility we require. Despite its simplicity, Flask provides a potent platform for developing a robust web server.
+
+One of the defining features of Flask is the minimal setup required to get a basic web server up and running. Coupled with an inbuilt routing system that simplifies the defining of API endpoints, Flask proves to be a quintessential tool for our project.
+
+Furthermore, Flask's extensibility via plugins provides an adaptable system where we can incrementally add functionalities as per our project's requirements. User authentication, form validation, and other advanced features can thus be seamlessly integrated without overcomplicating our application.
+
+#### MongoDB
+
+MongoDB, a NoSQL database, has been chosen for our project owing to its inherent flexibility and scalability. Its schema-less nature is particularly advantageous, facilitating diverse data structures that can adapt to the evolving requirements of our project. MongoDB's capacity to store, query, and process large amounts of data in diverse formats aligns perfectly with the interactive nature of our game application.
+
+The MongoDB Python Connector API provides an effective bridge between our Flask server and the database. This API ensures efficient handling of client requests, and smooth invocation of model interactions with the database by the server.
+
+#### Working Together
+
+Moreover, these technologies enable swift implementation. Python, Flask, and MongoDB have been designed to work seamlessly together, which makes the development process efficient and relatively straightforward.
+
+Furthermore, the SaaS platform that we've chosen for deployment has a pre-configured environment ready for a Flask application and MongoDB, which makes our application deployment process even more effortless. This streamlined deployment pipeline allows us to focus more on the development and less on configuration, thereby accelerating our time to market.
+
+## Components & Modules
+
+### Client Side
+
+**TODO**
+
+### Server Side
+
+The Flask server receives API requests from the client and directs them to the appropriate endpoints. If a model is needed within an API endpoint function, the model is invoked. Subsequently, the model communicates with the database through the MongoDB Python Connector API.
+
+#### API Routes Module
+
+This module encompasses all API endpoints that Flask can handle. It consists of the following components:
+
+- `Auth`: Manages user authentication functions such as login, logout, account deletion, and retrieval of user information and game history.
+- `Game`: Handles game-related functions such as retrieving game data, completing a game, and sharing the score on the leaderboard.
+- `Leaderboard`: Retrieves the leaderboard data for a specific game.
+- `Error Handler`: Manages all unexpected requests.
+
+#### Models Module
+
+MongoDB, being a NoSQL database, is considered schemaless. This necessitates pre-defining the data structure before inserting data into MongoDB. This module contains all model configurations and serves as a connector between the API endpoint functions and MongoDB. The components include:
+
+- `User`: Stores user-related information such as username and password.
+- `Game`: Stores game data such as puzzle characters, puzzle size, and creation time.
+- `Game History`: Records game history, including user ID, game ID, and timestamps.
+- `Leaderboard`: Maintains leaderboard data for each game.
+
+## UI Design
+
+### User Interface Components
+
+#### Landing Page
 
 The Landing Page serves as the main entry point for users and provides access to key features of the application, such as logging in, viewing leaderboards, accessing play history, and selecting games to play.
 
 - **User Authentication**
-   - A `Login` button.
-   - Clicking the `Login` button opens a modal for users to log in or register for an account (via POST requests).
+  - A `Login` button.
+  - Clicking the `Login` button opens a modal for users to log in or register for an account.
 
-- **Leaderboard (Data will be fetched via API)** 
-   - A large leaderboard displays the top N scores for each of the three levels.
-   - A `Refresh` button to refresh the data.
-   - Clicking on a level's text opens a modal with the top 100 scores for that level.
+- **Leaderboard** 
+  - A large leaderboard displays the top 100 scores of the today's reward game.
+  - A `Refresh` button to refresh the data.
 
-- **Play History (Visible after user login, data will be fetched via API)**
-   - A list of the user's last 10 games is displayed.
-   - Clicking on an item in the play history allows users to replay that game and attempt to achieve a higher score.
-   - Clicking on the `Full History` opens a modal with all game histories.
+- **Play History (Visible after user login)**
+  - A list of the user's last 10 games is displayed.
+  - Clicking on an item in the play history allows users to replay that game and attempt to achieve a higher score (except the today's reward game).
+  - Clicking on the `Full History` opens a modal with all game histories.
 
-- **Level Selection**
-
-   - A button for users to choose a level to play.
-   - Clicking the button opens a modal with three buttons corresponding to the three levels.
-   - Clicking on a level button directs users to the game page for that level (will be specified in [3.1.3](#313-game-ui)).
+- **Normal Game**
+  - A button for users to play "Normal Game" directly.
+  - Clicking the button immediately directs users to the game page (will be specified in [3.1.3](#313-game-ui)).
 
 - **Today's Reward Game**
 
-   - A button for users to play "Today's Reward Game" directly.
+  - A button for users to play "Today's Reward Game" directly.
 
-   - Clicking the button immediately directs users to the game page (will be specified in [3.1.3](#313-game-ui)).
-- **Puzzle Design**
-   - Clicking the button immediately directs users to the "Design Puzzle" page (will be specified in [3.1.2](#312-design-puzzle)).
+  - Clicking the button immediately directs users to the game page (will be specified in [3.1.3](#313-game-ui)).
+- **Design Puzzle **
+  - Clicking the button immediately directs users to the "Design Puzzle" page (will be specified in [3.1.2](#312-design-puzzle)).
 
-#### 3.1.2 Design Puzzle
+#### Design Puzzle
 
 Users are able to design their own puzzles on this page. The page has a form that contains:
 
 - **Input Text and Level Selection**
-  - A text input field for users to enter comma-separated single words (e.g. cat, dog, fish. Validation for no blank exists within commas is needed here, or in the backend **TODO**).
-  - A selection menu for users to choose the desired puzzle level (1-3).
+  - A text input field for users to enter comma-separated single words (e.g. cat, dog, fish. Validation for no blank exists within commas is needed here).
+  - A selection menu for users to choose the desired puzzle level (1-3 only).
 - **Confirm Button and Puzzle Generation**
-  - A `Confirm` button to submit the input text and level information via Ajax.
+  - A `Confirm` button to submit the input text and level information to the backend.
   - The backend receives the information, generates a puzzle, and sends it back to the client via Ajax.
   - The generated puzzle is displayed to the user.
 - **Puzzle Modification**
-  - There are two buttions, `Confirm` and `Regenerate`. If the user is not satisfied with the generated puzzle, they can either click the `Regenerate` button again or modify the input text and level, then click the `Confirm` button again to submit their updated design. If the user is satisfied with the generated puzzle, they can directly click the `Confirm` to submit their puzzle.
+  - Users will not have the ability to modify the "puzzle", what they can do is modify the input text or level and resubmit again, see details below.
+  - There are two buttons, `Confirm` and `Regenerate`. If the user is not satisfied with the generated puzzle, they can either click the `Regenerate` button again or modify the input text and level, then click the `Confirm` button again to submit their updated design. If the user is satisfied with the generated puzzle, they can directly click the `Confirm` to submit their puzzle (to store in the database so others can play this game).
 
-#### 3.1.3 Game UI
+#### Game UI
 
 The Game UI allows users to play the game, view the words they need to find, see the leaderboard for the current puzzle, and submit their scores to the leaderboard.
 
-- **Need-to-find-words List**
+- **A List of Words need to be Found**
   - Displays all words that need to be found in the game.
   - When a word is found, it is removed from the list.
 - **Puzzle Leaderboard**
   - Displays the leaderboard for the current puzzle.
-  - Provided by the backend when the page loads.
+  - Provided by the backend via API request.
 - **Puzzle Grid**
   - All game logic will be implemented and be executed here.
-  - A square grid in the center of the page with each cell containing a letter.
+  - A square grid with each cell containing a letter.
   - Users click on cells to select letters.
   - When a selected sequence matches a word in the need-to-find-words list, the word is removed from the list.
   - When all words are found:
-    1. Notify the user.
-    2. Display a button for users to save their scores.
-    3. Display a button for users to upload their scores to the leaderboard (with the option to submit anonymously).
+    1. Notify the user,
+    2. Send game data to the backend to get the score, backend will perform algorithm to detect cheating,
+    3. Display the final score to user,
+    4. Display a button for users to upload their scores to the leaderboard (with the option to submit anonymously).
 - **Time Counter**
   - Displays the elapsed time for the current game.
-- **New Game Button**
+- **New Game Button (Normal Game Only)**
   - Allows users to start a new game with another puzzle at the same level.
-- **Switch Level Button**
+- **Switch Level Button (Normal Game Only)**
   - Offers two selections for users to switch to a different level and start a new game.
 
-#### 3.1.4 User Account Management
+#### User Account Management
 
-**TODO** 
+Due to the time constrains, users can only register for an account, use login, logout, and delete account functions.
 
-If we have time, we can work on this page. For now, users can only register an account, delete an account, and login/logout. They will not have the option to change the password or the username.
+## Interface Specifications and Protocols
 
-### 3.1.5 Error Handling
+### Client-Server Interaction
 
-We should write some customized error pages when backend throw an error code, such as 400, 401, 403, and 500.
+The client and server will interact via a RESTful API, leveraging JSON data and JWT for communication. The details of the API endpoints are outlined below. Comprehensive details can be found in the **API Endpoints Documentation**.
 
-### 3.2 Technologies and Libraries
+#### Public/Common Endpoints
 
-- Frontend programming language: JavaScript, HTML, CSS.
-- UI frameworks and libraries: React Native.
-- Additional libraries and tools: **TODO**.
+- `/status`: Checks the connection and status of the backend server.
 
-### 3.3 Design Patterns and Principles
+#### User Authentication Endpoints
 
-**Lazy Loading**
+- `/auth/login`: Authenticates users using their username and password.
+- `/auth/logout`: Handles user logout operations.
+- `/auth/register`: Registers a new account in the database.
 
-**TODO**
+#### User Account Endpoints
 
-**Input Validation**
+- `/auth/user/profile`: Retrieves the user's profile.
+- `/auth/user/gamehistory`: Retrieves the user's game history.
+- `/auth/deleteaccount`: Deletes a user account from the database.
 
-**TODO**
+#### Game Endpoints
 
-**Security Policies**
+- `/game/normalpuzzle/<level>`: Fetches the game data for a standard game of a specified difficulty level and a game history ID.
+- `/game/dailypuzzle`: Fetches the game data for today's reward game and a game history ID.
+- `/game/key/<game_id>`: Retrieves the key answer for a specific game using the game ID.
+- `/game/finish/<game_history_id>`: Ends a game using the game history ID and retrieves the final score.
 
-**TODO**
+#### Leaderboard Endpoints
 
-### 3.4 URLs
+- `/leaderboards/dailypuzzle`: Fetches the leaderboard data for today's reward game.
+- `/leaderboards/normalpuzzle/<game_id>`: Fetches the leaderboard data for a specific standard game using the game ID.
 
-- Landing Page: `/`
-- Daily Rewards Game: `/game/dailypuzzle`
-- Normal Game: `/game/normalpuzzle/level<level>`
-- Design Puzzle: `/game/designpuzzle`
-- User Account (Profile): `/account/profi`
+## Data Structures and Algorithms
 
-## 4 Backend Server Design
-
-### 4.1 Backend Components
-
-#### 4.1.1 Authentication
-
-- Implement user authentication, this will be handled by Flask built-in authentication.
-- Provide functionality for user registration and login (if [3.1.4](#314-user-account-management) is implemented, more functions will be added here).
-
-#### 4.1.2 Game Data Management
-
-- Store game data, such as puzzles, user scores, and leaderboards.
-- Implement API endpoints for frontend communication (e.g., fetching leaderboard data, submitting scores, and generating puzzles).
-
-#### 4.1.3 Puzzle Generation
-
-- Implement an algorithm for generating puzzles based on user input (text and level).
-- Ensure the generated puzzles meet the level requirements.
-- Respond to frontend puzzle generation requests with generated puzzles.
-
-### 4.2 Technologies and Libraries
-
-- Backend programming language: Python.
-- Web application frameworks: Flask.
-- Database: MongoDB.
-
-### 4.3 Design Patterns and Principles
-
-**Separation of Concerns**
-
-- Separate backend components (e.g., authentication, game data management, puzzle generation) to maintain a modular design and enhance maintainability.
-
-**Scalability (Only If We Have Time)**
-
-- Implement caching mechanisms to reduce database load and improve response times.
-- Use horizontal scaling to accommodate increased load and ensure high availability.
-
-**Security**
-
-- Secure the backend by implementing proper authentication and access controls.
-- Implement input validation and sanitization to prevent security vulnerabilities.
-- Securely store sensitive data (e.g., passwords) using encryption.
-
-**Performance Optimization (Only If We Have Time)**
-
-- Optimize the puzzle generation algorithm for efficient performance.
-- Monitor and fine-tune database queries to reduce response times.
-
-**Error Handling**
-
-- Implement comprehensive error handling to ensure proper error responses are sent to the frontend.
-- Log errors and exceptions for easier debugging and issue resolution (Only If We Have Time).
-
-## 5 Database Design
+### MongoDB Model Data Structures
 
 The database will store the necessary information to support the application's functionality, including user data, game data, and leaderboards. We will use MongoDB as the database management system, which is a NoSQL database optimized for scalability and flexibility.
 
-### 5.1 Collections
+#### Collections
 
-The database will consist of the following collections:
+##### User
 
-#### 5.1.1 User
+The User collection is designed to house user account details, encompassing the following fields:
 
-This collection will store user account information, including:
+- `_id`: This is a User ID automatically generated by MongoDB, serving as a unique identifier.
+- `username`: This field stores the unique username chosen by the user.
+- `password`: This field contains the hashed password for security purposes.
+- `registration_date`: This datetime entry denotes the date when the user registered their account.
+- `game_played`: This field keeps track of the total number of games played by the user.
+- `reward_points`: This field represents the number of reward points the user has earned.
 
-- `_id`: User ID generated by MongoDB directly (unique identifier)
-- `username`: Username (unique)
-- `password`: Password (hashed)
-- `registration_date`: Registration date in datetime
-- `game_played`: Count of game played
-- `reward_points`: Reward points earned
+##### Game
 
-#### 5.1.2 Game
+The Game collection is structured to house the specifics of individual game instances, comprised of the following fields:
 
-This collection will store game data, including:
+- `_id`: This field houses the Game ID, which is a unique identifier automatically generated by MongoDB.
+- `created_by`: This field indicates whether the game is created by an admin or a user. It will store "admin" if created by an admin or `user._id` if created by a user.
+- `created_at`: This stores the creation date in a string format of "YYYY-DD-MM". Only date information is required.
+- `customized`: This field indicates whether the game has been tailored by a user.
+- `type`: This field specifies the type of game, whether it's a "normal" game or a "todaysrewardgame".
+- `level`: This refers to the difficulty level of the game.
+- `size`: This indicates the dimensions of the game puzzle.
+- `puzzle`: This is a 2D array storing the characters of the puzzle.
+- `words`: This field houses an array of words that need to be found within the puzzle.
+- `key`: This consists of an array of JSON objects representing the answers.
 
-- `_id`: Game ID generated by MongoDB directly (unique identifier)
-- `created_by`: Created by admin or user, "admin" if admin, `user._id` if user
-- `created_at`: Created date in string in "YYYY-DD-MM" format, we only need the date information
-- `customized`: Whether the game is customized by user
-- `type`: Type if game, "normal" or "todaysrewardgame"
-- `level`: Difficulty level of the game
-- `size`: Size of the puzzle of the game
-- `puzzle`: 2D array store characters of the puzzle
-- `words`: Array of words need to be found
-- `key`: Array of JSON object of answer
+##### Game History
 
-#### 5.1.3 Game History
+This collection will house the individual game history for users. The attributes to be stored include:
 
-This collection will store individual game history for users, including:
+- `_id`: The unique identifier for game history, automatically generated by MongoDB.
+- `user_id`: Identifier linking to the associated user.
+- `game_id`: Identifier linking to the associated game.
+- `finished`: A boolean field indicating whether the game has been completed.
+- `valid_time_elapsed`: A boolean field to check if the time elapsed sent from the frontend matches the backend's record.
+- `start_time`: The timestamp when the game data is requested.
+- `end_time`: The timestamp marking the end of the game.
+- `attempts`: The total number of attempts made if the game is completed.
+- `score`: The final score achieved, available if the game is completed.
 
-- Game history ID (unique identifier)
-- User ID (associated user)
-- Game ID (associated game)
-- Timestamp (date and time)
-- Completion time
-- Score
+##### Leaderboards
 
-#### 5.1.4 Leaderboards
+This collection will house leaderboard entries. The attributes to be stored include:
 
-This collection will store leaderboard entries, including:
+- `_id`: The unique identifier for each leaderboard, automatically generated by MongoDB.
 
-- Leaderboard entry ID (unique identifier)
-- Game ID (associated game)
-- User ID (associated user, optional for anonymous submissions)
-- Score
-- Timestamp (date and time)
+- `game_id`: Identifier linking to the associated game.
 
-### 5.2 Relationships
+- `leaderboard`: An array object that contains:
+  - `game_history_id`: Identifier linking to the corresponding game history.
+  - `username`: The username of the user who achieved the score.
+  - `score`: The score achieved by the user.
+  - `timestamp`: The timestamp of when this score was recorded.
+  - `rank`: The rank of this particular score within the leaderboard of this game.
 
-The following relationships exist among the collections:
+#### Relationships
 
-- One-to-many relationship between User and Game History: Each user can have multiple game history entries.
-- One-to-many relationship between Game and Game History: Each game can have multiple game history entries.
-- One-to-many relationship between User and Leaderboard: Each user can have multiple leaderboard entries.
-- One-to-many relationship between Game and Leaderboard: Each game can have multiple leaderboard entries.
+The relationships among the collections are as follows:
 
-### 5.3 Indexing
+1. `User` and `Game History`: One-to-many relationship. A user can play multiple games and have many game histories, but each game history is associated with only one user (via `user_id`).
+2. `Game` and `Game History`: One-to-many relationship. A game can have multiple game histories as many users can play the same game, but each game history is related to only one game (via `game_id`).
+3. `Game` and `Leaderboards`: One-to-one relationship. Each game has a unique leaderboard associated with it (via `game_id`).
+4. `Game History` and `Leaderboards`: One-to-many relationship. Each game history could potentially appear in the leaderboard if the score is high enough. However, the leaderboard will contain many game histories (via `game_history_id`).
 
-To optimize query performance, we will create indexes on the following fields:
+#### Indexing
 
-- Users: Username (for quick look-up during login and registration)
-- Game History: User ID and Game ID (for efficient retrieval of user game history and game-specific history)
-- Leaderboards: Game ID (for quick access to game-specific leaderboards)
+For efficiency in query operations, certain fields in the database will be indexed:
 
-## 6 Testing
+- `User`: Index on `username` for quick lookup during authentication and game history queries. Index on `_id` for efficient user-specific queries.
+- `Game`: Index on `_id` for efficient retrieval of game data. Index on `type` and `level` for fast querying of specific game types and levels.
+- `Game History`: Index on `user_id` and `game_id` to quickly fetch all game histories related to a particular user or game. Index on `_id` for direct access to specific game history records.
+- `Leaderboards`: Index on `game_id` for quick retrieval of leaderboard for a specific game. Index on `leaderboard.score` and `leaderboard.rank` for efficient sorting and retrieval of top scores.
 
-**TODO** Left for QA Engineer, may not have time to do all of this.
+### Algorithms
 
-### 6.1 Testing Objectives
+#### Prevent User From Cheating
+
+In an ideal situation, all game stages and data processing would be conducted in the backend to prevent cheating. However, given the current constraints with our development team size and timeframe, we've chosen to implement the game logic on the frontend using JavaScript. Despite this, we've devised a strategy to mitigate potential cheating as much as possible, as detailed below:
+
+Our game's scoring system takes into account variables such as difficulty level, time elapsed, and number of attempts used - all of which are recorded on the frontend and transmitted to the backend via API. As this leaves the door open for potential manipulation of these variables by savvy users, we've developed a specific algorithm to catch inconsistencies and irregularities.
+
+When a user initiates a game, the frontend will request the necessary game data from the backend. Along with generating this game data, the backend will also create a game history record. This record contains the `start_time` and `game_id`, which provides access to information such as the difficulty level of the game. Upon finishing the game, the frontend will use this `game_history_id` to request the backend to finalize the game, along with the time elapsed and the number of attempts made.
+
+In the backend, we've recorded the `start_time` and the `end_time` (when the request to finish the game is received), enabling us to calculate the actual `time_elapsed` and compare it with the `time_elapsed` value sent from the frontend. If there's a significant discrepancy between these two values, we will deem it as an instance of cheating, and the user's score will default to 0.
+
+Similarly, to counter manipulation of the number of attempts, we'll send an automatic request to the backend each time the user hits the confirm button. This will allow us to keep an accurate record of the actual attempts made and compare it with the figure sent from the frontend to identify cheating attempts.
+
+Although this system isn't foolproof and can still be circumvented by blocking the request for recording attempts, it represents our best effort under the current circumstances. Should more resources or time become available, we aim to fully implement the game logic in the backend to further bolster anti-cheating measures.
+
+#### Score Calculation
+
+The final score for a game is calculated by the backend when it receives a request to finish the game. The calculation takes into account several variables and their corresponding weights. These variables are `time_elapsed`, `attempts`, and `difficulty_level`.
+
+```python
+base_score = 2000
+time_elapsed_penalty = 0.005 # penalty per ms
+attempts_penalty = 10 # penalty per attemp
+
+if level == 1:
+    level_multiplier = 1
+elif level == 2:
+    level_multiplier = 1.5
+elif level == 3:
+    level_multiplier = 2
+
+score = (base_score - time_elapsed * time_elapsed_penalty - attempts * attempts_penalty) * level_multiplier
+
+# to prevent negative score
+return max(0, score)
+```
+
+## Testing and Quality Assurance Plan
+
+### Testing Objectives
 
 - Ensure the application meets functional requirements and specifications.
 - Validate the correctness and reliability of the application.
 - Identify and resolve any defects or issues before the application is released.
 
-### 6.2 Testing Levels
+### Testing Levels
 
-#### 6.2.1 Unit Testing
+#### Unit Testing
 
 - Test individual components, functions, or modules in isolation.
 - Use appropriate testing frameworks for the frontend (e.g., Jest) and backend (e.g., pytest).
 - Automate unit tests to facilitate continuous integration and early defect detection.
 
-#### 6.2.2 Integration Testing
+#### Integration Testing
 
 - Test the interaction and communication between different components or modules.
 - Ensure that the integrated system works correctly and meets the specified requirements.
 - Test API endpoints to validate correct data flow between frontend and backend.
 
-#### 6.2.3 System Testing
+#### System Testing
 
 - Test the entire application as a whole, including frontend, backend, and database.
 - Perform end-to-end testing to ensure the system meets functional and non-functional requirements.
 - Test user scenarios and workflows to validate the application's overall functionality and usability.
 
-### 6.3 Testing Methodologies
+### Testing Methodologies
 
-#### 6.3.1 Manual Testing
+#### Manual Testing
 
 - Test the application manually to identify defects, usability issues, and unexpected behavior.
 - Perform exploratory testing to uncover issues that may not be detected by automated tests.
 
-#### 6.3.2 Automated Testing
+#### Automated Testing
 
 - Develop automated test scripts to validate the application's functionality and performance.
 - Integrate automated tests into the continuous integration and deployment pipeline.
 
-#### 6.3.3 Performance Testing
+#### Performance Testing
 
 - Test the application's performance under various conditions, such as high load or concurrent users.
 - Identify potential bottlenecks and optimize the application for better performance and scalability.
 
-### 6.4 Testing Tools and Frameworks
+### Testing Tools and Frameworks
 
 - Frontend testing: Jest, React Testing Library, Selenium (for end-to-end testing).
 - Backend testing: pytest, Postman (for API testing), locust (for performance testing).
 
-### 6.5 Test Plan and Schedule
+### Test Plan and Schedule
 
 - Collaborate with the QA engineer to develop a comprehensive test plan, including test cases, test data, and expected results.
 - Schedule testing phases in coordination with the project timeline and milestones.
 - Regularly review test results and address any defects or issues identified during the testing process.
 
-## 7 Deployment
+## User Documentation Requirements
 
-Describe the deployment process and infrastructure for the application. Specify the hosting environment, such as a cloud provider or a local server, and any necessary steps for deploying and maintaining the application.
+### Tutorial
 
-**TODO** We will build, test, and deploy locally. We can consider deploying on simple SaaS platforms such as Digital Ocean or PythonAnywhere if we have time.
+For the benefit of new players, we will incorporate a tutorial and game instruction guide into the gameplay. This feature is designed to help players familiarize themselves with the game's mechanics and overall functionality.
 
-## 8 **Security Considerations**
+### Help Documentation
 
-Elaborate on the security measures employed to protect the application and user data. Discuss authentication, authorization, encryption, and secure communication between frontend and backend.
+Due to time constraints, we will be unable to provide comprehensive help documentation at the initial launch of the game.
 
-**TODO** Implement this section if we have time.
+### Frequently Asked Questions (FAQs)
 
-## 9 Scalability and Performance
+Similar to help documentation, we also will not be able to provide a Frequently Asked Questions (FAQs) section initially due to the time limitations. However, we recognize the importance of such features for user support and will consider adding them in future updates.
 
-Discuss how the application is designed to scale and handle increasing loads. Address the potential bottlenecks and outline possible solutions to improve performance and ensure high availability.
+## Deployment and Maintenance Approach & Measures
 
-**TODO** Implement this section if we have time.
+### Deployment Approach
 
-## 10 Monitoring and Maintenance
+The deployment of our game will proceed through several stages:
 
-Describe the monitoring and maintenance strategy, including any tools or frameworks used for monitoring the application's performance, uptime, and security. Explain how the development team will address issues and updates.
+- **Development Environment**: In this phase, our application is built and tested extensively. The frontend of the application is developed using React and JavaScript, while the backend is crafted with Flask and Python. MongoDB is used as our database.
+- **Staging Environment**: After the initial development, the application is transitioned to a staging environment. This environment serves as an exact clone of the production environment, and it enables us to confirm that our software and configurations function as expected before proceeding to production.
+- **Production Environment**: Upon confirming that our application operates as anticipated in the staging environment, we move it to the production environment. In this stage, the application becomes publicly accessible.
 
-**TODO** Implement this section if we have time.
+### Deployment Tools and Techniques
 
-## 11 Future Enhancements
+We will leverage Git for version control, which allows us to track changes, manage branches, and effectively handle collaboration among the development team.
 
- List any potential improvements or new features that could be added to the application in the future. This could include new game modes, social features, or additional customization options.
+For deployment, we will host our application on a Software as a Service (SaaS) platform. By using a SaaS platform, we benefit from simplified infrastructure management, as environment details are handled by the platform itself. Given that our client and backend server are two separate services communicating via API, we will ensure the efficiency of API calls by deploying them separately on the same cloud server.
 
-**TODO** Implement this section if we have time.
+We also plan to implement a Continuous Integration and Continuous Deployment (CI/CD) pipeline, which will automate the process of integrating changes, testing them, and preparing them for release to production.
+
+### Maintenance Measures
+
+Maintenance is an essential aspect of ensuring the ongoing operation and success of the game. Here are the key measures we will undertake:
+
+- **Monitoring**: We will institute logging and monitoring to proactively identify and resolve potential issues. Alerts will be set up to notify us of critical events.
+- **Performance Tuning**: Performance tuning will be carried out regularly, based on user feedback and monitoring data, to ensure the system operates at peak efficiency.
+- **Security Updates**: We will keep abreast of security best practices and promptly apply patches or updates as they become available. This way, we can safeguard our application from potential threats and vulnerabilities.

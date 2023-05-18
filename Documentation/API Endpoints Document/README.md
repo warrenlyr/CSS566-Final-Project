@@ -1,6 +1,6 @@
 # API Endpoints Documentation
 
-Update: 5/15/2023
+Update: 5/17/2023
 
 Current API version: v0
 
@@ -176,7 +176,7 @@ POST
 
 ### Profile (Login Required)
 
-`/auth/profile`
+`/auth/user/profile`
 
  Get a user profile.
 
@@ -190,13 +190,77 @@ GET
 
 **Response**
 
+Success (200)
+
+- `game_played`: the total game played
+- `registration_data`: the date this account is registered
+- `reward_points`: total reward points earned
+- `todays_reward_game_played`: if the user has played today's reward game, will be refreshed every day
+- `username`: username
+
 ```json
 {
-    "game_played": 0,
-    "registration_date": "2023-05-07T16:29:32.971000",
+    "game_played": 2,
+    "registration_date": "2023-05-17T15:32:52.488000",
     "reward_points": 0,
+    "todays_reward_game_played": true,
     "username": "test"
 }
+```
+
+### User Game History
+
+`/auth/user/gamehistory`
+
+Get game history of a user.
+
+**Accepted request types**
+
+GET
+
+**Required Header**
+
+- `Authorization: Bearer <access_token>`
+
+**Response**
+
+Success (200)
+
+- `game_id`: ID of the game
+- `game_history_id`: ID of the game history
+- `game_name`: name of the game
+- `start_time`: time the game is requested
+- `end_time`: time the game is requested to finish (may be null if the user has not finished the game or left before finishing)
+- `finished`: if the game is finished
+- `valid_time_elapsed`: if the game is finished, a time_elapsed variable will be sent from the frontend to the backend. The backend server will use the system recorded time_elapsed (the difference between `start_time` and `end_time`) to validate if the time_elapsed from the frontend is valid. If not, we assume the user hacked or cheated on the game, this attribute will be set to true, and score will be marked as 0
+- `attempts`: if the game is finished, the number of attempts the user used
+- `score`: if the game is finished, and the time_elapsed is valid, a score will be calculated
+
+```json
+[
+    {
+        "attempts": 0,
+        "end_time": null,
+        "finished": false,
+        "game_history_id": "64655ebd0e646d425f3d820d",
+        "game_id": "646550aa7b1545c987e4e41b",
+        "game_name": "Today's Rewards Game 2023-05-17",
+        "score": 0,
+        "start_time": "Wed, 17 May 2023 16:09:49 GMT",
+        "valid_time_elapsed": false
+    },
+    {
+        "attempts": 0,
+        "end_time": null,
+        "finished": false,
+        "game_history_id": "64655ec10e646d425f3d820e",
+        "game_id": "646550aa7b1545c987e4e41c",
+        "game_name": "Level 1 Game 1",
+        "score": 0,
+        "start_time": "Wed, 17 May 2023 16:09:53 GMT",
+        "valid_time_elapsed": false
+    }
+]
 ```
 
 ### Delete Account (Login Required)
@@ -243,7 +307,7 @@ Failed
 
 Randomly get the game data of a normal game by given game level. If the user has finished a game and wants to get a new one, or the user just wants to play another game, a `currect_game_id` can be passed as a parameter, so we will exclude the current game when querying in the backend. If no game is found, an error will throw instead of returning blank data.
 
-When a game is fetched from the backend, a game history entry is generated for that game. If the user is logged in and an access token is supplied, the game history will be associated with the user. Otherwise, the game history remains unlinked to any user and serves solely for score calculation purposes. For further information on game history, refer to the [Finish a Game](#finish-a-game) section.
+When a game is fetched from the backend, a game history entry is generated for that game. If the user is logged in and an access token is supplied, the game history will be associated with the user, and the `game_plyed` attribute of the user will be increased by 1. Otherwise, the game history remains unlinked to any user and serves solely for score calculation purposes. For further information on game history, refer to the [Finish a Game](#finish-a-game) section.
 
 **Accepted request types**
 
@@ -264,6 +328,7 @@ Success
 - `game_data`
   - `_id`: game data ID in the database
   - `level`: difficulty level
+  - `name`: Game name
   - `puzzle`: 2D array of characters representing the puzzle
   - `size`: the size of the puzzle
   - `type`: "normal" if it's a normal game, "todaysrewards" if it's today's reward game
@@ -275,6 +340,7 @@ Success
     "game_data": {
         "_id": "645ca865e442f82fc0cbc8d5",
         "level": 1,
+        "name": "Level 3 Game 21",
         "puzzle": [
             [
                 "Y",
@@ -339,7 +405,9 @@ Get today's reward game data. The algorithm in the backend is to find today's re
 
 Current today's reward game is set to level 2 with a 7x7 puzzle.
 
-When a game is fetched from the backend, a game history entry is generated for that game. If the user is logged in and an access token is supplied, the game history will be associated with the user. Otherwise, the game history remains unlinked to any user and serves solely for score calculation purposes. For further information on game history, refer to the [Finish a Game](#finish-a-game) section.
+We will first check if the user has played today's reward game if an access token is supplied. If the `todays_reward_game_played` attribute of the user is `True`, no game will be returned and an error message will be thrown.
+
+When a game is fetched from the backend, a game history entry is generated for that game. If the user is logged in and an access token is supplied, the game history will be associated with the user, and the `game_plyed` attribute of the user will be increased by 1 and the `todays_reward_game_played` attribute of the user will be set to `True`. Otherwise, the game history remains unlinked to any user and serves solely for score calculation purposes. For further information on game history, refer to the [Finish a Game](#finish-a-game) section.
 
 **Accepted request types**
 
@@ -357,6 +425,7 @@ Success (200)
   - `_id`: game data ID in the database
   - `created_at`: the date created this game, today's reward game only looks for the daily puzzle created at the same date
   - `level`: difficulty level
+  - `name`: Game name
   - `puzzle`: 2D array of characters representing the puzzle
   - `size`: the size of the puzzle
   - `type`: "normal" if it's a normal game, "todaysrewards" if it's today's reward game
@@ -368,6 +437,7 @@ Success (200)
     "game_data": {
         "_id": "6461e257bdbc156d701cfe30",
         "created_at": "2023-05-15",
+        "name": "Today's Rewards Game 2023-05-17",
         "level": 2,
         "puzzle": [
             [
@@ -448,7 +518,15 @@ Success (200)
 }
 ```
 
-Failed
+Failed (User has already played today's reward game - Code 423 LOCKED)
+
+```json
+{
+    "error": "You have played today's reward game"
+}
+```
+
+Failed (Other cases)
 
 ```json
 {
@@ -577,7 +655,7 @@ Failed
 
 ### Today's Reward Game
 
-`/leaderboards/todaysrewardgame`
+`/leaderboards/dailypuzzle`
 
 Get leaderboard data of today's reward game.
 
@@ -607,7 +685,7 @@ GET
 
 ### Normal Game
 
-`/game/level/<level>`
+`/leaderboards/normalpuzzle/<game_id>`
 
 e.g. `/game/level/1`
 
