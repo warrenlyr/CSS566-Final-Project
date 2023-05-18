@@ -176,15 +176,15 @@ The Landing Page serves as the main entry point for users and provides access to
 
 - **Normal Game**
   - A button for users to play "Normal Game" directly.
-  - Clicking the button immediately directs users to the game page (will be specified in [3.1.3](#313-game-ui)).
+  - Clicking the button immediately directs users to the game page.
 
 - **Today's Reward Game**
 
   - A button for users to play "Today's Reward Game" directly.
 
-  - Clicking the button immediately directs users to the game page (will be specified in [3.1.3](#313-game-ui)).
+  - Clicking the button immediately directs users to the game page.
 - **Design Puzzle **
-  - Clicking the button immediately directs users to the "Design Puzzle" page (will be specified in [3.1.2](#312-design-puzzle)).
+  - Clicking the button immediately directs users to the "Design Puzzle" page.
 
 #### Design Puzzle
 
