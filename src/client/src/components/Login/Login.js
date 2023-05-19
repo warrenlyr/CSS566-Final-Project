@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import "./styles.css";
+import "./styles.scss";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 import { apiInstance } from "../../services/apiInstance";
@@ -63,13 +63,6 @@ const Login = ({ onClose, setToken }) => {
 					SIGN IN
 				</Button>
 			</form>
-			<span className="guestText">Or</span>
-			<button
-				className="guestButton"
-				onClick={() => alert("Continue as Guest")}
-			>
-				Continue as a guest
-			</button>
 			<hr className="lineBreak" />
 			<div className="register">
 				Not a member?{" "}

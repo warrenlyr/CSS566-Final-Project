@@ -4,7 +4,7 @@ import { apiInstance } from "../../services/apiInstance";
 import { authApiInstance } from "../../services/authApiInstance";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "./styles.css";
+import "./styles.scss";
 import BoardSquare from "../BoardSquare/BoardSquare";
 import Timer from "../Timer/Timer";
 import Modal from "../Modal/modal";

@@ -1,9 +1,11 @@
+@import "../../styles/variables";
+
 .defaultButton {
 	appearance: none;
-	background-color: #df6c4f;
-	border: 2px solid #f28187;
+	background-color: $buttonColor;
+	border: 2px solid $buttonBorderColor;
+	color: $white;
 	box-sizing: border-box;
-	color: #ffffff;
 	cursor: pointer;
 	display: inline-block;
 	font-family: Roobert, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,

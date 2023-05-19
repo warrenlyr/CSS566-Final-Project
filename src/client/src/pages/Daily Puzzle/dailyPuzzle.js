@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { apiInstance } from "../../services/apiInstance";
 import { authApiInstance } from "../../services/authApiInstance";
-import "./styles.css";
+import "./styles.scss";
 import Spinner from "../../components/Spinner/Spinner";
 import GameGrid from "../../components/GameGrid/GameGrid";
 
