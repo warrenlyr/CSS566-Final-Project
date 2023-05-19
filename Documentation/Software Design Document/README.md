@@ -93,9 +93,13 @@ Our game is designed to be played both with and without login. We do not collect
 
 ### Client Side
 
-**TODO**
+#### React.js
 
-The frontend is built using standard modern web development methodologies: It's written in JavaScript ES6 that is compiled to browser compatible JavaScript using Babel. User interface components are built using React.js and CSS. React.js was chosen as the frontend framework, React code is easier to maintain and is flexible due to its modular structure compared to other frameworks such as Angular.js or jQuery. One of the main benefits of using React is its potential to reuse components. This flexibility saves a huge amount of time and costs to businesses. Another reason why React was chosen because of its strong community support. A large number of individual React developers are contributing towards making React a better frontend framework and free tutorials can be found easily on the internet. Since there are just two sprints to develop the product and not all team members have worked with React before, this framework was an appropriate choice to be used for developing this product.
+The frontend is built using standard modern web development methodologies: It's written in JavaScript ES6 that is compiled to browser compatible JavaScript using Babel. User interface components are built using React.js. React.js was chosen as the frontend framework, React code is easier to maintain and is flexible due to its modular structure compared to other frameworks such as Angular.js or jQuery. One of the main benefits of using React is its potential to reuse components. This flexibility saves a huge amount of time and costs to businesses. Another reason why React was chosen because of its strong community support. A large number of individual React developers are contributing towards making React a better frontend framework and free tutorials can be found easily on the internet. Since there are just two sprints to develop the product and not all team members have worked with React before, this framework was an appropriate choice to be used for developing this product.
+
+#### SCSS
+
+For the styling language, SCSS was chosen for several reasons. First and foremost, SCSS provides enhanced productivity and maintainability compared to plain CSS. With features such as variables, mixins, functions, and nesting, it is possible to create more modular and reusable stylesheets. Variables enable defining and reusing values throughout the project’s styles, making it easier to update styles globally. Mixins and functions enable code reuse and abstraction, reducing duplication and improving the organization of styles. Additionally, nesting in SCSS allows to nest selectors, making our styles more readable and reducing the need for repeated class names.
 
 ### Server Side
 
@@ -129,7 +133,18 @@ Furthermore, the SaaS platform that we've chosen for deployment has a pre-config
 
 ### Client Side
 
-**TODO**
+For frontend development, this project adopts a component-based approach to create modular and reusable UI elements. Components are self-contained modules that encapsulate both the visual and functional aspects of a specific feature or UI element.
+
+#### Components
+
+- `Navbar`: A navigation bar which displays the website logo and holds the login button.
+- `LoginModal`: A modal with a login form for the user to sign in or navigate to the Register page.
+- `Register`: Displays a form which the user can use to create an account for the website.
+- `Leaderboard`: Displays the top 100 players' scores for a specific puzzle.
+- `PlayHistory`: Displays the player's last 10 games' scores and the time when the puzzles were played.
+- `WordsContainer`: Displays the list of words the player needs to find from a specific puzzle.
+- `GameGrid`: Displays the 2D puzzle grid where the letters blocks are hidden. This component allows the player to interact with the game.
+- `Timer`: Displays the time the user has taken solving a puzzle.
 
 ### Server Side
 
