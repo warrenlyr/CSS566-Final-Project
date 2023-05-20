@@ -2,24 +2,24 @@ import React, { useEffect, useState } from "react";
 import "./styles.scss";
 import { apiInstance } from "../../services/apiInstance";
 
-const GameHistory = ({ styles, type, level }) => {
+const GameHistory = ({ styles, accessToken }) => {
 	const [gameHistoryData, setGameHistoryData] = useState([]);
 
 	useEffect(() => {
 		fetchData();
-	});
+	}, []);
 
 	const fetchData = async () => {
-		let path = "";
-		if (type === "todaysrewards") {
-			path = "/gameHistory/todaysrewardgame";
-		} else {
-			path = `/game/level/${level}`;
-		}
+		const path = "/auth/user/gamehistory";
+
 		await apiInstance
-			.get(path)
+			.get(path, {
+				headers: {
+					"Authorization": `Bearer ${accessToken}`
+				}
+			})
 			.then((res) => {
-				const data = res.data.data;
+				const data = res.data;
 				console.log(data);
 				setGameHistoryData(data);
 			})
@@ -28,44 +28,16 @@ const GameHistory = ({ styles, type, level }) => {
 			});
 	};
 
-	// const dummyHistory = [
-	// 	{
-	// 		name: "Daily Puzzle",
-	// 		score: "2:20",
-	// 		date: "5/2/2023",
-	// 	},
-	// 	{
-	// 		name: "Normal Game: Level 1",
-	// 		score: "23:20",
-	// 		date: "5/2/2023",
-	// 	},
-	// 	{
-	// 		name: "Normal Game: Level 1",
-	// 		score: "23:20",
-	// 		date: "5/2/2023: 5.20pm",
-	// 	},
-	// 	{
-	// 		name: "Normal Game: Level 3",
-	// 		score: "1:20",
-	// 		date: "5/2/2023: 5.20pm",
-	// 	},
-	// 	{
-	// 		name: "Normal Game: Level 2",
-	// 		score: "23:20",
-	// 		date: "5/2/2023: 5.20pm",
-	// 	},
-	// ];
-
 	return (
 		<div className={`gameHistoryContainer ${styles}`}>
 			<div className="gameHistoryTitle">User History</div>
 			<table>
 				<tbody>
-					{gameHistoryData.map((el) => {
+					{gameHistoryData.map((game) => {
 						return (
-							<tr className="gameHistoryItem" key={el.item}>
-								<td className="item">{el.item}</td>
-								<td className="detail">{el.detail}</td>
+							<tr className="gameHistoryItem" key={game.game_history_id}>
+								<td className="item">{game.game_name}</td>
+								<td className="detail">{`Start TIme: ${game.start_time}, End Time: ${game.end_time}`}</td>
 							</tr>
 						);
 					})}
