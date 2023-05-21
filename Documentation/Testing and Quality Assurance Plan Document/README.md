@@ -31,7 +31,7 @@ An important aspect of announcing the game to users is ensuring that the rollout
 
 Our project aims to develop a word-search game using Python, the flask framework for the backend, React for the front-end, and MongoDB as the database. The game will provide an interactive and engaging experience for users, allowing them to participate in a word-search puzzle that is a mix of Wordle and traditional paper word-search games. Users will be able to see their daily progress, and compare their scores with other players. The scope of this Quality Assurance (QA) document is to outline the testing activities and ensure the successful implementation of the project.
 
-![](.\images\Word Search Game.png)
+<img src=".\images\Word Search Game.png"/>
 
 ## 2. Quality Assurance Methodology
 
@@ -39,7 +39,7 @@ Our Quality Assurance plan is to enhance the overall quality and reliability of 
 
 Adopting these practices will minimize deployment issues during the product roll-out. By achieving these key results, the aim is to ensure a robust and stable website that delivers a seamless user experience while maintaining a high level of reliability.
 
-![](.\images\High-level view of QA test plan.png)
+<img src=".\images\High-level view of QA test plan.png"/>
 
 ### 2.1 **Coding Guidelines and Code Reviews**
 
@@ -101,7 +101,7 @@ The client tier consists of a web-based user interface that allows users to inte
 
 During the test setup, we shall utilize Jest's capabilities to define a set of test suites and individual test cases. Test suites are organized collections that are scoped to similar activities. Test cases represent specific scenarios for evaluation. An important part of setting up tests is ensuring that we have adequate assertion density. Ideally, there should be a 1-to-1 mapping between a test case and a product requirement.
 
-![](.\images\example of a jest test.png)
+<img src=".\images\example of a jest test.png"/>
 
 ### 2.3 Backend (Server Side) QA Methodology
 
