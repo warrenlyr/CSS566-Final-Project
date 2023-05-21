@@ -1,14 +1,5 @@
 # CSS566-Final-Project
 
-**TO TEAMS**: please commit your changes using corresponding branches:
-
-- Documentation related updates: doc
-- Backend source code related updates: backend
-- Frontend source code related updates: frontend
-- Testing source code related updates: testing
-
-All changes will be reviewed and merged to the master branch.
-
 ## Team Information
 CSS 566 Software Management
 
@@ -26,14 +17,20 @@ Stakeholders:
 - Arsheya Raj (Designer, UI developer)
 
 ## Objective of The Project
-The primary objective of this project is to develop a web-based straightforward Word Search game. Instead of emphasizing software development, the project seeks to provide an opportunity to experience the Scrum management framework.
+The primary objective of this project is to develop a web-based straightforward Word Search game. **Instead of emphasizing software development, the project seeks to provide an opportunity to experience the Scrum management framework**.
+
+In constructing the Word Search Game, we leveraged React and Node.js for the frontend client, while Flask was utilized for the backend server with RESTful API deployed for communication. All data was preserved in the MongoDB Atlas cloud.
+
+- The rationale behind this project can be found in the PRD document within the Documentation folder.
+- Detailed implementation information can be obtained from the SDD and API Endpoints Document housed in the Documentation folder.
+- For an understanding of the UI/UX design, please refer to the Wireframe UI Document located in the Documentation folder.
 
 ## Toolsets
-- Backend language: Python
-- Backend web server framework: Flask
-- Frontend language: HTML, JavaScript, CSS
-- Frontend UI framework: React.js
-- Project management tool: Jira (Scrum)
+- Backend Language: Python
+- Backend Web Server Framework: Flask
+- Frontend Language: HTML, JavaScript, CSS
+- Frontend UI Framework: React.js
+- Project Management tool: Jira (Scrum)
 
 ## Local Environment Setting Up
 The application consists of a frontend, backend, and database, all of them should be running at the same time so the application can be executed correctly. The different parts can be set up manually. 
