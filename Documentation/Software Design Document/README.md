@@ -6,11 +6,12 @@ Spring 2023, University of Washington Bothell
 
 Team: Purple Kitty Squad
 
-Author: Warren Liu (Lead Developer/Architecture/Backend Developer)
+Author: Warren Liu
 
 Roles:
 
 - Barack Liu (Product Owner)
+- Warren Liu (Lead Developer/Architecture/Backend Developer)
 - Haihan Jiang (QA Engineer)
 - Shahruz Mannan (Sprint 1 Scrum Master/Frontend Developer)
 - Amalaye Oyake (Sprint 2 Scrum Master/QA Engineer)
@@ -403,8 +404,6 @@ return max(0, score)
 ## 8 Testing and Quality Assurance Plan
 
 More details can be found in the **Testing and Quality Assurance Plan**.
-
-https://docs.google.com/document/d/1bBpndY8x2gNIeSEtcoQ1tU1i47D-7SR8kaZE_G3eNVI/edit#
 
 ### 8.1 Testing Objectives
 
