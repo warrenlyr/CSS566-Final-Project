@@ -13,8 +13,8 @@ Stakeholders:
 - Warren Liu (Lead Developer/Architecture, backend developer)
 - Haihan Jiang (QA Engineer)
 - Shahruz Mannan (Sprint 1 Scrum Master, frontend developer)
-- Amalaye Oyake (Sprint 2 Scrum Master)
-- Arsheya Raj (Designer, UI developer)
+- Amalaye Oyake (Sprint 2 Scrum Master, QA Engineer)
+- Arsheya Raj (Designer, frontend developer)
 
 ## Objective of The Project
 The primary objective of this project is to develop a web-based straightforward Word Search game. **Instead of emphasizing software development, the project seeks to provide an opportunity to experience the Scrum management framework**.
