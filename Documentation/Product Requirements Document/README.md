@@ -236,7 +236,7 @@ In this Product Requirement Document (PRD), we have outlined the development goa
 
 By offering various difficulty levels, daily rewards, and fostering community interaction, we aim to increase the popularity of the Roaming Kitty website. Aligned with our Objectives and Key Results (OKRs), we prioritize delivering a seamless user experience and ensuring inclusivity for all players.
 
-## 10 .Reference
+## 12. References
 
 1. https://en.wikipedia.org/wiki/Word_search
 
