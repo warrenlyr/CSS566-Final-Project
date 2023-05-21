@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./styles.css";
+import "./styles.scss";
 import Button from "../../components/Button/Button";
 import Leaderboard from "../../components/LeaderBoard/leaderboard";
 import GameHistory from "../../components/Game History/gameHistory";

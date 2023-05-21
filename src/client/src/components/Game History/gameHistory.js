@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./styles.css";
+import "./styles.scss";
 import { apiInstance } from "../../services/apiInstance";
 
 const GameHistory = ({ styles, type, level }) => {
