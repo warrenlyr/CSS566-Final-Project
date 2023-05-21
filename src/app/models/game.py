@@ -6,6 +6,7 @@ from word_search_generator import WordSearch
 import json
 from bson import ObjectId
 from datetime import datetime
+from random import randint
 
 # TEST USE: to insert app into sys.path
 import os
@@ -136,10 +137,10 @@ class Game:
             puzzle, words, key = Game.puzzle_generator(level=level, size=size)
 
             # compute the name of the game
-            # name for normal game: Level <level> Game <total_normal_games + 1>
+            # name for normal game: Level <level> Game <total_normal_games_this_level + 1>
             if type == 'normal':
-                total_normal_games = self._collection.count_documents({'type': 'normal'})
-                name = f'Level {level} Game {total_normal_games + 1}'
+                total_normal_games_this_level = self._collection.count_documents({'type': 'normal', 'level': level})
+                name = f'Level {level} Game {total_normal_games_this_level + 1}'
             # name for today's rewards game: Today's Rewards Game <date>
             else:
                 name = f"Today's Rewards Game {datetime.today().strftime('%Y-%m-%d')}"
@@ -147,7 +148,7 @@ class Game:
             # if generated successfully, insert the game into the database
             game = {
                 'created_by': 'admin',  # 'admin' if created by admin, user_id if created by user
-                'created_at': datetime.today().strftime('%Y-%m-%d'),  # datetime object
+                'created_at': datetime.today().strftime('%Y-%m-%d'),
                 'name': name,
                 'customized': False,  # True if created by user, False if created by admin
                 'type': type,  # 'normal' if normal game, 'todaysrewards' if today's rewards game
@@ -219,6 +220,119 @@ class Game:
 
         status, error = self.create_random_game(level=2, type='todaysrewards')
         return status, error
+    
+    def create_temp_design(self, level: int, size: int, words: str, user_id: str = None):
+        '''
+        Create a temp game when user tries to design a game.
+        
+        Return True, None if the game is created successfully.
+        Otherwise, return False, error message.
+        
+        Args:
+            level: The difficulty level of the puzzle, in 1-3.
+            size: The size of the puzzle, from 5 to 50.
+            words: The words to be included in the puzzle, a string of words separated by comma.
+        '''
+        # validate the level
+        if level < 1 or level > 3:
+            return False, 'Invalid level. Must be 1, 2, or 3.'
+        
+        # validate the size
+        if size < 5 or size > 50:
+            return False, 'Invalid size. Must be an integer from 5 to 50.'
+        
+        # validate the words
+        words = str(words).strip().split(',')
+        # remove empty words
+        while '' in words: words.remove('')
+        # remove blank spaces
+        words = [word.strip() for word in words]
+        
+        for word in words:
+            if len(word) > size:
+                return False, f'Invalid word "{word}". The length of the word must be less than or equal to the size of the puzzle.'
+        
+        # convert back
+        words=','.join(words)
+            
+        # generate the puzzle
+        try:
+            puzzle, words, key = Game.puzzle_generator(level=level, size=size, words=words)
+            
+            # compute the name of the game
+            if user_id:
+                name = f'Temp Design Game - User - {user_id} - {datetime.now().strftime("%Y%m%d%H%M%S%f")}'
+            else:
+                name = f'Temp Design Game - Anonymous - {randint(10000,99999)} - {datetime.now().strftime("%Y%m%d%H%M%S%f")}'
+            
+            # if generated successfully, insert the game into the database
+            game = {
+                'created_by': ObjectId(user_id) if user_id else 'anonymous',  # 'anonymous' if created by unkow user, user_id if created by logged inuser
+                'created_at': datetime.today().strftime('%Y-%m-%d'), 
+                'name': name,
+                'customized': True, # it's a customized game
+                'type': 'temp', # it's a temp game, will be deleted or be converted to a normal game later
+                'level': level,
+                'size': size,
+                'puzzle': puzzle,
+                'words': words,
+                'key': key
+            }
+            
+            inserted_id = self._collection.insert_one(game).inserted_id
+            
+            if inserted_id:
+                return True, dict(game=game, game_id=str(inserted_id))
+            else:
+                return False, 'Failed to insert the game into the database.'
+            
+        except Exception as e:
+            return False, str(e)
+        
+    def create_normal_game_from_temp_design(self, game_id: str):
+        '''
+        When the user confirms the design of a temp game, convert it to a normal game.
+        
+        Args:
+            game_id: The id of the temp game.
+            
+        Returns:
+            Return True, None if the game is converted successfully.
+            Otherwise, return False, error message.
+        '''
+        # get the game
+        temp_design = self._collection.find_one({'_id': ObjectId(game_id)})
+        
+        # validate the game
+        if not temp_design:
+            return False, 'Invalid game id.'
+        
+        # convert the game to a normal game
+        game_name = self._collection.count_documents({'type': 'normal', 'level': temp_design['level']}) + 1
+        game_name = f'Level {temp_design["level"]} - Game {game_name}'
+        game = {
+            'created_by': temp_design['created_by'],
+            'created_at': temp_design['created_at'],
+            'name': game_name,
+            'customized': True, # it's a customized game
+            'level': temp_design['level'],
+            'size': temp_design['size'],
+            'puzzle': temp_design['puzzle'],
+            'words': temp_design['words'],
+            'key': temp_design['key']
+        }
+        
+        # insert the game into the database
+        try:
+            inserted_id = self._collection.insert_one(game).inserted_id
+            if inserted_id:
+                # delete the temp game
+                self._collection.delete_one({'_id': ObjectId(game_id)})
+                return True, None
+            else:
+                return False, 'Failed to insert the game into the database.'
+        except Exception as e:
+            return False, str(e)
         
     def validate(self, id: str):
         '''
@@ -273,10 +387,13 @@ class Game:
             except:
                 game = None
         else:
-            game = self._collection.find_one(
-                {'level': level},
-                {'created_by': 0, 'customized': 0, 'created_at': 0, 'key': 0}
-            )
+            try:
+                game = self._collection.find_one(
+                    {'level': level, 'type': 'normal'},
+                    {'created_by': 0, 'customized': 0, 'created_at': 0, 'key': 0}
+                )
+            except:
+                game = None
 
         # convert the ObjectId to string
         if game:
@@ -418,17 +535,17 @@ if __name__ == '__main__':
     # )
 
     # clean all the games
-    game = Game()
-    game._collection.delete_many({})
+    # game = Game()
+    # game._collection.delete_many({})
 
     # test create todays reward game
     # game = Game()
-    status, error = game.create_todays_reward_game()
-    print(status, error)
+    # status, error = game.create_todays_reward_game()
+    # print(status, error)
 
     # test create random game
     # game = Game()
-    print(game.create_all_random_games(replace=True))
+    # print(game.create_all_random_games(replace=True))
 
     # test get a random game
     # game = Game()
@@ -445,3 +562,17 @@ if __name__ == '__main__':
     # test validate
     # game = Game()
     # print(game.validate('645ca867e442f82fc0cbc8f4'))
+    
+    # test design game
+    game = Game()
+    status, data = game.create_temp_design(
+        level=7,
+        size=10,
+        words='dog, cat, pig',
+    )
+    print(status, data)
+    # game_id = data['game_id']
+    
+    # test create normal game from temp design
+    # game = Game()
+    # print(game.create_normal_game_from_temp_design(game_id))

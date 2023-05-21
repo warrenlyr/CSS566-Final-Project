@@ -351,4 +351,50 @@ def game_share_score_to_leaderboard(game_history_id: str):
             jsonify(dict(error='User not found')),
             404
         )
+        
+    #TODO: INCOMPLETE
+        
+        
+@app.route(API_URL_PREFIX + '/game/design', methods=['POST'])
+@jwt_required(optional=True)
+def game_design_puzzle():
+    '''
+    Receive request from user to design a puzzle.
+    '''
+    # get data from request body
+    level = request.json.get('level', None)
+    size = request.json.get('size', None)
+    words = request.json.get('words', None)
+    
+    # validate and convert level to int
+    try:
+        level = int(level)
+    except Exception as e:
+        return make_response(
+            jsonify(dict(error='level must be an integer between 1 and 3')),
+            400
+        )
+    
+    try:
+        size = int(size)
+    except Exception as e:
+        return make_response(
+            jsonify(dict(error='size must be an integer between 5 and 50')),
+            400
+        )
+    
+    # validate words
+    if not words:
+        return make_response(
+            jsonify(dict(error='words is required')),
+            400
+        )
+    
+    # try to design a puzzle
+    game = Game()
+    status, 
+    
+    
+    
+    
 
