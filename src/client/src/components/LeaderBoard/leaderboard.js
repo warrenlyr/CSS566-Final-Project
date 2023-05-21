@@ -1,55 +1,63 @@
-import React, { Component,useState } from "react";
-import "./styles.css";
+import React, { useEffect, useState } from "react";
+import "./styles.scss";
 import Button from "../../components/Button/Button";
 import { apiInstance } from "../../services/apiInstance";
 
-const Leaderboardlanding = () => {
+const Leaderboard = ({ styles, type, level }) => {
+	const [leaderboardData, setLeaderboardData] = useState([]);
+	const [refreshClicked, setRefreshClicked] = useState(false);
 
-	const [rank,setRank] = useState(0);
-	const [score, setScore] =useState(0);
-	const [username,setUsername] = useState("Anonymous");
+	useEffect(() => {
+		fetchData();
+	}, [refreshClicked]);
 
-	const refreshbutton = () => {
-		alert("Refresh button to be tested with the backend");
-		apiInstance
-			.get("/leaderboards/todaysrewardgame")
+	const fetchData = async () => {
+		let path = "";
+		if (type === "todaysrewards") {
+			path = "/leaderboards/todaysrewardgame";
+		} else {
+			path = `/game/level/${level}`;
+		}
+		await apiInstance
+			.get(path)
 			.then((res) => {
-				const data = res.data;
-				setRank(data.rank);
-				setScore(data.score);
-				setUsername(data.username);
+				const data = res.data.data;
+				setLeaderboardData(data);
 			})
 			.catch((error) => {
 				console.log(error);
 			});
 	};
 
-	return(
-		<div className="Board">
-			<table className="leaderboard ">
-				<div className="leaderboardheader">
-					< h2 > Leaderboard </h2>
-					<Button 
-						className="leaderboardrefreshbutton"
-						handleClick={() => refreshbutton()}
-					> Refresh </Button>
-				</div>
-				<col style={{ width: "10%" }} />
-				<col style={{ width: "80%" }} />
-				<col style={{ width: "10%" }} />
+	return (
+		<div className={`leaderboardContainer ${styles}`}>
+			<div className="leaderboardheader">
+				<div className="leaderboardTitle">Leaderboard</div>
+				<Button
+					additionalStyles={"leaderboardrefreshbutton"}
+					type={"buton"}
+					handleClick={() => setRefreshClicked(!refreshClicked)}
+				>
+					Refresh
+				</Button>
+			</div>
+			<table className="leaderboard">
 				<tbody>
-
-					<tr>
-						<td className="column-1"> {rank} </td>
-						<td className="column-2"> {username} </td>
-						<td className="column-3"> {score} </td>
-					</tr>						
-					
+					{leaderboardData.map((el) => {
+						return (
+							<tr className="leaderboardRow" key={el.rank + 1}>
+								<td className="rankColumn"> {el.rank + 1} </td>
+								<td className="scoreColumn">
+									<span className="username">{el.username}</span>{" "}
+									<span>{el.score}</span>
+								</td>
+							</tr>
+						);
+					})}
 				</tbody>
 			</table>
 		</div>
 	);
-	
-}
+};
 
-export default Leaderboardlanding;
+export default Leaderboard;

@@ -1,0 +1,22 @@
+.gameHistoryContainer {
+	display: block;
+	border-radius: 10px;
+	width: 20%;
+	min-width: 350px;
+	height: 500px;
+	box-shadow: 0 7px 30px rgba(62, 9, 11, 0.3);
+	margin-left: 30px;
+	padding: 20px 20px 10px 10px;
+}
+
+.gameHistoryTitle {
+	font-size: 30px;
+	font-weight: 500;
+}
+
+.History {
+	border: 1px;
+}
+.userHistory {
+	text-align: left;
+}

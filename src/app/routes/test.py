@@ -11,8 +11,8 @@ from app import app
 @app.route('/')
 def hello_world():
     return '''
-        <h1>Hello, World!</h1>
         <h1>Flask is running correctly!</h1>
+        <h1>You've reached the backend server of our project!</h1>
         <h1>Project code base: <a href="https://github.com/warrenlyr/CSS566-Final-Project" target="_blank">GitHub</a></h1>
         ''', 200
 

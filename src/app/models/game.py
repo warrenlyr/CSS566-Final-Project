@@ -135,10 +135,20 @@ class Game:
             # generate the puzzle
             puzzle, words, key = Game.puzzle_generator(level=level, size=size)
 
+            # compute the name of the game
+            # name for normal game: Level <level> Game <total_normal_games + 1>
+            if type == 'normal':
+                total_normal_games = self._collection.count_documents({'type': 'normal'})
+                name = f'Level {level} Game {total_normal_games + 1}'
+            # name for today's rewards game: Today's Rewards Game <date>
+            else:
+                name = f"Today's Rewards Game {datetime.today().strftime('%Y-%m-%d')}"
+
             # if generated successfully, insert the game into the database
             game = {
                 'created_by': 'admin',  # 'admin' if created by admin, user_id if created by user
                 'created_at': datetime.today().strftime('%Y-%m-%d'),  # datetime object
+                'name': name,
                 'customized': False,  # True if created by user, False if created by admin
                 'type': type,  # 'normal' if normal game, 'todaysrewards' if today's rewards game
                 'level': level,
@@ -185,7 +195,7 @@ class Game:
 
         # create 10 games for each level
         for level in [1, 2, 3]:
-            for _ in range(10):
+            for count in range(10):
                 # to avoid creating failed games, try 10 times
                 for _ in range(10):
                     status, _ = self.create_random_game(level=level, type='normal')
@@ -209,7 +219,27 @@ class Game:
 
         status, error = self.create_random_game(level=2, type='todaysrewards')
         return status, error
+        
+    def validate(self, id: str):
+        '''
+        Validate if a game exists in the database by the given id.
+
+        Args:
+            id: The id of the game.
+
+        Returns:
+            True if the game exists.
+            False if the game does not exist.
+        '''
+        try:
+            if self._collection.find_one({'_id': ObjectId(id)}):
+                return True
+            else:
+                return False
+        except:
+            return False
     
+
     '''
     Below are getter functions for the game collection.
     '''
@@ -232,12 +262,12 @@ class Game:
         if level not in [1, 2, 3]:
             raise ValueError('Invalid level. Must be 1, 2, or 3.')
         
-        # get a random game from the database
+        # get a random game from the database of type 'normal'
         # exclude the created_by, created_at, customized, and key fields
         if current_game_id:
             try:
                 game = self._collection.find_one(
-                    {'level': level, '_id': {'$ne': ObjectId(current_game_id)}},
+                    {'level': level, 'type': 'normal', '_id': {'$ne': ObjectId(current_game_id)}},
                     {'created_by': 0, 'customized': 0, 'created_at': 0, 'key': 0}
                 )
             except:
@@ -304,6 +334,55 @@ class Game:
             game['_id'] = str(game['_id'])
 
         return game
+        
+    def get_game_level(self, id: str):
+        '''
+        Get the level of a game by the given id.
+
+        Args:
+            id: The id of the game.
+
+        Returns:
+            The level of the game.
+            None if no game is found.
+        '''
+        try:
+            game = self._collection.find_one({'_id': ObjectId(id)})
+        except:
+            game = None
+        
+        if game:
+            return game['level']
+        else:
+            return None
+        
+    def get_game_name(self, id: str):
+        '''
+        Get the name of a game by the given id.
+
+        Args:
+            id: The id of the game.
+
+        Returns:
+            The name of the game.
+            None if no game is found.
+        '''
+        try:
+            game = self._collection.find_one({'_id': ObjectId(id)})
+        except:
+            game = None
+
+        if game:
+            return game['name']
+        else:
+            return None
+        
+    def get_all_games(self):
+        '''
+        Get all games from the database.
+        '''
+        games = self._collection.find()
+        return games
 
         
 
@@ -338,19 +417,18 @@ if __name__ == '__main__':
     #     )
     # )
 
+    # clean all the games
+    game = Game()
+    game._collection.delete_many({})
+
     # test create todays reward game
     # game = Game()
-    # status, error = game.create_todays_reward_game()
-    # print(status, error)
+    status, error = game.create_todays_reward_game()
+    print(status, error)
 
     # test create random game
     # game = Game()
-    # print(game.create_all_random_games(replace=True))
-
-
-    # clean all the games
-    # game = Game()
-    # game._collection.delete_many({})
+    print(game.create_all_random_games(replace=True))
 
     # test get a random game
     # game = Game()
@@ -363,3 +441,7 @@ if __name__ == '__main__':
     # test get key of a game
     # game = Game()
     # print(game.get_key_of_a_game('645b3922f60f61e02f80e740'))
+
+    # test validate
+    # game = Game()
+    # print(game.validate('645ca867e442f82fc0cbc8f4'))

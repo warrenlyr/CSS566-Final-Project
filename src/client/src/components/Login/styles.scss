@@ -1,4 +1,7 @@
+@import "../../styles/variables";
+
 .modalTitle {
+	color: $textColorBlack;
 	text-align: center;
 	font-size: 28px;
 	font-weight: 500;
@@ -6,6 +9,7 @@
 }
 
 .formLabel {
+	color: $textColorBlack;
 	display: block;
 	margin-top: 30px;
 	margin-bottom: 3px;
@@ -22,7 +26,7 @@ input:focus {
 }
 
 .wrongPassword {
-	color: red;
+	color: $textColorRed;
 	font-size: 12px;
 }
 
@@ -35,7 +39,7 @@ input:focus {
 }
 
 .formButton {
-	border-radius: 15px;
+	border-radius: 10px;
 	font-size: 16px;
 	margin: 0;
 	min-height: 60px;
@@ -44,13 +48,23 @@ input:focus {
 	width: 100%;
 }
 
+.guestText {
+	margin-top: 15px;
+	margin-bottom: 5px;
+	display: block;
+	color: $textColorBlack;
+	text-align: center;
+}
+
 .lineBreak {
-	margin-top: 40px;
+	color: $gray;
+	margin-top: 30px;
 	border: none;
 	border-top: 1px solid;
 }
 
 .register {
+	color: $textColorBlack;
 	display: block;
 	text-decoration: none;
 	font-size: 12px;
