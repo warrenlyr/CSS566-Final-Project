@@ -8,7 +8,7 @@ import GameHistory from "../../components/GameHistory/gameHistory";
 const LandingPage = () => {
 	return (
 		<>
-			<div className="pageTitle">Husky seeks for Kitty</div>
+			<div className="pageTitle">Husky seeks Kitty</div>
 			<div className="landingContainer">
 				<Leaderboard
 					styles={"landingLeaderboard"}
