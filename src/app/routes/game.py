@@ -380,6 +380,14 @@ def game_design_puzzle():
             jsonify(dict(error='words is required')),
             400
         )
+    # check if words contains only letters and spaces
+    else:
+        if not all(c.isalpha() or c.isspace() for c in str(words)):
+            return make_response(
+                jsonify(dict(error='words can only contain letters and spaces')),
+                400
+            )
+    
     
     # if the user is logged in, the created will be marked as this user
     user_id = None
@@ -410,7 +418,42 @@ def game_design_puzzle():
             422
         )
     
+
+@app.route(API_URL_PREFIX + '/game/designpuzzle/submit', methods=['POST'])
+@jwt_required(optional=True)
+def game_design_puzzle_submit():
+    '''
+    Once user is satisfied with the puzzle, they can submit the puzzle by 
+    clicking on the confirm button, we will receive the request here
+    and convert the temp game into a normal game.
+    '''
+    # get data from request body
+    game_id = request.json.get('game_id', None)
+
+    # validate and convert game_id to string
+    if not game_id:
+        return make_response(
+            jsonify(dict(error='game_id is required')),
+            400
+        )
     
+    # the existance of the game is validated in the create normal process
+    # so we don't need to validate it here
+    game = Game()
+    status, result = game.create_normal_game_from_temp_design(game_id=game_id)
+
+    # if game is created
+    if status:
+        return make_response(
+            jsonify(dict(status=True)),
+            201
+        )
+    # if not, return error message
+    else:
+        return make_response(
+            jsonify(dict(error=result)),
+            422
+        )
     
     
 

@@ -649,6 +649,151 @@ Failed
 }
 ```
 
+### Design a Puzzle
+
+`/game/designpuzzle/create`
+
+Generate a customized puzzle by providing the `words` and `level` in the request body. This custom puzzle will be structured identically to the normal and daily reward games. Upon successful creation, a `game_id` will be returned along with the game data, enabling users to review the design and decide whether to proceed with it or generate a new one.
+
+If an access token is included in the request, the `created_by` attribute will be assigned the user ID. If no access token is provided, `created_by` will be set as "anonymous".
+
+Games created via this API endpoint will be labeled as `type="temp"`. It's the server's responsibility to purge "temp" game data that's over 2 hours old. Once users are content with their designed puzzle, they can finalize it by hitting the confirm button and sending another request to the **Confirm a Designed Puzzle** API endpoint. This action will transition the game data from "temp" to "normal" status. For further information, refer to the **Confirm a Designed Puzzle** API endpoint section.
+
+**Accepted request types**
+
+POST
+
+**Optional Header**
+
+- `Authorization: Bearer <access_token>`
+
+**Required Body**
+
+- `words`: A string of space-separated words (not a list of string), eg: "cat dog pig"
+- `level`: An integer between 1-3
+
+**Response**
+
+Success (201)
+
+```json
+{
+    "game": {
+        "_id": "646be677afc35a4470632e6f",
+        "created_at": "2023-05-22",
+        "created_by": "646556146471c08c55b3f2bf",
+        "customized": true,
+        "key": [
+            {
+                "direction": "S",
+                "start_col": 3,
+                "start_row": 1,
+                "word": "CAT"
+            },
+            {
+                "direction": "E",
+                "start_col": 0,
+                "start_row": 1,
+                "word": "DOG"
+            },
+            {
+                "direction": "E",
+                "start_col": 0,
+                "start_row": 0,
+                "word": "PIG"
+            }
+        ],
+        "level": 1,
+        "name": "Temp Design Game - User - 646556146471c08c55b3f2bf - 20230522150231083870",
+        "puzzle": [
+            [
+                "P",
+                "I",
+                "G",
+                "Z",
+                "A"
+            ],
+            [
+                "D",
+                "O",
+                "G",
+                "C",
+                "O"
+            ],
+            [
+                "K",
+                "X",
+                "P",
+                "A",
+                "B"
+            ],
+            [
+                "J",
+                "G",
+                "R",
+                "T",
+                "J"
+            ],
+            [
+                "X",
+                "P",
+                "Q",
+                "B",
+                "S"
+            ]
+        ],
+        "size": 5,
+        "type": "temp",
+        "words": [
+            "CAT",
+            "DOG",
+            "PIG"
+        ]
+    },
+    "game_id": "646be677afc35a4470632e6f"
+}
+```
+
+Failed
+
+```json
+{
+    "error": "error message"
+}
+```
+
+### Confirm a Designed Puzzle
+
+`/game/designpuzzle/submit`
+
+Create a normal game from a "temp" game by given `game_id`. When users find the puzzle design to their liking, they can proceed to finalize it by hitting the confirm button. This action sends a request to our server where we process it accordingly, transforming the temporary game into a normal game.
+
+**Accepted request types**
+
+POST
+
+**Required Body**
+
+- `game_id`: The ID of temp game to be confirmed
+
+**Response**
+
+Success (201)
+
+```json
+{
+    "status": true
+}
+```
+
+Failed
+
+```json
+{
+    "error": "error message"
+}
+```
+
 ## Leaderboards
 
 `/leaderboards`
