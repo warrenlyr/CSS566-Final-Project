@@ -395,6 +395,8 @@ def game_design_puzzle():
         level=level, words=words, user_id=user_id
     )
 
+    print(result)
+
     # if game is created
     if status:
         return make_response(
