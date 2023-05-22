@@ -288,6 +288,13 @@ class Game:
             inserted_id = self._collection.insert_one(game).inserted_id
             
             if inserted_id:
+                # convert created_by from ObjectId to str
+                if isinstance(game['created_by'], ObjectId):
+                    game['created_by'] = str(game['created_by'])
+                
+                # convert game id from ObjectId to str
+                game['_id'] = str(inserted_id)
+
                 return True, dict(game=game, game_id=str(inserted_id))
             else:
                 return False, 'Failed to insert the game into the database.'
