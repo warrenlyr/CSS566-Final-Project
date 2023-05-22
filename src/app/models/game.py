@@ -314,7 +314,7 @@ class Game:
             Otherwise, return False, error message.
         '''
         # get the game
-        temp_design = self._collection.find_one({'_id': ObjectId(game_id)})
+        temp_design = self._collection.find_one({'_id': ObjectId(game_id), 'type': 'temp'})
         
         # validate the game
         if not temp_design:
@@ -328,6 +328,7 @@ class Game:
             'created_at': temp_design['created_at'],
             'name': game_name,
             'customized': True, # it's a customized game
+            'type': 'normal', # it's a normal game
             'level': temp_design['level'],
             'size': temp_design['size'],
             'puzzle': temp_design['puzzle'],
@@ -520,6 +521,15 @@ class Game:
 if __name__ == '__main__':
     from app.models.game import Game
 
+    # refresh the database
+    # game = Game()
+    # # clean all games
+    # game._collection.delete_many({})
+    # # create todays reward game
+    # game.create_todays_reward_game()
+    # # create all normal games
+    # game.create_all_random_games()
+
     # test codes
     # # size: [5, 50]
     # puzzle = WordSearch(
@@ -577,13 +587,13 @@ if __name__ == '__main__':
     # print(game.validate('645ca867e442f82fc0cbc8f4'))
     
     # test design game
-    game = Game()
-    status, data = game.create_temp_design(
-        level=7,
-        size=10,
-        words='dog, cat, pig',
-    )
-    print(status, data)
+    # game = Game()
+    # status, data = game.create_temp_design(
+    #     level=7,
+    #     size=10,
+    #     words='dog, cat, pig',
+    # )
+    # print(status, data)
     # game_id = data['game_id']
     
     # test create normal game from temp design
