@@ -1,10 +1,12 @@
+@import "../../styles/variables";
+
 .square {
 	appearance: none;
-	border: 1px solid black;
+	color: $white;
+	background-color: $secondaryColor;
 	font-size: 32px;
 	font-weight: bold;
-	color: white;
-	background-color: #0c9d9e;
+	border: 1px solid black;
 	margin: 2px;
 }
 
@@ -24,9 +26,9 @@
 }
 
 .squareOpened {
-	background-color: #df6c4f;
+	background-color: $buttonColor;
 }
 
 .squareClicked {
-	background-color: #f28187;
+	background-color: $buttonBorderColor;
 }

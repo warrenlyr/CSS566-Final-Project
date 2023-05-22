@@ -45,7 +45,7 @@ class GameHistory:
             'valid_time_elapsed': False,  # whether the time_elapsed is valid
             'start_time': start_time if start_time else datetime.now(),  # the time when the game data is requested
             'end_time': None,  # the time when the game-finish request is received
-            'attemps': 0,  # number of tries
+            'attempts': 0,  # number of tries
             'score': 0,  # score
         }
 
@@ -62,13 +62,13 @@ class GameHistory:
             print(e)
             return None
         
-    def _calculate_score(self, time_elapsed: int, attemps: int, level: int):
+    def _calculate_score(self, time_elapsed: int, attempts: int, level: int):
         '''
-        Private method to calculate the score by the given time_elapsed and attemps.
+        Private method to calculate the score by the given time_elapsed and attempts.
 
         Args:
             time_elapsed (int): time elapsed of the game in ms
-            attemps (int): number of tries of the game
+            attempts (int): number of tries of the game
             level (int): level of the game
 
         Returns:
@@ -76,7 +76,7 @@ class GameHistory:
         '''
         base_score = 2000
         time_elapsed_penalty = 0.005 # penalty per ms
-        attemps_penalty = 10 # penalty per attemp
+        attempts_penalty = 10 # penalty per attemp
 
         if level == 1:
             level_multiplier = 1
@@ -87,7 +87,7 @@ class GameHistory:
 
         # print(time_elapsed * time_elapsed_penalty)
 
-        score = (base_score - time_elapsed * time_elapsed_penalty - attemps * attemps_penalty) * level_multiplier
+        score = (base_score - time_elapsed * time_elapsed_penalty - attempts * attempts_penalty) * level_multiplier
         # to prevent negative score
         return max(0, score)
         
@@ -96,7 +96,7 @@ class GameHistory:
         self, 
         game_history_id: str,
         time_elapsed: str,
-        attemps: int,
+        attempts: int,
         end_time: datetime = None,
     ):
         '''
@@ -104,7 +104,7 @@ class GameHistory:
 
         - finished will be set to True
         - end_time will be set to the current time
-        - attemps will be stored
+        - attempts will be stored
         - time_elapsed will be validated by the game server
         - if time_elapsed is valid, score will be calculated and stored
 
@@ -113,7 +113,7 @@ class GameHistory:
         Args:
             game_history_id (str): game history id of the game to finish
             time_elapsed (str): time elapsed of the game to finish in ms
-            attemps (int): number of tries of the game to finish
+            attempts (int): number of tries of the game to finish
             end_time (datetime): the time when the game-finish request is received
 
         Returns:
@@ -154,7 +154,7 @@ class GameHistory:
             game = Game()
             level = game.get_game_level(game_history['game_id'])
 
-            score = self._calculate_score(time_elapsed, attemps, level)
+            score = self._calculate_score(time_elapsed, attempts, level)
 
         # update the game history in MongoDB
         try:
@@ -165,7 +165,7 @@ class GameHistory:
                         'finished': True,
                         'valid_time_elapsed': valid_time_elapsed,
                         'end_time': end_time,
-                        'attemps': attemps,
+                        'attempts': attempts,
                         'score': score if valid_time_elapsed else 0
                     }
                 }
@@ -175,6 +175,48 @@ class GameHistory:
             return True, score if valid_time_elapsed else 0, None if valid_time_elapsed else 'Invalid time elapsed (cheating) detected'
         except Exception as e:
             return False, 0, str(e)
+        
+    def get_game_history_of_user(self, user_id: str):
+        '''
+        Get all the game histories of the given user.
+
+        Args:
+            user_id (str): user id of the user
+
+        Returns:
+            list: list of game histories of the user
+        '''
+        game_history = list(self._collection.find({'user_id': bson.ObjectId(user_id)}, {'user_id': 0}))
+
+        if game_history:
+            game = Game()
+
+            for gh in game_history:
+                # convert the ObjectId to str
+                # rename the _id to game_history_id and remove the _id
+                gh['game_history_id'] = str(gh['_id'])
+                del gh['_id']
+
+                gh['game_id'] = str(gh['game_id'])
+
+                # get the game name of each game
+                gh['game_name'] = game.get_game_name(gh['game_id'])
+
+        return game_history 
+    
+    def validate(self, game_history_id: str):
+        '''
+        Validate if the game history exists.
+
+        Args:
+            game_history_id (str): game history id of the game history to validate
+
+        Returns:
+            bool: True if the game history exists, False otherwise
+        '''
+        if not self._collection.find_one({'_id': bson.ObjectId(game_history_id)}):
+            return False
+        return True
 
             
 
@@ -192,15 +234,21 @@ if __name__ == '__main__':
     # )
 
     # test finish
-    print(
-        history.finish(
-            game_history_id='646189eeebce2ec75c785857',
-            time_elapsed='20000',
-            attemps=26
-        )
-    )
+    # print(
+    #     history.finish(
+    #         game_history_id='646189eeebce2ec75c785857',
+    #         time_elapsed='20000',
+    #         attempts=26
+    #     )
+    # )
     
 
     # test calculate score
     # print(history._calculate_score(3.45*60*1000, 35, 1))
+
+    # clean up
+    history._collection.delete_many({})
+
+    # test get game history of user
+    # print(history.get_game_history_of_user('645875a9f49e2e790f72eee6'))
     

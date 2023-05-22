@@ -2,7 +2,7 @@ import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "./styles.css";
+import "./styles.scss";
 import Modal from "../Modal/modal";
 import Login from "../Login/Login";
 import Button from "../Button/Button";
@@ -23,6 +23,7 @@ const Navbar = ({ token, removeToken, setToken }) => {
 		apiInstance
 			.post("/auth/logout")
 			.then((res) => {
+				console.log(res.data);
 				toast.success(res.data.message);
 				removeToken();
 				setUser("");
@@ -34,7 +35,7 @@ const Navbar = ({ token, removeToken, setToken }) => {
 
 	const getProfile = () => {
 		authApiInstance
-			.get("/auth/profile")
+			.get("/auth/user/profile")
 			.then((res) => setUser(res.data.username))
 			.catch((e) => console.log(e));
 	};
@@ -44,7 +45,7 @@ const Navbar = ({ token, removeToken, setToken }) => {
 			<div className="navbar">
 				<Link to="/">
 					<img
-						src={process.env.PUBLIC_URL + "/logo.png"}
+						src={process.env.PUBLIC_URL + "/logo-transparent.png"}
 						alt="logo"
 						className="logo"
 					></img>
