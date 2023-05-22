@@ -1,6 +1,6 @@
 # API Endpoints Documentation
 
-Update: 5/17/2023
+Update: 5/22/2023
 
 Current API version: v0
 
@@ -16,12 +16,15 @@ API endpoints prefix: `/api/<api_version>`
   - [Logout](#logout)
 - [User Account](#user-account)
   - [Profile (Login Required)](#profile-login-required)
+  - [User Game History](#user-game-history)
   - [Delete Account (Login Required)](#delete-account-login-required)
 - [Game](#game)
   - [Get a Normal Game](#get-a-normal-game)
   - [Get Today's Reward Game](#get-todays-reward-game)
   - [Get Game Key](#get-game-key)
   - [Finish a Game](#finish-a-game)
+  - [Design a Puzzle](#design-a-puzzle)
+  - [Confirm a Designed Puzzle](#confirm-a-designed-puzzle)
 - [Leaderboards](#leaderboards)
   - [Today's Reward Game](#todays-reward-game)
   - [Normal Game](#normal-game)
