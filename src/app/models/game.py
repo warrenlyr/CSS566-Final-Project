@@ -221,12 +221,14 @@ class Game:
         status, error = self.create_random_game(level=2, type='todaysrewards')
         return status, error
     
-    def create_temp_design(self, level: int, size: int, words: str, user_id: str = None):
+    def create_temp_design(self, level: int, words: str, user_id: str = None):
         '''
         Create a temp game when user tries to design a game.
         
-        Return True, None if the game is created successfully.
-        Otherwise, return False, error message.
+        For more details about puzzle configuration,
+        see `create_random_game()`. Becuase this design puzzle
+        is considered as create a normal game as well,
+        so they share the same configuration.
         
         Args:
             level: The difficulty level of the puzzle, in 1-3.
@@ -237,12 +239,16 @@ class Game:
         if level < 1 or level > 3:
             return False, 'Invalid level. Must be 1, 2, or 3.'
         
-        # validate the size
-        if size < 5 or size > 50:
-            return False, 'Invalid size. Must be an integer from 5 to 50.'
+        # calculate the size of the puzzle
+        if level == 1:
+            size = 5
+        elif level == 2:
+            size = 7
+        elif level == 3:
+            size = 10
         
         # validate the words
-        words = str(words).strip().split(',')
+        words = str(words).strip().split(' ')
         # remove empty words
         while '' in words: words.remove('')
         # remove blank spaces
