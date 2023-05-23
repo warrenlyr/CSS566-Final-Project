@@ -163,6 +163,11 @@ class Game:
             inserted_id = self._collection.insert_one(game).inserted_id
 
             if inserted_id:
+                # if game is inserted successfully, initialize the leaderboard
+                from app.models import Leaderboard
+                leaderboard = Leaderboard()
+                leaderboard.init()
+                
                 return True, None
             else:
                 return False, 'Failed to insert the game into the database.'
