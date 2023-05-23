@@ -2,26 +2,43 @@ import React, { useEffect, useState } from "react";
 import "./styles.scss";
 import Button from "../../components/Button/Button";
 import { apiInstance } from "../../services/apiInstance";
+import { authApiInstance } from "../../services/authApiInstance";
 
-const Leaderboard = ({ styles, type, level }) => {
+const Leaderboard = ({ styles}) => {
 	const [leaderboardData, setLeaderboardData] = useState([]);
 	const [refreshClicked, setRefreshClicked] = useState(false);
 
 	useEffect(() => {
-		fetchData();
+		fetchUserGameHistory()
+			.then(gameId => {
+				fetchData(gameId);
+			});
 	}, [refreshClicked]);
 
-	const fetchData = async () => {
-		let path = "";
-		if (type === "todaysrewards") {
-			path = "/leaderboards/todaysrewardgame";
-		} else {
-			path = `/game/level/${level}`;
-		}
+	const fetchUserGameHistory = async () => {
+		const path = "/auth/user/gamehistory";
+		let gameId;
+
+		await authApiInstance
+			.get(path)
+			.then((res) => {
+				const data = res.data;
+				gameId = data[data.length - 1].game_id;
+			})
+			.catch((error) => {
+				console.log(error); 
+			});
+
+		return (gameId);
+	};
+
+	const fetchData = async (gameId) => {
+		const path = `/leaderboard/get/${gameId}`;
+
 		await apiInstance
 			.get(path)
 			.then((res) => {
-				const data = res.data.data;
+				const data = res.data.leaderboard;
 				setLeaderboardData(data);
 			})
 			.catch((error) => {
@@ -35,7 +52,7 @@ const Leaderboard = ({ styles, type, level }) => {
 				<div className="leaderboardTitle">Leaderboard</div>
 				<Button
 					additionalStyles={"leaderboardrefreshbutton"}
-					type={"buton"}
+					type={"button"}
 					handleClick={() => setRefreshClicked(!refreshClicked)}
 				>
 					Refresh
@@ -45,8 +62,8 @@ const Leaderboard = ({ styles, type, level }) => {
 				<tbody>
 					{leaderboardData.map((el) => {
 						return (
-							<tr className="leaderboardRow" key={el.rank + 1}>
-								<td className="rankColumn"> {el.rank + 1} </td>
+							<tr className="leaderboardRow" key={el.rank}>
+								<td className="rankColumn"> {el.rank} </td>
 								<td className="scoreColumn">
 									<span className="username">{el.username}</span>{" "}
 									<span>{el.score}</span>
