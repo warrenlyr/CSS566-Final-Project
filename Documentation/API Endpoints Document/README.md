@@ -27,7 +27,8 @@ API endpoints prefix: `/api/<api_version>`
   - [Confirm a Designed Puzzle](#confirm-a-designed-puzzle)
 - [Leaderboards](#leaderboards)
   - [Share Score](#share-score)
-  - [Get Leaderboard](#get-leaderboard)
+  - [Get Leaderboard of A Game](#get-leaderboard-of-a-game)
+  - [Get Leaderboard For Landing Page](#get-leaderboard-for-landing-page)
 
 
 ## Status Code
@@ -846,7 +847,7 @@ Failed
 }
 ```
 
-### Get Leaderboard
+### Get Leaderboard of A Game
 
 `/leaderboard/get/<game_id>`
 
@@ -888,3 +889,44 @@ Failed
 }
 ```
 
+### Get Leaderboard For Landing Page
+
+`/leaderboard/landingpage`
+
+The last `Get Leaderboard` function only works when a `game_id` is provided. However, when the user lands on the landing page, the frontend will not have a `game_id` because the user doesn't request for a game. Therefore, this endpoint is created for the landing page to get the leaderboard data of Today's Reward Game directly.
+
+**Accepted request types**
+
+GET
+
+**Response**
+
+Success (200)
+
+```json
+{
+    "game_id": "646d0a2b23561fabadc340b4",
+    "game_name": "Today's Rewards Game 2023-05-23",
+    "last_updated": "2023-05-23 11:47:08",
+    "leaderboard": [
+    	{
+            "rank": 1,
+            "score": 1995.0,
+            "username": "test"
+        },
+        {
+            "rank": 2,
+            "score": 1935.0,
+            "username": "Anonymous"
+        }
+    ]
+}
+```
+
+Failed
+
+```json
+{
+    "error": "Error message"
+}
+```
