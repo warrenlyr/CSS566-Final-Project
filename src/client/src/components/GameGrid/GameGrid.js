@@ -215,8 +215,8 @@ const GameGrid = ({
 						toast.success("Score successfully shared!");
 					}
 				})
-				.catch((error) => {
-					console.log(error);
+				.catch(() => {
+					toast.error("Something went wrong while sharing scores");
 				});
 		}
 	};
