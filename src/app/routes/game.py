@@ -309,15 +309,16 @@ def finish_game(game_history_id: str):
         
 
 @app.route(API_URL_PREFIX + '/game/sharescore/<game_history_id>', methods=['POST'])
-@jwt_required()
+@jwt_required(optional=True)
 def game_share_score_to_leaderboard(game_history_id: str):
     '''
     When a game is finished and a score is calculated scuuessfully,
     we give users an option to share their score to the leaderboard.
     They can either share anonymously or share with their username.
 
-    This function can only be called when the user is logged in.
-    So the user id is retrieved from the JWT token.
+    If the user is logged in, they can either share anonymously 
+    or share with their username.
+    If the user is not logged in, they can only share anonymously.
 
     Game history id is provided in the URL path.
     '''
@@ -346,11 +347,10 @@ def game_share_score_to_leaderboard(game_history_id: str):
     
     # get user id from JWT token
     this_user = get_jwt_identity()
-    if not this_user:
-        return make_response(
-            jsonify(dict(error='User not found')),
-            404
-        )
+    user_id = None
+    if this_user:
+        user = User()
+        user_id = user.get_id(this_user)
         
     #TODO: INCOMPLETE
         
@@ -402,8 +402,6 @@ def game_design_puzzle():
     status, result = game.create_temp_design(
         level=level, words=words, user_id=user_id
     )
-
-    print(result)
 
     # if game is created
     if status:
