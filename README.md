@@ -199,3 +199,15 @@ We interface with our Atlas database through the MongoDB Python connector within
 For instructions on how to connect to a MongoDB database, please refer to this link: https://www.mongodb.com/try/download/compass.
 
 While we utilize the cloud-based MongoDB Atlas, you may also choose to install MongoDB on your local system if it better suits your needs. The official documentation for this process can be found here: https://www.mongodb.com/try/download/community-kubernetes-operator.
+
+## Testing
+
+The application has style checking using [eslint][eslint] for frontend.
+
+```bash
+# Run style checking for the frontend
+cd client/
+npm run lint
+```
+
+[eslint]: https://eslint.org/
