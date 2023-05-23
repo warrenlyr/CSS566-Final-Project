@@ -4,11 +4,17 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Select from "react-select";
 import Button from "../../components/Button/Button";
+import { apiInstance } from "../../services/apiInstance";
+import DesignSquare from "../../components/DesignSquare/designSquare";
+import Spinner from "../../components/Spinner/Spinner";
 
 const DesignPuzzle = () => {
 	const [wordList, setWordList] = useState("");
 	const [levelDifficulty, setLevelDifficulty] = useState({ value: 1, label: "1" });
+	const [puzzleData, setPuzzleData] = useState({});
+	const [gameID, setGameID] = useState("");
 	const [showBoard, setShowBoard] = useState(false);
+	const [loading, setLoading] = useState(false);
 
 	const options = [
 		{ value: 1, label: "1" },
@@ -16,22 +22,50 @@ const DesignPuzzle = () => {
 		{ value: 3, label: "3" },
 	];
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
+		setLoading(true);
 		e.preventDefault();
 		const containsLetters = /^[A-Za-z\s]*$/.test(wordList);
-
 		if (containsLetters) {
-			console.log(wordList, levelDifficulty.value);
+			const data = {
+				words: wordList,
+				level: levelDifficulty.value
+			};
+			await apiInstance
+				.post("/game/designpuzzle/create", data)
+				.then((res) => {
+					setPuzzleData(res.data.game);
+					setGameID(res.data.game_id);
+				}).catch((e) => {
+					toast.error(e.response.data.error);
+				});
 			setShowBoard(true);
 			
 		} else {
 			toast.error("Words are not containing just letters.");
 			setShowBoard(false);
 		}
+		setLoading(false);
 	};
 
 	const handlechange = (e) => {
 		setWordList(e.target.value);
+	};
+
+	const handleConfirm = async () => {
+		const data = {
+			game_id: gameID,
+		};
+
+		await apiInstance
+			.post("/game/designpuzzle/submit", data)
+			.then((res) => {
+				if (res.data.status) {
+					toast.success("Puzzle successfully created");
+				}
+			}).catch(() => {
+				toast.error("Something went wrong");
+			});
 	};
 	
 
@@ -58,25 +92,16 @@ const DesignPuzzle = () => {
 						options={options}
 						onChange={setLevelDifficulty}
 					/>
-					{/* <select
-						value={levelDifficulty}
-						onChange={}
-						className="wordsDropdown"
-					>
-						<option value={1}>1</option>
-						<option value={2}>2</option>
-						<option value={3}>3</option>
-					</select> */}
 					<Button type={"submit"} additionalStyles={"wordsButton"}>
 						Generate
 					</Button>
 				</form>
-				{showBoard ? (
-					<>
+				{showBoard && Object.keys(puzzleData).length !== 0 ? (
+					<div className="gameWordsContainer">
 						<div className="wordsContainer">
 							<div>WORDS TO FIND</div>
 							<br />
-							{wordList.split(" ").map((word) => {
+							{puzzleData.words.map((word) => {
 								return (
 									<div
 										className="gameWord"
@@ -87,12 +112,47 @@ const DesignPuzzle = () => {
 								);
 							})}
 						</div>
-					</>
+						<div className="designGame">
+							<div className="designBoard">
+								{puzzleData.puzzle.map((row, rowIndex) => {
+									return (
+										<div className="boardRow" key={rowIndex}>
+											{row.map((letter, colIndex) => {
+												return (
+													<DesignSquare
+														key={`${rowIndex}-${colIndex}`}
+														letter={letter}
+														level={levelDifficulty}
+													/>
+												);
+											})}
+										</div>
+									);
+								})}
+							</div>
+							<div className="designButtons">
+								<Button
+									additionalStyles={"designButton"}
+									buttonType={"button"}
+									handleClick={handleConfirm}
+								>
+									Confirm
+								</Button>
+								<Button
+									additionalStyles={"designButton"}
+									buttonType={"submit"}
+									handleClick={handleSubmit}
+								>
+									Refresh
+								</Button>
+							</div>
+						</div>
+					</div>
 				): null}
 			</div>
 			<ToastContainer
 				position="top-right"
-				autoClose={3000}
+				autoClose={4000}
 				hideProgressBar={false}
 				newestOnTop={true}
 				closeOnClick={false}
@@ -102,6 +162,9 @@ const DesignPuzzle = () => {
 				pauseOnHover={false}
 				theme="dark"
 			/>
+			{loading ?
+				<Spinner /> : null
+			}
 		</>
 	);
 };

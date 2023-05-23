@@ -16,11 +16,10 @@ const GameHistory = ({ styles}) => {
 			.get(path)
 			.then((res) => {
 				const data = res.data;
-				console.log(data);
 				setGameHistoryData(data);
 			})
 			.catch((error) => {
-				console.log(error);
+				console.log(error); 
 			});
 	};
 
