@@ -135,7 +135,7 @@ class Leaderboard:
         }
 
         # get the leaderboard
-        leaderboard = self.get_leaderboard_by_game_id(game_history_record['game_id'])
+        leaderboard = self._collection.find_one({'game_id': bson.ObjectId(game_history_record['game_id'])})
         leaderboard_id = leaderboard['_id']
 
         # check if the current score is lower than the lowest score in the leaderboard
