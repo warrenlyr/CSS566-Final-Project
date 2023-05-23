@@ -61,7 +61,7 @@ const DailyPuzzle = ({ token }) => {
 						size={gameData.size}
 						words={gameData.words}
 						level={gameData.level}
-						type={gameData.type}
+						gameId={gameData._id}
 						gameHistoryId={gameHistoryId}
 						token={token}
 					/>

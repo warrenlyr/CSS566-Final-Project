@@ -16,7 +16,7 @@ const GameGrid = ({
 	size,
 	words,
 	level,
-	type,
+	gameId,
 	gameHistoryId,
 	token,
 }) => {
@@ -196,7 +196,7 @@ const GameGrid = ({
 			share_anonymously: isAnonymous,
 		};
 
-		if (isAnonymous) {
+		if (token === null) {
 			await apiInstance
 				.post(`/leaderboard/sharescore/${gameHistoryId}`, data)
 				.then((res) => {
@@ -327,8 +327,8 @@ const GameGrid = ({
 						styles={`${
 							!openLeaderboard ? "hideLeaderboard" : null
 						} leaderboardStyles`}
-						type={type}
-						level={level}
+						site={"dailyPuzzle"}
+						gameId={gameId}
 					/>
 				</div>
 			</div>
