@@ -242,10 +242,13 @@ class Game:
         # calculate the size of the puzzle
         if level == 1:
             size = 5
+            max_words = 3
         elif level == 2:
             size = 7
+            max_words = 5
         elif level == 3:
             size = 10
+            max_words = 7
         
         # validate the words
         words = str(words).strip().split(' ')
@@ -253,7 +256,12 @@ class Game:
         while '' in words: words.remove('')
         # remove blank spaces
         words = [word.strip() for word in words]
+
+        # validate the number of words
+        if len(words) > max_words:
+            return False, f'Invalid number of words. Must be less than or equal to {max_words} for level {level}.'
         
+        # validate the length of the words
         for word in words:
             if len(word) > size:
                 return False, f'Invalid word "{word}". The length of the word must be less than or equal to the size of the puzzle.'
