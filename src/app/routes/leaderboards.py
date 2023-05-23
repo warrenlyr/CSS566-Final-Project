@@ -115,7 +115,7 @@ def leaderboard_share_score(game_history_id: str):
     
     # get and validate the share_anonymously value
     share_anonymously = request.json.get('share_anonymously', None)
-    if not share_anonymously:
+    if share_anonymously is None:
         return make_response(
             jsonify(dict(error='share_anonymously is required in the request body')),
             400
@@ -185,4 +185,31 @@ def leaderboard_get_leaderboard(game_id):
         jsonify(dict(leaderboard_data)),
         200
     )
+
+
+@app.route(API_URL_PREFIX + '/leaderboard/landingpage', methods=['GET'])
+@jwt_required(optional=True)
+def leaderboard_landing_page():
+    '''
+    The `leaderboard_get_leaderboard()` function require a `game_id`
+    to get the leaderboard of a specific game.
+
+    However, when users land on the landing page, they don't have a game id.
+    So in this function, we get a leaderboard data for landing page.
+
+    Currently, we return the leaderboard of today's reward game.
+    '''
+    # get today's reward game id
+    game = Game()
+    todays_reward_game = game.get_todays_reward_game()
+    if not todays_reward_game:
+        return make_response(
+            jsonify(dict(error='Today\'s reward game not found')),
+            404
+        )
+    
+    todays_reward_game_id = todays_reward_game['_id']
+
+    # use the game id to get the leaderboard
+    return leaderboard_get_leaderboard(todays_reward_game_id)
 

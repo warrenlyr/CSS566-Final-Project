@@ -632,7 +632,7 @@ POST
 **Required Body**
 
 - `time_elapsed`: time elapsed in ms (integer)
-- `attemps`: number of attempts (integer)
+- `attempts`: number of attempts (integer)
 
 **Response**
 
