@@ -72,11 +72,14 @@ npm install
 
 #### 3 Start the NodeJS Client
 
-Once all dependencies are installed without error, start the frontend Node.js client.
+Once all dependencies are installed without error, start the frontend Node.js client with either of the commands:
 
 ```bash
-# Start the frontend client
-npm start
+# Start the development environment
+npm run start:dev
+
+# Start the production environment
+npm run start:prod
 ```
 
 Wait for the client to be started. Once all services are started, a new page will be opened in the default browser as shown below.
