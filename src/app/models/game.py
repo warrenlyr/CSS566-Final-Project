@@ -599,9 +599,9 @@ if __name__ == '__main__':
     # game._collection.delete_many({})
 
     # test create todays reward game
-    # game = Game()
-    # status, error = game.create_todays_reward_game()
-    # print(status, error)
+    game = Game()
+    status, error = game.create_todays_reward_game()
+    print(status, error)
 
     # test create random game
     # game = Game()
@@ -634,5 +634,5 @@ if __name__ == '__main__':
     # game_id = data['game_id']
     
     # test create normal game from temp design
-    game = Game()
-    print(game.create_normal_game_from_temp_design('646c1a0312008f7da2013b92'))
+    # game = Game()
+    # print(game.create_normal_game_from_temp_design('646c1a0312008f7da2013b92'))
