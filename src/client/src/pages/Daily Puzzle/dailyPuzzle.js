@@ -13,7 +13,7 @@ const DailyPuzzle = ({ token }) => {
 	const getGame = async () => {
 		if (token === null) {
 			await apiInstance
-				.get("/game/normalpuzzle/2")
+				.get("/game/dailypuzzle")
 				.then((res) => {
 					const data = res.data.game_data;
 					setGameData(data);
@@ -25,7 +25,7 @@ const DailyPuzzle = ({ token }) => {
 				});
 		} else {
 			await authApiInstance
-				.get("/game/normalpuzzle/2")
+				.get("/game/dailypuzzle")
 				.then((res) => {
 					const data = res.data.game_data;
 					setGameData(data);
