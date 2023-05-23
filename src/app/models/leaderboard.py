@@ -120,8 +120,10 @@ class Leaderboard:
         # construct the leaderboard record to be inserted
 
         # get some information from the game history record
-        user = User()
-        username = user.get_username(game_history_record['user_id'])
+        username = None
+        if game_history_record['user_id']:
+            user = User()
+            username = user.get_username(game_history_record['user_id'])
 
         leaderboard_record = {
             # the essential part
