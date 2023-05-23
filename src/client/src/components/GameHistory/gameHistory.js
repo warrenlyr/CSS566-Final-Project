@@ -31,9 +31,6 @@ const GameHistory = ({ styles}) => {
 					<tr>
 						<th>Game Name</th>
 						<th>Start Time</th>
-						<th>End Time</th>
-						<th>Finished</th>
-						<th>Attempts</th>
 						<th>Score</th>
 					</tr>
 				</thead>
@@ -43,9 +40,6 @@ const GameHistory = ({ styles}) => {
 							<tr className="gameHistoryItem" key={game.game_history_id}>
 								<td>{game.game_name}</td>
 								<td>{game.start_time}</td>
-								<td>{game.end_time ? game.end_time : "Still playing"}</td>
-								<td>{game.finished ? "Yes" : "No"}</td>
-								<td>{game.attempts}</td>
 								<td>{game.score}</td>
 							</tr>
 						);
