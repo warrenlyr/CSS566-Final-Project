@@ -12,8 +12,7 @@ const LandingPage = () => {
 			<div className="landingContainer">
 				<Leaderboard
 					styles={"landingLeaderboard"}
-					type={"todaysrewards"}
-					level={2}
+					site={"landingPage"}
 				/>
 				<GameHistory />
 			</div>

@@ -2,38 +2,22 @@ import React, { useEffect, useState } from "react";
 import "./styles.scss";
 import Button from "../../components/Button/Button";
 import { apiInstance } from "../../services/apiInstance";
-import { authApiInstance } from "../../services/authApiInstance";
 
-const Leaderboard = ({ styles}) => {
+const Leaderboard = ({ styles, site, gameId=null }) => {
 	const [leaderboardData, setLeaderboardData] = useState([]);
 	const [refreshClicked, setRefreshClicked] = useState(false);
 
 	useEffect(() => {
-		fetchUserGameHistory()
-			.then(gameId => {
-				fetchData(gameId);
-			});
+		fetchData();
 	}, [refreshClicked]);
 
-	const fetchUserGameHistory = async () => {
-		const path = "/auth/user/gamehistory";
-		let gameId;
-
-		await authApiInstance
-			.get(path)
-			.then((res) => {
-				const data = res.data;
-				gameId = data[data.length - 1].game_id;
-			})
-			.catch((error) => {
-				console.log(error); 
-			});
-
-		return (gameId);
-	};
-
-	const fetchData = async (gameId) => {
-		const path = `/leaderboard/get/${gameId}`;
+	const fetchData = async () => {
+		let path = "";
+		if (site === "landingPage") {
+			path = "/leaderboard/landingpage";
+		} else {
+			path = `/leaderboard/get/${gameId}`;
+		}
 
 		await apiInstance
 			.get(path)
@@ -58,21 +42,25 @@ const Leaderboard = ({ styles}) => {
 					Refresh
 				</Button>
 			</div>
-			<table className="leaderboard">
-				<tbody>
-					{leaderboardData.map((el) => {
-						return (
-							<tr className="leaderboardRow" key={el.rank}>
-								<td className="rankColumn"> {el.rank} </td>
-								<td className="scoreColumn">
-									<span className="username">{el.username}</span>{" "}
-									<span>{el.score}</span>
-								</td>
-							</tr>
-						);
-					})}
-				</tbody>
-			</table>
+			{leaderboardData.length !== 0 ? (
+				<table className="leaderboard">
+					<tbody>
+						{leaderboardData.map((el) => {
+							return (
+								<tr className="leaderboardRow" key={el.rank}>
+									<td className="rankColumn"> {el.rank} </td>
+									<td className="scoreColumn">
+										<span className="username">{el.username}</span>{" "}
+										<span>{el.score}</span>
+									</td>
+								</tr>
+							);
+						})}
+					</tbody>
+				</table>
+			) : (
+				<div>No scores to show</div>
+			)}
 		</div>
 	);
 };
