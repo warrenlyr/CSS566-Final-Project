@@ -54,10 +54,14 @@ if __name__ == '__main__':
         if game.get_todays_reward_game():
             print('Today\'s reward game is already generated')
             print('Exiting...')
+            print('Sleeping for 1 hour...')
+            time.sleep(60 * 60)
             continue
 
         # generate today's reward game
         status, error = game.create_todays_reward_game()
         print(status, error)
         print('Done')
+        print('Sleeping for 1 hour...')
+        time.sleep(60 * 60)
         continue
