@@ -812,6 +812,40 @@ Failed
 
 `/leaderboards`
 
+### Share Score
+
+`/leaderboard/sharescore/<game_history_id>`
+
+Submit the score to the leaderboard of a specific game using `game_history_id`. There's no need to provide the game ID as it can be directly fetched from the `game_history` object. 
+
+Please note, scores can only be shared from completed games. If a game isn't finished, an error message will be generated. Leaderboard of each game will only host the top 10 scores. If the leaderboard is full and the score submitted is lower than the lowest score in the leaderboard, an error will be thrown as well.
+
+**Accepted request types**
+
+POST
+
+**Required Body**
+
+- `share_anonymously`: bool value, indicating whether the user wants to share the score anonymously or not
+
+**Response**
+
+Success (201)
+
+```json
+{
+    "status": true
+}
+```
+
+Failed
+
+```json
+{
+    "error": "Error message"
+}
+```
+
 ### Today's Reward Game
 
 `/leaderboards/dailypuzzle`

@@ -20,6 +20,23 @@ class User:
     def __init__(self):
         self._collection = app.database['user']
 
+    def get_username(self, user_id: str):
+        '''
+        Get the username of the user with the given user id.
+        No validation is done in this method. 
+        So the user id should be validated before calling this method.
+
+        Args:
+            user_id (str): user id of the user to get
+        
+        Returns:
+            str: username of the user
+        '''
+        # get the user from MongoDB
+        this_user = self._collection.find_one({'_id': bson.ObjectId(user_id)})
+        # return the username
+        return this_user['username']
+
     def create(self, username: str, password: str):
         '''
         Create a user with the given username and password. (Register a user)

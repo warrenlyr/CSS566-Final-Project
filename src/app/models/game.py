@@ -520,7 +520,11 @@ class Game:
         '''
         Get all games from the database.
         '''
-        games = self._collection.find()
+        # get all games that type is 'normal' or 'todaysrewards'
+        # to exclude temp games
+        games = self._collection.find(
+            {'$or': [{'type': 'normal'}, {'type': 'todaysrewards'}]},
+        )
         return games
 
         

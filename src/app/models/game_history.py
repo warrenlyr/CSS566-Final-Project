@@ -110,6 +110,22 @@ class GameHistory:
 
         Score calculation see `self._calculate_score` method.
 
+        ---
+
+        Incomplete implementation warning:
+        ---
+        Should check if the game is finished with
+        attempts > total number of words to find in this puzzle.
+
+        If the attempts is smaller than the total number of words to find in this puzzle,
+        the user is cheating.
+
+        But for now, we will just calculate the score with the given attempts.
+        Because we need to generate data for testing and we fon't
+        have time to implement the rest algorithm.
+
+        ---
+
         Args:
             game_history_id (str): game history id of the game to finish
             time_elapsed (str): time elapsed of the game to finish in ms
@@ -221,6 +237,33 @@ class GameHistory:
         if not self._collection.find_one({'_id': bson.ObjectId(game_history_id)}):
             return False
         return True
+    
+    def get(self, game_history_id: str):
+        '''
+        Get a game history by the given game_history_id.
+
+        Args:
+            game_history_id (str): game history id of the game history to get
+
+        Returns:
+            dict: game history of the given game_history_id,
+            None if the game history does not exist
+        '''
+        game_history = self._collection.find_one({'_id': bson.ObjectId(game_history_id)})
+        if game_history:
+            # # convert the ObjectId to str
+            # game_history['_id'] = str(game_history['_id'])
+
+            # # if user_id is not None, convert the ObjectId to str
+            # if game_history['user_id']:
+            #     game_history['user_id'] = str(game_history['user_id'])
+
+            # # convert the game_id to str
+            # game_history['game_id'] = str(game_history['game_id'])
+
+            return game_history
+        
+        return None
 
             
 
@@ -251,8 +294,26 @@ if __name__ == '__main__':
     # print(history._calculate_score(3.45*60*1000, 35, 1))
 
     # clean up
-    history._collection.delete_many({})
+    # history._collection.delete_many({})
 
     # test get game history of user
     # print(history.get_game_history_of_user('645875a9f49e2e790f72eee6'))
+
+    # generate some test data
+    for i in range(10):
+        # start a game
+        game_history_id = history.create(
+            user_id='646556146471c08c55b3f2bf',
+            game_id='646be65072bc5379c568bd4d'
+        )
+
+        # finish the game
+        print(history.finish(
+            game_history_id=game_history_id,
+            time_elapsed='1000',
+            attempts=i
+        ))
+
+
+
     
