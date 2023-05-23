@@ -27,7 +27,8 @@ API endpoints prefix: `/api/<api_version>`
   - [Confirm a Designed Puzzle](#confirm-a-designed-puzzle)
 - [Leaderboards](#leaderboards)
   - [Share Score](#share-score)
-  - [Get Leaderboard](#get-leaderboard)
+  - [Get Leaderboard of A Game](#get-leaderboard-of-a-game)
+  - [Get Leaderboard For Landing Page](#get-leaderboard-for-landing-page)
 
 
 ## Status Code
