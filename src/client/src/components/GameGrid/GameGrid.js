@@ -98,11 +98,17 @@ const GameGrid = ({
 			handleClear();
 		} else {
 			const closeTime = level === 1 || level === 3 ? 3000 : 4000;
-			setCanContinue(false);
-			toast.error("Wrong word, Try again", {
-				autoClose: closeTime,
-			});
-
+			if(word === "") {
+				toast.error("At least one block needs to be selected", {
+					autoClose: 1500,
+				});
+			} else {
+				setCanContinue(false);
+				toast.error("Wrong word, Try again", {
+					autoClose: closeTime,
+				});
+			}
+			
 			if (level === 1) {
 				setCanContinue(true);
 				handleClear();
@@ -181,6 +187,33 @@ const GameGrid = ({
 				});
 		}
 		setIsOpen(true);
+	};
+
+
+	const shareScore = async (mode) => {
+		if (mode === "anonymous") {
+			await apiInstance
+				.post(`/leaderboard/sharescore/${gameHistoryId}`)
+				.then((res) => {
+					if (res.data.status) {
+						toast.success("Score successfully shared!");
+					}
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		} else {
+			await authApiInstance
+				.post(`/leaderboard/sharescore/${gameHistoryId}`)
+				.then((res) => {
+					if (res.data.status) {
+						toast.success("Score successfully shared!");
+					}
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		}
 	};
 
 	let navigate = useNavigate();
@@ -313,7 +346,7 @@ const GameGrid = ({
 							<Button
 								additionalStyles={"shareButton"}
 								type={"button"}
-								handleClick={() => alert("shared with username")}
+								handleClick={() => shareScore("user")}
 							>
 								Share my score
 							</Button>
@@ -321,7 +354,7 @@ const GameGrid = ({
 						<Button
 							additionalStyles={"shareButton"}
 							type={"button"}
-							handleClick={() => alert("shared anonymously")}
+							handleClick={() => shareScore("anonymous")}
 						>
 							Share my score anonymously
 						</Button>
