@@ -245,22 +245,33 @@ Success (200)
         "attempts": 0,
         "end_time": null,
         "finished": false,
-        "game_history_id": "64655ebd0e646d425f3d820d",
-        "game_id": "646550aa7b1545c987e4e41b",
-        "game_name": "Today's Rewards Game 2023-05-17",
+        "game_history_id": "646c3adbced4fc0addccf70e",
+        "game_id": "646be65172bc5379c568bd61",
+        "game_name": "Level 3 Game 1",
         "score": 0,
-        "start_time": "Wed, 17 May 2023 16:09:49 GMT",
+        "start_time": "2023-05-22 21:02:35",
         "valid_time_elapsed": false
     },
     {
         "attempts": 0,
         "end_time": null,
         "finished": false,
-        "game_history_id": "64655ec10e646d425f3d820e",
-        "game_id": "646550aa7b1545c987e4e41c",
-        "game_name": "Level 1 Game 1",
+        "game_history_id": "646c3ae1ced4fc0addccf70f",
+        "game_id": "646be65172bc5379c568bd57",
+        "game_name": "Level 2 Game 1",
         "score": 0,
-        "start_time": "Wed, 17 May 2023 16:09:53 GMT",
+        "start_time": "2023-05-22 21:02:41",
+        "valid_time_elapsed": false
+    },
+    {
+        "attempts": 0,
+        "end_time": null,
+        "finished": false,
+        "game_history_id": "646c3ae7ced4fc0addccf710",
+        "game_id": "646be65172bc5379c568bd57",
+        "game_name": "Level 2 Game 1",
+        "score": 0,
+        "start_time": "2023-05-22 21:02:47",
         "valid_time_elapsed": false
     }
 ]
