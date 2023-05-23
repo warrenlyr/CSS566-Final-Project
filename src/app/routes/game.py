@@ -205,7 +205,7 @@ def game_get_game_key_by_id(game_id):
 
 
 @app.route(API_URL_PREFIX + '/game/finish/<game_history_id>', methods=['POST'])
-def finish_game(game_history_id: str):
+def game_finish_game(game_history_id: str):
     '''
     Finished a game by given game history id.
 
@@ -213,7 +213,7 @@ def finish_game(game_history_id: str):
 
     Data is provided in the request body:
     - time_elapsed: time elapsed in ms
-    - attemps: number of attempts 
+    - attempts: number of attempts 
     '''
     # validate and convert game_history_id to string
     if game_history_id:
@@ -248,16 +248,16 @@ def finish_game(game_history_id: str):
         )
     if not data:
         return make_response(
-            jsonify(dict(error='time_elapsed and attemps are required in the request body')),
+            jsonify(dict(error='time_elapsed and attempts are required in the request body')),
             400
         )
     
     time_elapsed = data.get('time_elapsed', None)
-    attemps = data.get('attemps', None)
+    attempts = data.get('attempts', None)
 
-    if not time_elapsed or not attemps:
+    if not time_elapsed or not attempts:
         return make_response(
-            jsonify(dict(error='time_elapsed and attemps are required in the request body')),
+            jsonify(dict(error='time_elapsed and attempts are required in the request body')),
             400
         )
     
@@ -270,12 +270,12 @@ def finish_game(game_history_id: str):
             400
         )
     
-    # validate and convert attemps to int
+    # validate and convert attempts to int
     try:
-        attemps = int(attemps)
+        attempts = int(attempts)
     except Exception as e:
         return make_response(
-            jsonify(dict(error='attemps must be an integer')),
+            jsonify(dict(error='attempts must be an integer')),
             400
         )
     
@@ -283,7 +283,7 @@ def finish_game(game_history_id: str):
     finished, score, msg = game_history.finish(
         game_history_id=game_history_id,
         time_elapsed=time_elapsed,
-        attemps=attemps,
+        attempts=attempts,
         end_time=datetime.now()
     )
 
