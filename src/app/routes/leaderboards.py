@@ -128,7 +128,7 @@ def leaderboard_share_score(game_history_id: str):
     
     # insert the record into the leaderboard
     leaderboard = Leaderboard()
-    status, msg = leaderboard.insert_score(game_history_id)
+    status, msg = leaderboard.insert_score(game_history_id, anonymous=share_anonymously)
 
     if status:
         return make_response(
