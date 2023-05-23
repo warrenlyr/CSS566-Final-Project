@@ -2,16 +2,18 @@
 
 ## User Interface elements
 
-### Navbar.js
+### Button.js
 
-1. Checking if the **Navbar** component renders without crashing.
-2. Checking if the logo is rendered.
-3. Checking if the login button is rendered.
-4. Checking if an alert is shown when the login button is clicked.
+- The `renders correctly` test ensures that the button component is properly rendered with the correct text.
+- The `handles click correctly` test ensures that the onClick handler function is triggered correctly when the button is clicked.
+- The `renders with additional styles` test checks if the button component correctly applies any additional CSS classes provided.
+- The `renders with correct butto type` test verifies that the button is rendered with the correct 'type' attribute, which can be crucial for forms where the button type may be 'submit', 'reset', or 'button'.
 
-![Navbar Image](../../images/navbar.png)
+![Button Image](../../images/buttonTest.png)
+
 
 ## Game Board Generation & User Interaction
+
 
 ## Game Timer
 

@@ -25,7 +25,7 @@ const Leaderboard = ({ styles, type, level }) => {
 				setLeaderboardData(data);
 			})
 			.catch((error) => {
-				console.log(error);
+				console.log(error); //change this
 			});
 	};
 

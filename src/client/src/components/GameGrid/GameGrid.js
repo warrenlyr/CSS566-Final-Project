@@ -168,7 +168,7 @@ const GameGrid = ({
 					setFinishedGameData(res.data);
 				})
 				.catch((error) => {
-					console.log(error);
+					console.log(error); //change this
 				});
 		} else {
 			await authApiInstance
@@ -177,7 +177,7 @@ const GameGrid = ({
 					setFinishedGameData(res.data);
 				})
 				.catch((error) => {
-					console.log(error);
+					console.log(error); //change this
 				});
 		}
 		setIsOpen(true);
