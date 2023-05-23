@@ -10,58 +10,58 @@ from app import app, API_URL_PREFIX
 from app.models import User, GameHistory, Game, Leaderboard
 
 
-@app.route(API_URL_PREFIX + '/leaderboards/todaysrewardgame', methods=['GET'])
-def leaderboard_todays_reward_game():
-    '''
-    Return the leaderboard data for today's reward game.
-    '''
-    # test use dummy data
-    # 25 entries, each entry has a rank, username, and score
-    data = [
-        {
-            'rank': i,
-            'username': f'test-todaysrewardgame-rank-{i}' if i % 10 != 0 else 'Anonymous',
-            'score': 100-i
-        } for i in range(25)
-    ]
+# @app.route(API_URL_PREFIX + '/leaderboards/todaysrewardgame', methods=['GET'])
+# def leaderboard_todays_reward_game():
+#     '''
+#     Return the leaderboard data for today's reward game.
+#     '''
+#     # test use dummy data
+#     # 25 entries, each entry has a rank, username, and score
+#     data = [
+#         {
+#             'rank': i,
+#             'username': f'test-todaysrewardgame-rank-{i}' if i % 10 != 0 else 'Anonymous',
+#             'score': 100-i
+#         } for i in range(25)
+#     ]
 
-    return make_response(
-        dict(data=data),
-        200
-    )
+#     return make_response(
+#         dict(data=data),
+#         200
+#     )
 
 
-@app.route(API_URL_PREFIX + '/leaderboards/game/level/<level>', methods=['GET'])
-def leaderboard_normal_game(level: int):
-    '''
-    Return the leaderboard data for the normal game based on the level.
-    We will have 3 levels in total.
-    '''
-    # format the level
-    level = int(level)
+# @app.route(API_URL_PREFIX + '/leaderboards/game/level/<level>', methods=['GET'])
+# def leaderboard_normal_game(level: int):
+#     '''
+#     Return the leaderboard data for the normal game based on the level.
+#     We will have 3 levels in total.
+#     '''
+#     # format the level
+#     level = int(level)
 
-    # validate the level
-    if level in [1, 2, 3]:
-        # test use dummy data
-        # 25 entries, each entry has a rank, username, and score
-        data = [
-            {
-                'rank': i,
-                'username': f'test-normalgame-level-{level}-rank-{i}' if i % 10 != 0 else 'Anonymous',
-                'score': 100-i
-            } for i in range(25)
-        ]
+#     # validate the level
+#     if level in [1, 2, 3]:
+#         # test use dummy data
+#         # 25 entries, each entry has a rank, username, and score
+#         data = [
+#             {
+#                 'rank': i,
+#                 'username': f'test-normalgame-level-{level}-rank-{i}' if i % 10 != 0 else 'Anonymous',
+#                 'score': 100-i
+#             } for i in range(25)
+#         ]
 
-        return make_response(
-            dict(data=data),
-            200
-        )
+#         return make_response(
+#             dict(data=data),
+#             200
+#         )
 
-    # invalid level
-    return make_response(
-        dict(error='Invalid level'),
-        400
-    )
+#     # invalid level
+#     return make_response(
+#         dict(error='Invalid level'),
+#         400
+#     )
 
 
 @app.route(API_URL_PREFIX + '/leaderboard/sharescore/<game_history_id>', methods=['POST'])
@@ -140,4 +140,49 @@ def leaderboard_share_score(game_history_id: str):
             jsonify(dict(error=msg)),
             422
         )
+    
+
+@app.route(API_URL_PREFIX + '/leaderboard/get/<game_id>', methods=['GET'])
+@jwt_required(optional=True)
+def leaderboard_get_leaderboard(game_id):
+    '''
+    Get the leaderboard data by given game id.
+    
+    `game_id` is provided in the URL path.
+    '''
+    # validate and convert game_id to string
+    if game_id:
+        try:
+            game_id = str(game_id)
+        except Exception as e:
+            return make_response(
+                jsonify(dict(error='Game id must be a string')),
+                400
+            )
+    else:
+        return make_response(
+            jsonify(dict(error='Game id is required in the path: /leaderboard/get/<game_id>')),
+            400
+        )
+    
+    # validate if the leaderboard exists
+    try:
+        leaderboard = Leaderboard()
+        leaderboard_data = leaderboard.get_leaderboard_by_game_id(game_id)
+    except Exception as e:
+        return make_response(
+            jsonify(dict(error=str(e))),
+            404
+        )
+
+    if not leaderboard_data:
+        return make_response(
+            jsonify(dict(error='Leaderboard not found')),
+            404
+        )
+    
+    return make_response(
+        jsonify(dict(leaderboard_data)),
+        200
+    )
 

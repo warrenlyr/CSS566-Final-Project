@@ -221,6 +221,25 @@ class Game:
         status, error = self.create_random_game(level=2, type='todaysrewards')
         return status, error
     
+    def init(self):
+        '''
+        For server use only. Initialize the database
+        by creating all random games and today's reward game.
+        Along with the leaderboard.
+        '''
+        # create all random games
+        status, error = self.create_all_random_games(replace=True)
+        print(f'Create all random games: {status}, {error}')
+
+        # create today's reward game
+        status, error = self.create_todays_reward_game()
+        print(f'Create today\'s reward game: {status}, {error}')
+
+        # create leaderboard
+        from app.models import Leaderboard
+        leaderboard = Leaderboard()
+        leaderboard.init()
+    
     def create_temp_design(self, level: int, words: str, user_id: str = None):
         '''
         Create a temp game when user tries to design a game.
@@ -350,6 +369,12 @@ class Game:
             if inserted_id:
                 # delete the temp game
                 self._collection.delete_one({'_id': ObjectId(game_id)})
+
+                # if game is inserted successfully, initialize the leaderboard
+                from app.models import Leaderboard
+                leaderboard = Leaderboard()
+                leaderboard.init()
+
                 return True, None
             else:
                 return False, 'Failed to insert the game into the database.'
@@ -609,5 +634,5 @@ if __name__ == '__main__':
     # game_id = data['game_id']
     
     # test create normal game from temp design
-    # game = Game()
-    # print(game.create_normal_game_from_temp_design(game_id))
+    game = Game()
+    print(game.create_normal_game_from_temp_design('646c1a0312008f7da2013b92'))

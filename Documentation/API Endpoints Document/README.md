@@ -26,8 +26,8 @@ API endpoints prefix: `/api/<api_version>`
   - [Design a Puzzle](#design-a-puzzle)
   - [Confirm a Designed Puzzle](#confirm-a-designed-puzzle)
 - [Leaderboards](#leaderboards)
-  - [Today's Reward Game](#todays-reward-game)
-  - [Normal Game](#normal-game)
+  - [Share Score](#share-score)
+  - [Get Leaderboard](#get-leaderboard)
 
 
 ## Status Code
@@ -810,7 +810,7 @@ Failed
 
 ## Leaderboards
 
-`/leaderboards`
+`/leaderboard`
 
 ### Share Score
 
@@ -846,11 +846,11 @@ Failed
 }
 ```
 
-### Today's Reward Game
+### Get Leaderboard
 
-`/leaderboards/dailypuzzle`
+`/leaderboard/get/<game_id>`
 
-Get leaderboard data of today's reward game.
+Get the data of a leaderboard of a game by given `game_id`. The `game_id` is passed in the url.
 
 **Accepted request types**
 
@@ -858,53 +858,33 @@ GET
 
 **Response**
 
+Success (200)
+
 ```json
 {
-    "data": [
-        {
-            "rank": 0,
-            "score": 100,
-            "username": "Anonymous"
-        },
+    "game_id": "646be65072bc5379c568bd4d",
+    "game_name": "Level 1 Game 1",
+    "last_updated": "2023-05-22 22:10:56",
+    "leaderboard": [
         {
             "rank": 1,
-            "score": 99,
-            "username": "test-todaysrewardgame-rank-1"
+            "score": 1995.0,
+            "username": "test"
         },
-        ...
+        {
+            "rank": 2,
+            "score": 1935.0,
+            "username": "Anonymous"
+        }
     ]
 }
 ```
 
-### Normal Game
-
-`/leaderboards/normalpuzzle/<game_id>`
-
-e.g. `/game/level/1`
-
-Get leaderboard data of normal games based on the game level, levels are range from 1-3.
-
-**Accepted request types**
-
-GET
-
-**Response**
+Failed
 
 ```json
 {
-    "data": [
-        {
-            "rank": 0,
-            "score": 100,
-            "username": "Anonymous"
-        },
-        {
-            "rank": 1,
-            "score": 99,
-            "username": "test-todaysrewardgame-rank-1"
-        },
-        ...
-    ]
+    "error": "Error message"
 }
 ```
 

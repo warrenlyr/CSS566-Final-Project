@@ -175,7 +175,8 @@ class Leaderboard:
     '''
     def get_leaderboard_by_game_id(self, game_id: str):
         '''
-        Get the leaderboard by the given game id.
+        Get the leaderboard by the given game id
+        and mask the username if the user wants to be anonymous.
 
         Args:
             game_id (str): game id of the game that the leaderboard belongs to
@@ -184,8 +185,27 @@ class Leaderboard:
             leaderboard (dict): leaderboard of the given game id if the leaderboard exists, None otherwise
         '''
         # get the leaderboard from MongoDB
-        leaderboard = self._collection.find_one({'game_id': bson.ObjectId(game_id)})
+        # exclude id and game history id
+        leaderboard = self._collection.find_one(
+            {'game_id': bson.ObjectId(game_id)},
+            {'_id': 0, 'leaderboard':{'game_history_id': 0}}
+        )
+
+        # convert the ObjectId to string, and remove the username if the user wants to be anonymous
+        if leaderboard:
+            leaderboard['game_id'] = str(leaderboard['game_id'])
+            leaderboard['last_updated'] = leaderboard['last_updated'].strftime('%Y-%m-%d %H:%M:%S')
+
+            for each_record in leaderboard['leaderboard']:
+                # add rank
+                each_record['rank'] = leaderboard['leaderboard'].index(each_record) + 1
+
+                if each_record['anonymous']:
+                    each_record['username'] = 'Anonymous'
+                del each_record['anonymous']
+
         return leaderboard
+
 
 
 
@@ -199,5 +219,8 @@ if __name__ == '__main__':
     # lb.init()
 
     # test insert score
-    print(lb.insert_score('646c3816e8796c47075d470b'))
+    # print(lb.insert_score('646c3816e8796c47075d470b'))
+
+    # test get leaderboard by game id
+    print(lb.get_leaderboard_by_game_id('646be65072bc5379c568bd4d'))
 
