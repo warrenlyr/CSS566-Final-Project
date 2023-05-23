@@ -16,7 +16,15 @@ const GameHistory = ({ styles}) => {
 			.get(path)
 			.then((res) => {
 				const data = res.data;
-				setGameHistoryData(data);
+
+				const convertedData = data.map(game => {
+					const dateTimeParts = game.start_time.split(" ");
+					const isoDateTime = `${dateTimeParts[0]}T${dateTimeParts[1]}Z`;
+					const startTimeInLocal = new Date(isoDateTime).toLocaleString();
+					return { ...game, start_time: startTimeInLocal};
+				});
+
+				setGameHistoryData(convertedData);
 			})
 			.catch((error) => {
 				console.log(error); 
