@@ -5,7 +5,7 @@ This file contains MongoDB model - Game class.
 from word_search_generator import WordSearch
 import json
 from bson import ObjectId
-from datetime import datetime
+from datetime import datetime, timedelta
 from random import randint
 
 # TEST USE: to insert app into sys.path
@@ -167,7 +167,7 @@ class Game:
                 from app.models import Leaderboard
                 leaderboard = Leaderboard()
                 leaderboard.init()
-                
+
                 return True, None
             else:
                 return False, 'Failed to insert the game into the database.'
@@ -404,6 +404,18 @@ class Game:
                 return False
         except:
             return False
+        
+    def clean_temp_games(self, age: int = 1):
+        '''
+        Clean all temp games in the database that
+        are older than the given age in days.
+        '''
+        # get the date
+        date = datetime.today() - timedelta(days=age)
+
+        # delete all temp games that are older than the given age
+        self._collection.delete_many({'type': 'temp', 'created_at': {'$lt': date.strftime('%Y-%m-%d')}})
+
     
 
     '''
