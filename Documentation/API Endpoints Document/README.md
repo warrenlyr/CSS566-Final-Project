@@ -26,8 +26,8 @@ API endpoints prefix: `/api/<api_version>`
   - [Design a Puzzle](#design-a-puzzle)
   - [Confirm a Designed Puzzle](#confirm-a-designed-puzzle)
 - [Leaderboards](#leaderboards)
-  - [Today's Reward Game](#todays-reward-game)
-  - [Normal Game](#normal-game)
+  - [Share Score](#share-score)
+  - [Get Leaderboard](#get-leaderboard)
 
 
 ## Status Code
@@ -245,22 +245,33 @@ Success (200)
         "attempts": 0,
         "end_time": null,
         "finished": false,
-        "game_history_id": "64655ebd0e646d425f3d820d",
-        "game_id": "646550aa7b1545c987e4e41b",
-        "game_name": "Today's Rewards Game 2023-05-17",
+        "game_history_id": "646c3adbced4fc0addccf70e",
+        "game_id": "646be65172bc5379c568bd61",
+        "game_name": "Level 3 Game 1",
         "score": 0,
-        "start_time": "Wed, 17 May 2023 16:09:49 GMT",
+        "start_time": "2023-05-22 21:02:35",
         "valid_time_elapsed": false
     },
     {
         "attempts": 0,
         "end_time": null,
         "finished": false,
-        "game_history_id": "64655ec10e646d425f3d820e",
-        "game_id": "646550aa7b1545c987e4e41c",
-        "game_name": "Level 1 Game 1",
+        "game_history_id": "646c3ae1ced4fc0addccf70f",
+        "game_id": "646be65172bc5379c568bd57",
+        "game_name": "Level 2 Game 1",
         "score": 0,
-        "start_time": "Wed, 17 May 2023 16:09:53 GMT",
+        "start_time": "2023-05-22 21:02:41",
+        "valid_time_elapsed": false
+    },
+    {
+        "attempts": 0,
+        "end_time": null,
+        "finished": false,
+        "game_history_id": "646c3ae7ced4fc0addccf710",
+        "game_id": "646be65172bc5379c568bd57",
+        "game_name": "Level 2 Game 1",
+        "score": 0,
+        "start_time": "2023-05-22 21:02:47",
         "valid_time_elapsed": false
     }
 ]
@@ -799,13 +810,47 @@ Failed
 
 ## Leaderboards
 
-`/leaderboards`
+`/leaderboard`
 
-### Today's Reward Game
+### Share Score
 
-`/leaderboards/dailypuzzle`
+`/leaderboard/sharescore/<game_history_id>`
 
-Get leaderboard data of today's reward game.
+Submit the score to the leaderboard of a specific game using `game_history_id`. There's no need to provide the game ID as it can be directly fetched from the `game_history` object. 
+
+Please note, scores can only be shared from completed games. If a game isn't finished, an error message will be generated. Leaderboard of each game will only host the top 10 scores. If the leaderboard is full and the score submitted is lower than the lowest score in the leaderboard, an error will be thrown as well.
+
+**Accepted request types**
+
+POST
+
+**Required Body**
+
+- `share_anonymously`: bool value, indicating whether the user wants to share the score anonymously or not
+
+**Response**
+
+Success (201)
+
+```json
+{
+    "status": true
+}
+```
+
+Failed
+
+```json
+{
+    "error": "Error message"
+}
+```
+
+### Get Leaderboard
+
+`/leaderboard/get/<game_id>`
+
+Get the data of a leaderboard of a game by given `game_id`. The `game_id` is passed in the url.
 
 **Accepted request types**
 
@@ -813,53 +858,33 @@ GET
 
 **Response**
 
+Success (200)
+
 ```json
 {
-    "data": [
-        {
-            "rank": 0,
-            "score": 100,
-            "username": "Anonymous"
-        },
+    "game_id": "646be65072bc5379c568bd4d",
+    "game_name": "Level 1 Game 1",
+    "last_updated": "2023-05-22 22:10:56",
+    "leaderboard": [
         {
             "rank": 1,
-            "score": 99,
-            "username": "test-todaysrewardgame-rank-1"
+            "score": 1995.0,
+            "username": "test"
         },
-        ...
+        {
+            "rank": 2,
+            "score": 1935.0,
+            "username": "Anonymous"
+        }
     ]
 }
 ```
 
-### Normal Game
-
-`/leaderboards/normalpuzzle/<game_id>`
-
-e.g. `/game/level/1`
-
-Get leaderboard data of normal games based on the game level, levels are range from 1-3.
-
-**Accepted request types**
-
-GET
-
-**Response**
+Failed
 
 ```json
 {
-    "data": [
-        {
-            "rank": 0,
-            "score": 100,
-            "username": "Anonymous"
-        },
-        {
-            "rank": 1,
-            "score": 99,
-            "username": "test-todaysrewardgame-rank-1"
-        },
-        ...
-    ]
+    "error": "Error message"
 }
 ```
 
