@@ -165,7 +165,7 @@ const GameGrid = ({
 		setStopTimer(true);
 		const data = {
 			time_elapsed: time,
-			attemps: numberOfAttempts,
+			attempts: numberOfAttempts,
 		};
 		if (token === null) {
 			await apiInstance
@@ -191,9 +191,14 @@ const GameGrid = ({
 
 
 	const shareScore = async (mode) => {
-		if (mode === "anonymous") {
+		const isAnonymous = mode === "anonymous";
+		const data = {
+			share_anonymously: isAnonymous,
+		};
+
+		if (isAnonymous) {
 			await apiInstance
-				.post(`/leaderboard/sharescore/${gameHistoryId}`)
+				.post(`/leaderboard/sharescore/${gameHistoryId}`, data)
 				.then((res) => {
 					if (res.data.status) {
 						toast.success("Score successfully shared!");
@@ -204,7 +209,7 @@ const GameGrid = ({
 				});
 		} else {
 			await authApiInstance
-				.post(`/leaderboard/sharescore/${gameHistoryId}`)
+				.post(`/leaderboard/sharescore/${gameHistoryId}`, data)
 				.then((res) => {
 					if (res.data.status) {
 						toast.success("Score successfully shared!");
