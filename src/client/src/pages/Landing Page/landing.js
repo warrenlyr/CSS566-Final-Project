@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 import "./styles.scss";
 import Button from "../../components/Button/Button";
 import Leaderboard from "../../components/LeaderBoard/leaderboard";
-import GameHistory from "../../components/Game History/gameHistory";
+import GameHistory from "../../components/GameHistory/gameHistory";
 
 const LandingPage = () => {
 	return (
 		<>
-			<div className="pageTitle">Word Game Name</div>
+			<div className="pageTitle">Husky seeks Kitty</div>
 			<div className="landingContainer">
 				<Leaderboard
 					styles={"landingLeaderboard"}
@@ -37,5 +37,7 @@ const LandingPage = () => {
 		</>
 	);
 };
+
+
 
 export default LandingPage;

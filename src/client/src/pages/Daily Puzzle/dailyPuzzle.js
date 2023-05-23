@@ -48,7 +48,7 @@ const DailyPuzzle = ({ token }) => {
 				<Spinner />
 			) : noGame ? (
 				<>
-					<div className="pageTitle">Daily Puzzle</div>
+					<div className="dailyTitle">Daily Puzzle</div>
 					<div className="noGameText">
 						Sorry No Daily Puzzle Available, come back later!
 					</div>
