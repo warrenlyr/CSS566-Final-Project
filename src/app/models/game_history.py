@@ -202,6 +202,10 @@ class GameHistory:
                 # get the game name of each game
                 gh['game_name'] = game.get_game_name(gh['game_id'])
 
+                # convert the start_time and end_time to str
+                gh['start_time'] = gh['start_time'].strftime('%Y-%m-%d %H:%M:%S')
+                gh['end_time'] = gh['end_time'].strftime('%Y-%m-%d %H:%M:%S') if gh['end_time'] else None
+
         return game_history 
     
     def validate(self, game_history_id: str):
