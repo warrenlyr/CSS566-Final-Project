@@ -2,10 +2,10 @@
 ---------------------------------------------------------------
 Author: Warren Liu
 ---------------------------------------------------------------
-Automation script to generate daily puzzle
-for today's reward game.
+Automation script to run in the back end:
+generate daily puzzlefor today's reward game.
 
-Should be run once a day at 00:00:00.
+This script will run tasks once a day at 00:00:00.
 
 However, the DigitalOcean server does not support cron job.
 Therefore, we need to set this script to run permanently
@@ -39,27 +39,39 @@ if __name__ == '__main__':
                 print('Sleeping for 1 hour...')
                 time.sleep(60 * 60)
                 continue
-            # if the current time is 23:00, sleep for 1 minute
+            # if the current hour is 23, sleep for the duration until 00:00
             else:
-                print('Sleeping for 1 minute...')
-                time.sleep(60)
+                print('Sleeping until 00:00...')
+                time.sleep(60 * (60 - now.minute))
                 continue
         
-        # if the current time is 00:00, generate today's reward game
+        # if the current time is 00:00, start all tasks
 
+        '''
+        Intert all tasks here
+        '''
+        ## generate today's reward game ##
         # check if today's reward game is already generated
         # to prevent duplicate generation
         if game.get_todays_reward_game():
             print('Today\'s reward game is already generated')
             print('Exiting...')
-            print('Sleeping for 1 hour...')
-            time.sleep(60 * 60)
-            continue
+        else:
+            # generate today's reward game
+            status, error = game.create_todays_reward_game()
+            print(status, error)
+            print('Done')
 
-        # generate today's reward game
-        status, error = game.create_todays_reward_game()
-        print(status, error)
-        print('Done')
+
+        ## clean up temp games ##
+        game.clean_temp_games()
+
+
+        # sleep for 1 hour
         print('Sleeping for 1 hour...')
         time.sleep(60 * 60)
         continue
+
+        '''
+        End of all tasks
+        '''
