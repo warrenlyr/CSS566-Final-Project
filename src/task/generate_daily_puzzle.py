@@ -30,14 +30,12 @@ if __name__ == '__main__':
 
     while True:
 
-        # convert server time to pacific time: UTC -> UTC - 7
-        utc_now = datetime.now()
-        pt_now = utc_now - timedelta(hours=7)
-        print(f'Current server time: {utc_now}, pacific time: {pt_now}')
+        now = datetime.now()
+        print(f'Current server time: {now}')
 
-        if pt_now.hour != 0:
+        if now.hour != 0:
             # if the current time does not reach 23:00, sleep for 1 hour
-            if pt_now.hour < 23:
+            if now.hour < 23:
                 print('Sleeping for 1 hour...')
                 time.sleep(60 * 60)
                 continue
