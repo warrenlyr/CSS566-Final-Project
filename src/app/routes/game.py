@@ -205,7 +205,7 @@ def game_get_game_key_by_id(game_id):
 
 
 @app.route(API_URL_PREFIX + '/game/finish/<game_history_id>', methods=['POST'])
-def finish_game(game_history_id: str):
+def game_finish_game(game_history_id: str):
     '''
     Finished a game by given game history id.
 
@@ -213,7 +213,7 @@ def finish_game(game_history_id: str):
 
     Data is provided in the request body:
     - time_elapsed: time elapsed in ms
-    - attemps: number of attempts 
+    - attempts: number of attempts 
     '''
     # validate and convert game_history_id to string
     if game_history_id:
@@ -248,16 +248,16 @@ def finish_game(game_history_id: str):
         )
     if not data:
         return make_response(
-            jsonify(dict(error='time_elapsed and attemps are required in the request body')),
+            jsonify(dict(error='time_elapsed and attempts are required in the request body')),
             400
         )
     
     time_elapsed = data.get('time_elapsed', None)
-    attemps = data.get('attemps', None)
+    attempts = data.get('attempts', None)
 
-    if not time_elapsed or not attemps:
+    if not time_elapsed or not attempts:
         return make_response(
-            jsonify(dict(error='time_elapsed and attemps are required in the request body')),
+            jsonify(dict(error='time_elapsed and attempts are required in the request body')),
             400
         )
     
@@ -270,12 +270,12 @@ def finish_game(game_history_id: str):
             400
         )
     
-    # validate and convert attemps to int
+    # validate and convert attempts to int
     try:
-        attemps = int(attemps)
+        attempts = int(attempts)
     except Exception as e:
         return make_response(
-            jsonify(dict(error='attemps must be an integer')),
+            jsonify(dict(error='attempts must be an integer')),
             400
         )
     
@@ -283,7 +283,7 @@ def finish_game(game_history_id: str):
     finished, score, msg = game_history.finish(
         game_history_id=game_history_id,
         time_elapsed=time_elapsed,
-        attemps=attemps,
+        attempts=attempts,
         end_time=datetime.now()
     )
 
@@ -307,48 +307,104 @@ def finish_game(game_history_id: str):
                 200
             )
         
-
-@app.route(API_URL_PREFIX + '/game/sharescore/<game_history_id>', methods=['POST'])
-@jwt_required()
-def game_share_score_to_leaderboard(game_history_id: str):
+        
+@app.route(API_URL_PREFIX + '/game/designpuzzle/create', methods=['POST'])
+@jwt_required(optional=True)
+def game_design_puzzle():
     '''
-    When a game is finished and a score is calculated scuuessfully,
-    we give users an option to share their score to the leaderboard.
-    They can either share anonymously or share with their username.
-
-    This function can only be called when the user is logged in.
-    So the user id is retrieved from the JWT token.
-
-    Game history id is provided in the URL path.
+    Receive request from user to design a puzzle.
     '''
-    # validate and convert game_history_id to string
-    if game_history_id:
-        try:
-            game_history_id = str(game_history_id)
-        except Exception as e:
-            return make_response(
-                jsonify(dict(error='Game history id must be a string')),
-                400
-            )
-    else:
+    # get data from request body
+    level = request.json.get('level', None)
+    words = request.json.get('words', None)
+    
+    # validate and convert level to int
+    try:
+        level = int(level)
+    except Exception as e:
         return make_response(
-            jsonify(dict(error='Game history id is required in the path: /game/finish/<game_history_id>')),
+            jsonify(dict(error='level must be an integer between 1 and 3')),
             400
         )
     
-    # validate if the game history exists
-    game_history = GameHistory()
-    if not game_history.validate(game_history_id):
+    # validate words
+    if not words:
         return make_response(
-            jsonify(dict(error='Game history not found')),
-            404
+            jsonify(dict(error='words is required')),
+            400
+        )
+    # check if words contains only letters and spaces
+    else:
+        if not all(c.isalpha() or c.isspace() for c in str(words)):
+            return make_response(
+                jsonify(dict(error='words can only contain letters and spaces')),
+                400
+            )
+    
+    
+    # if the user is logged in, the created will be marked as this user
+    user_id = None
+    identity = get_jwt_identity()
+    if identity:
+        user = User()
+        # get the user id
+        user_id = user.get_id(username=identity)
+    
+    # try to design a puzzle
+    game = Game()
+    status, result = game.create_temp_design(
+        level=level, words=words, user_id=user_id
+    )
+
+    # if game is created
+    if status:
+        return make_response(
+            jsonify(result),
+            201
+        )
+    # if not, return error message
+    else:
+        return make_response(
+            jsonify(dict(error=result)),
+            422
         )
     
-    # get user id from JWT token
-    this_user = get_jwt_identity()
-    if not this_user:
+
+@app.route(API_URL_PREFIX + '/game/designpuzzle/submit', methods=['POST'])
+@jwt_required(optional=True)
+def game_design_puzzle_submit():
+    '''
+    Once user is satisfied with the puzzle, they can submit the puzzle by 
+    clicking on the confirm button, we will receive the request here
+    and convert the temp game into a normal game.
+    '''
+    # get data from request body
+    game_id = request.json.get('game_id', None)
+
+    # validate and convert game_id to string
+    if not game_id:
         return make_response(
-            jsonify(dict(error='User not found')),
-            404
+            jsonify(dict(error='game_id is required')),
+            400
         )
+    
+    # the existance of the game is validated in the create normal process
+    # so we don't need to validate it here
+    game = Game()
+    status, result = game.create_normal_game_from_temp_design(game_id=game_id)
+
+    # if game is created
+    if status:
+        return make_response(
+            jsonify(dict(status=True)),
+            201
+        )
+    # if not, return error message
+    else:
+        return make_response(
+            jsonify(dict(error=result)),
+            422
+        )
+    
+    
 

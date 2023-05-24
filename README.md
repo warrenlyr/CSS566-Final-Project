@@ -1,6 +1,7 @@
 # CSS566-Final-Project
 
 ## Team Information
+
 CSS 566 Software Management
 
 Spring 2023, University of Washington Bothell
@@ -17,6 +18,7 @@ Stakeholders:
 - Arsheya Raj (Designer, frontend developer)
 
 ## Objective of The Project
+
 The primary objective of this project is to develop a web-based straightforward Word Search game. **Instead of emphasizing software development, the project seeks to provide an opportunity to experience the Scrum management framework**.
 
 In constructing the Word Search Game, we leveraged React and Node.js for the frontend client, while Flask was utilized for the backend server with RESTful API deployed for communication. All data was preserved in the MongoDB Atlas cloud.
@@ -26,6 +28,7 @@ In constructing the Word Search Game, we leveraged React and Node.js for the fro
 - For an understanding of the UI/UX design, please refer to the Wireframe UI Document located in the Documentation folder.
 
 ## Toolsets
+
 - Backend Language: Python
 - Backend Web Server Framework: Flask
 - Frontend Language: HTML, JavaScript, CSS
@@ -33,7 +36,8 @@ In constructing the Word Search Game, we leveraged React and Node.js for the fro
 - Project Management tool: Jira (Scrum)
 
 ## Local Environment Setting Up
-The application consists of a frontend, backend, and database, all of them should be running at the same time so the application can be executed correctly. The different parts can be set up manually. 
+
+The application consists of a frontend, backend, and database, all of them should be running at the same time so the application can be executed correctly. The different parts can be set up manually.
 
 ### Requirements
 
@@ -48,13 +52,13 @@ The frontend is built using `Node.js`, currently actively tested with `version 1
 
 Download link: https://nodejs.org/en, use the "Recommended For Most Users" version.
 
-<img src="./images/NodeJS Installer.png">
+![NodeJS Installer](./images/NodeJS%20Installer.png)
 
 To validate the installation, open a terminal and type `node -v`, you'll see the version number if Node.js is installed correctly.
 
-<img src="./images/NodeJS Version Check.png">
+![NodeJS Installer](./images/NodeJS%20Version%20Check.png)
 
-#### 2 Install Required Dependencies
+2 Install Required Dependencies
 
 Same commands for Windows, MacOS, and Linux.
 
@@ -72,18 +76,21 @@ npm install
 
 #### 3 Start the NodeJS Client
 
-Once all dependencies are installed without error, start the frontend Node.js client.
+Once all dependencies are installed without error, start the frontend Node.js client with either of the commands:
 
 ```bash
-# Start the frontend client
-npm start
+# Start the development environment
+npm run start:dev
+
+# Start the production environment
+npm run start:prod
 ```
 
 Wait for the client to be started. Once all services are started, a new page will be opened in the default browser as shown below.
 
-<img src="./images/NodeJS Server.png" width="1280">
+![NodeJS Installer](./images/NodeJS%20Server.png)
 
-### Backend
+Backend
 
 The backend is built using pure `Python` and its popular microframework `Flask`, currently actively tested with `Python 3.11` and `Python 3.10`, and `Flask 2.3.2`. The simple manual setup requires the following steps.
 
@@ -119,7 +126,7 @@ python3 -3.11 --version
 
 You'll see the version number if Python is installed correctly.
 
-<img src="images/Python Version.png">
+![NodeJS Installer](./images/Python%20Version.png)
 
 #### 2 Install Virtual Environment (Recommended But Not Required)
 
@@ -156,7 +163,7 @@ For more information, see https://docs.python.org/3/tutorial/venv.html.
 
 First, please make sure you have the `requirements.txt` in the src folder.
 
-<img src="images/Python Required Packages.png">
+![Python Required Packages](./images/Python%20Required%20Packages.png)
 
 Then make sure your terminal is now in the src folder, you should be fine if you have gone through step 2. Type the following command to install all required packages:
 
@@ -184,7 +191,7 @@ python3 app.py
 
 You should see something as shown in the image below indicating that the Flask application is running:
 
-<img src="./images/Flask Server Running.png">
+![NodeJS Installer](./images/Flask%20Server%20Running.png)
 
 Now navigate to http://127.0.0.1:5000 in your browser, you'll see a webpage without error if the Flask application is running correctly.
 
@@ -199,3 +206,60 @@ We interface with our Atlas database through the MongoDB Python connector within
 For instructions on how to connect to a MongoDB database, please refer to this link: https://www.mongodb.com/try/download/compass.
 
 While we utilize the cloud-based MongoDB Atlas, you may also choose to install MongoDB on your local system if it better suits your needs. The official documentation for this process can be found here: https://www.mongodb.com/try/download/community-kubernetes-operator.
+
+## Testing
+
+### Installation
+
+1. **Install Jest, the main testing framework:**
+   ```
+   npm install --save-dev jest
+   ```
+2. **Install React Testing Library to render React components, fire events, and make assertions about the result:**
+   ```
+   npm install --save-dev @testing-library/react
+   ```
+3. **Install Jest DOM to provide custom Jest matchers for better assertions on the DOM:**
+   ```
+   npm install --save-dev @testing-library/jest-dom
+   ```
+4. **Install Babel and its presets to transpile your JavaScript code so that Jest can understand it:**
+   ```
+   npm install --save-dev @babel/core @babel/preset-env @babel/preset-react
+   ```
+5. **Install Babel plugin to transform ES6 modules to CommonJS, as Jest currently does not understand ES6 module syntax:**
+   ```
+   npm install --save-dev @babel/plugin-transform-modules-commonjs
+   ```
+6. **Install Jest Fetch Mock to mock the fetch function in your tests, if you're using fetch for API calls:**
+   ```
+   npm install --save-dev jest-fetch-mock
+   ```
+
+### How to Run
+
+* set the environment variable
+
+```
+export PYTHONPATH=""    // mac or linux | put path of src ""
+```
+
+```
+$env:PYTHONPATH=""      // windows |put path of src ""
+```
+
+* **cd to CSS566-Final-Project\src\client**
+
+```
+npm test
+```
+
+The application has style checking using [eslint][eslint] for frontend.
+
+```bash
+# Run style checking for the frontend
+cd client/
+npm run lint
+```
+
+[eslint]: https://eslint.org/

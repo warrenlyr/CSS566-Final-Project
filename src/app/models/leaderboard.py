@@ -12,7 +12,7 @@ this_path = os.path.abspath(os.path.join(
     os.path.dirname(os.path.realpath(__file__)), os.pardir, os.pardir))
 sys.path.insert(0, this_path)
 from app import app
-from app.models import Game, GameHistory
+from app.models import Game, GameHistory, User
 
 
 class Leaderboard:
@@ -32,6 +32,8 @@ class Leaderboard:
         # create the leaderboard
         leaderboard = {
             'game_id': bson.ObjectId(game_id),  # game id
+            'game_name': Game().get_game_name(game_id),  # game name for convenience
+            'last_updated': datetime.now(),  # last updated time
             'leaderboard': [],  # leaderboard
         }
 
@@ -86,13 +88,97 @@ class Leaderboard:
         print(f'Total current leaderboard count: {total_current_leaderboard_cnt}')
         print(f'New leaderboard created count: {new_leaderboard_created_cnt}')
 
+    def insert_score(self, game_history_id: str, anonymous: bool = False):
+        '''
+        Insert a record into one leaderboard record by given game history id.
+        For each game, we only keep the top N scores.
+
+        Args:
+            game_history_id (str): game history id of the game history that the score belongs to
+
+        Returns:
+            bool: True if the score is inserted successfully, False otherwise
+            error (str): error message if there is any
+        '''
+        TOP_N = 10  # only keep the top 10 scores
+
+        game_history = GameHistory()
+        game_history_record = game_history.get(game_history_id)
+
+        # validate
+        if not game_history_record:
+            return False, 'Game history record does not exist.'
+        
+        # check if the game history record is already in the leaderboard
+        exist = self._collection.find_one({
+            'game_id': game_history_record['game_id'],
+            'leaderboard': {'$elemMatch': {'game_history_id': bson.ObjectId(game_history_id)}}
+        })
+        if exist:
+            return False, 'Game history record already exists in the leaderboard.'
+        
+        # construct the leaderboard record to be inserted
+
+        # get some information from the game history record
+        username = None
+        if game_history_record['user_id']:
+            user = User()
+            username = user.get_username(game_history_record['user_id'])
+
+        leaderboard_record = {
+            # the essential part
+            'game_history_id': bson.ObjectId(game_history_id), 
+            'anonymous': anonymous,  # whether the user wants to be anonymous
+
+            # below are some extra information for convenience
+            # so we don't need to query the game history collection again
+            'username': username,
+            'score': game_history_record['score']
+        }
+
+        # get the leaderboard
+        leaderboard = self._collection.find_one({'game_id': bson.ObjectId(game_history_record['game_id'])})
+        leaderboard_id = leaderboard['_id']
+
+        # check if the current score is lower than the lowest score in the leaderboard
+        # if so, we don't need to insert the record into the leaderboard
+        if len(leaderboard['leaderboard']) >= TOP_N:
+            lowest_score = leaderboard['leaderboard'][-1]['score']
+            if leaderboard_record['score'] < lowest_score:
+                return False, 'Score is not high enough to be inserted into the leaderboard.'
+
+        # insert the record into the leaderboard and sort the leaderboard
+        # also check if the leaderboard contains more than TOP_N records, if so, remove the last one
+        # update the last updated time as well
+        try:
+            self._collection.update_one(
+                {'_id': leaderboard_id},
+                {
+                    '$push':{
+                        'leaderboard': {
+                            '$each': [leaderboard_record],
+                            '$sort': {'score': -1},
+                            '$slice': TOP_N
+                        }
+                    },
+                    '$set': {
+                        'last_updated': datetime.now()
+                    }
+                }
+            )
+            return True, None
+        except Exception as e:
+            return False, 'Failed to insert score into leaderboard.'
+
+
 
     '''
     Getter functions
     '''
     def get_leaderboard_by_game_id(self, game_id: str):
         '''
-        Get the leaderboard by the given game id.
+        Get the leaderboard by the given game id
+        and mask the username if the user wants to be anonymous.
 
         Args:
             game_id (str): game id of the game that the leaderboard belongs to
@@ -101,8 +187,27 @@ class Leaderboard:
             leaderboard (dict): leaderboard of the given game id if the leaderboard exists, None otherwise
         '''
         # get the leaderboard from MongoDB
-        leaderboard = self._collection.find_one({'game_id': bson.ObjectId(game_id)})
+        # exclude id and game history id
+        leaderboard = self._collection.find_one(
+            {'game_id': bson.ObjectId(game_id)},
+            {'_id': 0, 'leaderboard':{'game_history_id': 0}}
+        )
+
+        # convert the ObjectId to string, and remove the username if the user wants to be anonymous
+        if leaderboard:
+            leaderboard['game_id'] = str(leaderboard['game_id'])
+            leaderboard['last_updated'] = leaderboard['last_updated'].strftime('%Y-%m-%d %H:%M:%S')
+
+            for each_record in leaderboard['leaderboard']:
+                # add rank
+                each_record['rank'] = leaderboard['leaderboard'].index(each_record) + 1
+
+                if each_record['anonymous']:
+                    each_record['username'] = 'Anonymous'
+                del each_record['anonymous']
+
         return leaderboard
+
 
 
 
@@ -112,5 +217,12 @@ if __name__ == '__main__':
     lb = Leaderboard()
 
     # test init
-    lb.init()
+    # lb._collection.delete_many({})
+    # lb.init()
+
+    # test insert score
+    # print(lb.insert_score('646c3816e8796c47075d470b'))
+
+    # test get leaderboard by game id
+    print(lb.get_leaderboard_by_game_id('646be65072bc5379c568bd4d'))
 

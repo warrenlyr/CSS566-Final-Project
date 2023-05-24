@@ -13,7 +13,7 @@ const DailyPuzzle = ({ token }) => {
 	const getGame = async () => {
 		if (token === null) {
 			await apiInstance
-				.get("/game/normalpuzzle/2")
+				.get("/game/dailypuzzle")
 				.then((res) => {
 					const data = res.data.game_data;
 					setGameData(data);
@@ -25,7 +25,7 @@ const DailyPuzzle = ({ token }) => {
 				});
 		} else {
 			await authApiInstance
-				.get("/game/normalpuzzle/2")
+				.get("/game/dailypuzzle")
 				.then((res) => {
 					const data = res.data.game_data;
 					setGameData(data);
@@ -48,7 +48,7 @@ const DailyPuzzle = ({ token }) => {
 				<Spinner />
 			) : noGame ? (
 				<>
-					<div className="pageTitle">Daily Puzzle</div>
+					<div className="dailyTitle">Daily Puzzle</div>
 					<div className="noGameText">
 						Sorry No Daily Puzzle Available, come back later!
 					</div>
@@ -61,7 +61,7 @@ const DailyPuzzle = ({ token }) => {
 						size={gameData.size}
 						words={gameData.words}
 						level={gameData.level}
-						type={gameData.type}
+						gameId={gameData._id}
 						gameHistoryId={gameHistoryId}
 						token={token}
 					/>

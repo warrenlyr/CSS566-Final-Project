@@ -14,21 +14,23 @@
 .registerLabel {
 	display: block;
 	margin-top: 10px;
-	margin-bottom: 5px;
+	margin-bottom: 10px;
 	width: 40%;
+	font-size: 20px;
+	font-weight: 500;
 }
 
 .registerInput {
+	background: transparent;
 	margin-bottom: 20px;
 	width: 100%;
 	border: none;
-	border-bottom: 1px solid;
+	border-bottom: 1px solid white;
 	width: 40%;
+	font-size: 16px;
+	color: white;
 }
 
-input:focus {
-	outline: none;
-}
 
 .registerButton {
 	border-radius: 15px;

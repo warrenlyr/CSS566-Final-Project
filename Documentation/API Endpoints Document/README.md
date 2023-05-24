@@ -1,6 +1,6 @@
 # API Endpoints Documentation
 
-Update: 5/17/2023
+Update: 5/22/2023
 
 Current API version: v0
 
@@ -16,15 +16,19 @@ API endpoints prefix: `/api/<api_version>`
   - [Logout](#logout)
 - [User Account](#user-account)
   - [Profile (Login Required)](#profile-login-required)
+  - [User Game History](#user-game-history)
   - [Delete Account (Login Required)](#delete-account-login-required)
 - [Game](#game)
   - [Get a Normal Game](#get-a-normal-game)
   - [Get Today's Reward Game](#get-todays-reward-game)
   - [Get Game Key](#get-game-key)
   - [Finish a Game](#finish-a-game)
+  - [Design a Puzzle](#design-a-puzzle)
+  - [Confirm a Designed Puzzle](#confirm-a-designed-puzzle)
 - [Leaderboards](#leaderboards)
-  - [Today's Reward Game](#todays-reward-game)
-  - [Normal Game](#normal-game)
+  - [Share Score](#share-score)
+  - [Get Leaderboard of A Game](#get-leaderboard-of-a-game)
+  - [Get Leaderboard For Landing Page](#get-leaderboard-for-landing-page)
 
 
 ## Status Code
@@ -242,22 +246,33 @@ Success (200)
         "attempts": 0,
         "end_time": null,
         "finished": false,
-        "game_history_id": "64655ebd0e646d425f3d820d",
-        "game_id": "646550aa7b1545c987e4e41b",
-        "game_name": "Today's Rewards Game 2023-05-17",
+        "game_history_id": "646c3adbced4fc0addccf70e",
+        "game_id": "646be65172bc5379c568bd61",
+        "game_name": "Level 3 Game 1",
         "score": 0,
-        "start_time": "Wed, 17 May 2023 16:09:49 GMT",
+        "start_time": "2023-05-22 21:02:35",
         "valid_time_elapsed": false
     },
     {
         "attempts": 0,
         "end_time": null,
         "finished": false,
-        "game_history_id": "64655ec10e646d425f3d820e",
-        "game_id": "646550aa7b1545c987e4e41c",
-        "game_name": "Level 1 Game 1",
+        "game_history_id": "646c3ae1ced4fc0addccf70f",
+        "game_id": "646be65172bc5379c568bd57",
+        "game_name": "Level 2 Game 1",
         "score": 0,
-        "start_time": "Wed, 17 May 2023 16:09:53 GMT",
+        "start_time": "2023-05-22 21:02:41",
+        "valid_time_elapsed": false
+    },
+    {
+        "attempts": 0,
+        "end_time": null,
+        "finished": false,
+        "game_history_id": "646c3ae7ced4fc0addccf710",
+        "game_id": "646be65172bc5379c568bd57",
+        "game_name": "Level 2 Game 1",
+        "score": 0,
+        "start_time": "2023-05-22 21:02:47",
         "valid_time_elapsed": false
     }
 ]
@@ -618,7 +633,7 @@ POST
 **Required Body**
 
 - `time_elapsed`: time elapsed in ms (integer)
-- `attemps`: number of attempts (integer)
+- `attempts`: number of attempts (integer)
 
 **Response**
 
@@ -649,15 +664,194 @@ Failed
 }
 ```
 
+### Design a Puzzle
+
+`/game/designpuzzle/create`
+
+Generate a customized puzzle by providing the `words` and `level` in the request body. This custom puzzle will be structured identically to the normal and daily reward games. Upon successful creation, a `game_id` will be returned along with the game data, enabling users to review the design and decide whether to proceed with it or generate a new one.
+
+If an access token is included in the request, the `created_by` attribute will be assigned the user ID. If no access token is provided, `created_by` will be set as "anonymous".
+
+Games created via this API endpoint will be labeled as `type="temp"`. It's the server's responsibility to purge "temp" game data that's over 2 hours old. Once users are content with their designed puzzle, they can finalize it by hitting the confirm button and sending another request to the **Confirm a Designed Puzzle** API endpoint. This action will transition the game data from "temp" to "normal" status. For further information, refer to the **Confirm a Designed Puzzle** API endpoint section.
+
+**Accepted request types**
+
+POST
+
+**Optional Header**
+
+- `Authorization: Bearer <access_token>`
+
+**Required Body**
+
+- `words`: A string of space-separated words (not a list of string), eg: "cat dog pig"
+- `level`: An integer between 1-3
+
+**Response**
+
+Success (201)
+
+```json
+{
+    "game": {
+        "_id": "646be677afc35a4470632e6f",
+        "created_at": "2023-05-22",
+        "created_by": "646556146471c08c55b3f2bf",
+        "customized": true,
+        "key": [
+            {
+                "direction": "S",
+                "start_col": 3,
+                "start_row": 1,
+                "word": "CAT"
+            },
+            {
+                "direction": "E",
+                "start_col": 0,
+                "start_row": 1,
+                "word": "DOG"
+            },
+            {
+                "direction": "E",
+                "start_col": 0,
+                "start_row": 0,
+                "word": "PIG"
+            }
+        ],
+        "level": 1,
+        "name": "Temp Design Game - User - 646556146471c08c55b3f2bf - 20230522150231083870",
+        "puzzle": [
+            [
+                "P",
+                "I",
+                "G",
+                "Z",
+                "A"
+            ],
+            [
+                "D",
+                "O",
+                "G",
+                "C",
+                "O"
+            ],
+            [
+                "K",
+                "X",
+                "P",
+                "A",
+                "B"
+            ],
+            [
+                "J",
+                "G",
+                "R",
+                "T",
+                "J"
+            ],
+            [
+                "X",
+                "P",
+                "Q",
+                "B",
+                "S"
+            ]
+        ],
+        "size": 5,
+        "type": "temp",
+        "words": [
+            "CAT",
+            "DOG",
+            "PIG"
+        ]
+    },
+    "game_id": "646be677afc35a4470632e6f"
+}
+```
+
+Failed
+
+```json
+{
+    "error": "error message"
+}
+```
+
+### Confirm a Designed Puzzle
+
+`/game/designpuzzle/submit`
+
+Create a normal game from a "temp" game by given `game_id`. When users find the puzzle design to their liking, they can proceed to finalize it by hitting the confirm button. This action sends a request to our server where we process it accordingly, transforming the temporary game into a normal game.
+
+**Accepted request types**
+
+POST
+
+**Required Body**
+
+- `game_id`: The ID of temp game to be confirmed
+
+**Response**
+
+Success (201)
+
+```json
+{
+    "status": true
+}
+```
+
+Failed
+
+```json
+{
+    "error": "error message"
+}
+```
+
 ## Leaderboards
 
-`/leaderboards`
+`/leaderboard`
 
-### Today's Reward Game
+### Share Score
 
-`/leaderboards/dailypuzzle`
+`/leaderboard/sharescore/<game_history_id>`
 
-Get leaderboard data of today's reward game.
+Submit the score to the leaderboard of a specific game using `game_history_id`. There's no need to provide the game ID as it can be directly fetched from the `game_history` object. 
+
+Please note, scores can only be shared from completed games. If a game isn't finished, an error message will be generated. Leaderboard of each game will only host the top 10 scores. If the leaderboard is full and the score submitted is lower than the lowest score in the leaderboard, an error will be thrown as well.
+
+**Accepted request types**
+
+POST
+
+**Required Body**
+
+- `share_anonymously`: bool value, indicating whether the user wants to share the score anonymously or not
+
+**Response**
+
+Success (201)
+
+```json
+{
+    "status": true
+}
+```
+
+Failed
+
+```json
+{
+    "error": "Error message"
+}
+```
+
+### Get Leaderboard of A Game
+
+`/leaderboard/get/<game_id>`
+
+Get the data of a leaderboard of a game by given `game_id`. The `game_id` is passed in the url.
 
 **Accepted request types**
 
@@ -665,31 +859,41 @@ GET
 
 **Response**
 
+Success (200)
+
 ```json
 {
-    "data": [
-        {
-            "rank": 0,
-            "score": 100,
-            "username": "Anonymous"
-        },
+    "game_id": "646be65072bc5379c568bd4d",
+    "game_name": "Level 1 Game 1",
+    "last_updated": "2023-05-22 22:10:56",
+    "leaderboard": [
         {
             "rank": 1,
-            "score": 99,
-            "username": "test-todaysrewardgame-rank-1"
+            "score": 1995.0,
+            "username": "test"
         },
-        ...
+        {
+            "rank": 2,
+            "score": 1935.0,
+            "username": "Anonymous"
+        }
     ]
 }
 ```
 
-### Normal Game
+Failed
 
-`/leaderboards/normalpuzzle/<game_id>`
+```json
+{
+    "error": "Error message"
+}
+```
 
-e.g. `/game/level/1`
+### Get Leaderboard For Landing Page
 
-Get leaderboard data of normal games based on the game level, levels are range from 1-3.
+`/leaderboard/landingpage`
+
+The last `Get Leaderboard` function only works when a `game_id` is provided. However, when the user lands on the landing page, the frontend will not have a `game_id` because the user doesn't request for a game. Therefore, this endpoint is created for the landing page to get the leaderboard data of Today's Reward Game directly.
 
 **Accepted request types**
 
@@ -697,21 +901,32 @@ GET
 
 **Response**
 
+Success (200)
+
 ```json
 {
-    "data": [
-        {
-            "rank": 0,
-            "score": 100,
-            "username": "Anonymous"
-        },
-        {
+    "game_id": "646d0a2b23561fabadc340b4",
+    "game_name": "Today's Rewards Game 2023-05-23",
+    "last_updated": "2023-05-23 11:47:08",
+    "leaderboard": [
+    	{
             "rank": 1,
-            "score": 99,
-            "username": "test-todaysrewardgame-rank-1"
+            "score": 1995.0,
+            "username": "test"
         },
-        ...
+        {
+            "rank": 2,
+            "score": 1935.0,
+            "username": "Anonymous"
+        }
     ]
 }
 ```
 
+Failed
+
+```json
+{
+    "error": "Error message"
+}
+```

@@ -23,7 +23,6 @@ const Navbar = ({ token, removeToken, setToken }) => {
 		apiInstance
 			.post("/auth/logout")
 			.then((res) => {
-				console.log(res.data);
 				toast.success(res.data.message);
 				removeToken();
 				setUser("");
