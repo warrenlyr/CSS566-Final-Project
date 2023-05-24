@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar/Navbar";
 import LandingPage from "./pages/Landing Page/landing";
 import DailyPuzzle from "./pages/Daily Puzzle/dailyPuzzle";
 import DesignPuzzle from "./pages/Design Puzzle/designPuzzle";
+import normalPuzzle from "./pages/Level-Based Game/normalPuzzle";
 import NotFound from "./pages/notFound";
 import Register from "./pages/Register Page/register";
 import Token from "./components/Token";
