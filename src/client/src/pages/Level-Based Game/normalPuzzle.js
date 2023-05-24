@@ -118,7 +118,7 @@ const normalPuzzle = ({ token }) => {
 				<>
 					<div className="normalTitle">Normal Puzzle</div>
 					<div className="noGameText">
-						Sorry No Daily Puzzle Available, come back later!
+						Sorry No Normal Puzzle Available, come back later!
 					</div>
 				</>
 			) : (
