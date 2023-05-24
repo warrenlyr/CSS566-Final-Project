@@ -3,7 +3,9 @@
 Author: Warren Liu
 ---------------------------------------------------------------
 Automation script to run in the back end:
-generate daily puzzlefor today's reward game.
+1. generate daily puzzlefor today's reward game.
+2. update the `todays_reward_game_played` attribute of all users to 0.
+3. clean up the temp game data.
 
 This script will run tasks once a day at 00:00:00.
 
@@ -22,7 +24,7 @@ sys.path.insert(0, app_path)
 from datetime import datetime, timedelta
 import time
 
-from app.models import Game
+from app.models import Game, User
 
 
 if __name__ == '__main__':
@@ -41,8 +43,9 @@ if __name__ == '__main__':
                 continue
             # if the current hour is 23, sleep for the duration until 00:00
             else:
-                print('Sleeping until 00:00...')
-                time.sleep(60 * (60 - now.minute))
+                sleep_time = 60 * (60 - now.minute)
+                print(f'Sleeping for {sleep_time} minutes until 00:00...')
+                time.sleep(sleep_time)
                 continue
         
         # if the current time is 00:00, start all tasks
@@ -58,13 +61,22 @@ if __name__ == '__main__':
             print('Exiting...')
         else:
             # generate today's reward game
+            print('Generating today\'s reward game...')
             status, error = game.create_todays_reward_game()
             print(status, error)
             print('Done')
 
 
         ## clean up temp games ##
+        print('Cleaning up temp games...')
         game.clean_temp_games()
+        print('Done')
+
+        
+        ## update `todays_reward_game_played` attribute of all users to 0 ##
+        print('Updating `todays_reward_game_played` attribute of all users to 0...')
+        User().clear_all_users_todays_reward_game_played()
+        print('Done')
 
 
         # sleep for 1 hour
