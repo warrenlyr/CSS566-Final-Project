@@ -268,8 +268,11 @@ class User:
 if __name__ == '__main__':
     # test the User class
     user = User()
-    print(user.create('test', 'test'))
-    print(user.validate('test', 'test'))
+    # print(user.create('test', 'test'))
+    # print(user.validate('test', 'test'))
 
     # delete all users
     # user._collection.delete_many({})
+
+    # clear all users todays_reward_game_played
+    user.clear_all_users_todays_reward_game_played()
