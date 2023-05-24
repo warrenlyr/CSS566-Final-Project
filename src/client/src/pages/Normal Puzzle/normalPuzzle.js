@@ -61,19 +61,20 @@ const NormalPuzzle = ({ token }) => {
 			) : noGame ? (
 				<>
 					<div className="normalTitle">Normal Puzzle</div>
-					<div className="noGameText">
-            Sorry No Daily Puzzle Available, come back later!
-					</div>
+					<div className="noGameText">Sorry No Daily Puzzle Available, come back later!</div>
 				</>
 			) : (
 				<>
 					<div className="normalTitle">Normal Puzzle</div>
-					<Select
-						className="levelDropdown"
-						defaultValue={options[0]}
-						options={options}
-						onChange={setLevel}
-					/>
+					<div className="levelSelection">
+						<div className="levelText">Level Difficulty</div>
+						<Select
+							className="levelDropdown"
+							defaultValue={level}
+							options={options}
+							onChange={setLevel}
+						/>
+					</div>
 					<GameGrid
 						puzzle={gameData.puzzle}
 						size={gameData.size}
