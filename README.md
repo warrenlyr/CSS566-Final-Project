@@ -1,6 +1,7 @@
 # CSS566-Final-Project
 
 ## Team Information
+
 CSS 566 Software Management
 
 Spring 2023, University of Washington Bothell
@@ -17,7 +18,8 @@ Stakeholders:
 - Arsheya Raj (Designer, frontend developer)
 
 ## Objective of The Project
-The primary objective of this project is to develop a web-based straightforward Word Search game. **Instead of emphasizing software development, the project seeks to provide an opportunity to experience the Scrum management framework**.
+
+The primary objective of this project is to develop a web-based straightforward Word Search game. <u>Instead of emphasizing software development, the project seeks to provide an opportunity to experience the Scrum management framework.</u>
 
 In constructing the Word Search Game, we leveraged React and Node.js for the frontend client, while Flask was utilized for the backend server with RESTful API deployed for communication. All data was preserved in the MongoDB Atlas cloud.
 
@@ -26,14 +28,16 @@ In constructing the Word Search Game, we leveraged React and Node.js for the fro
 - For an understanding of the UI/UX design, please refer to the Wireframe UI Document located in the Documentation folder.
 
 ## Toolsets
+
 - Backend Language: Python
 - Backend Web Server Framework: Flask
 - Frontend Language: HTML, JavaScript, CSS
 - Frontend UI Framework: React.js
-- Project Management tool: Jira (Scrum)
+- Project Management Tool: Jira (Scrum)
 
 ## Local Environment Setting Up
-The application consists of a frontend, backend, and database, all of them should be running at the same time so the application can be executed correctly. The different parts can be set up manually. 
+
+The application consists of a frontend, backend, and database, all of them should be running at the same time so the application can be executed correctly. The different parts can be set up manually.
 
 ### Requirements
 
@@ -44,17 +48,17 @@ The application consists of a frontend, backend, and database, all of them shoul
 
 The frontend is built using `Node.js`, currently actively tested with `version 18.16`. The simple manual setup requires the following steps.
 
-#### 1 Download and Install Node.js
+#### 1. Download and Install Node.js
 
 Download link: https://nodejs.org/en, use the "Recommended For Most Users" version.
 
-<img src="./images/NodeJS Installer.png">
+![NodeJS Installer](./images/NodeJS%20Installer.png)
 
 To validate the installation, open a terminal and type `node -v`, you'll see the version number if Node.js is installed correctly.
 
-<img src="./images/NodeJS Version Check.png">
+![NodeJS Installer](./images/NodeJS%20Version%20Check.png)
 
-#### 2 Install Required Dependencies
+#### 2. Install Required Dependencies
 
 Same commands for Windows, MacOS, and Linux.
 
@@ -70,7 +74,7 @@ cd src/client
 npm install
 ```
 
-#### 3 Start the NodeJS Client
+#### 3. Start the NodeJS Client
 
 Once all dependencies are installed without error, start the frontend Node.js client with either of the commands:
 
@@ -84,13 +88,13 @@ npm run start:prod
 
 Wait for the client to be started. Once all services are started, a new page will be opened in the default browser as shown below.
 
-<img src="./images/NodeJS Server.png" width="1280">
+![NodeJS Installer](./images/NodeJS%20Server.png)
 
 ### Backend
 
 The backend is built using pure `Python` and its popular microframework `Flask`, currently actively tested with `Python 3.11` and `Python 3.10`, and `Flask 2.3.2`. The simple manual setup requires the following steps.
 
-#### 1 Download and Install Python
+#### 1. Download and Install Python
 
 Download Link: https://www.python.org/downloads/, please select the newest version of either 3.11 or 3.10, then select a installer based on your OS (e.g. Windows installer (64-bit) for Windows, and macOS 64-bit universal2 installer for MacOS).
 
@@ -122,9 +126,9 @@ python3 -3.11 --version
 
 You'll see the version number if Python is installed correctly.
 
-<img src="images/Python Version.png">
+![NodeJS Installer](./images/Python%20Version.png)
 
-#### 2 Install Virtual Environment (Recommended But Not Required)
+#### 2. Install Virtual Environment (Recommended But Not Required)
 
 First, navigate to the project folder in the terminal. e.g. `<Your Local Path>/CSS566-Final-Project/`.
 
@@ -155,11 +159,11 @@ source ./venv/bin/activate
 
 For more information, see https://docs.python.org/3/tutorial/venv.html.
 
-#### 3 Install Required Packages
+#### 3. Install Required Packages
 
 First, please make sure you have the `requirements.txt` in the src folder.
 
-<img src="images/Python Required Packages.png">
+![Python Required Packages](./images/Python%20Required%20Packages.png)
 
 Then make sure your terminal is now in the src folder, you should be fine if you have gone through step 2. Type the following command to install all required packages:
 
@@ -169,7 +173,7 @@ Windows/MacOS/Linux
 pip install -r requirements.txt
 ```
 
-#### 4 Start the Flask Server
+#### 4. Start the Flask Server
 
 Once all packages are installed and you are still in the src folder, type the following command to start the Flask application:
 
@@ -187,7 +191,7 @@ python3 app.py
 
 You should see something as shown in the image below indicating that the Flask application is running:
 
-<img src="./images/Flask Server Running.png">
+![NodeJS Installer](./images/Flask%20Server%20Running.png)
 
 Now navigate to http://127.0.0.1:5000 in your browser, you'll see a webpage without error if the Flask application is running correctly.
 
@@ -205,7 +209,63 @@ While we utilize the cloud-based MongoDB Atlas, you may also choose to install M
 
 ## Testing
 
-The application has style checking using [eslint][eslint] for frontend.
+### Installation
+
+1. Install Jest, the main testing framework:
+
+```bash
+npm install --save-dev jest
+```
+
+2. Install React Testing Library to render React components, fire events, and make assertions about the result:
+
+```bash
+npm install --save-dev @testing-library/react
+```
+
+3. Install Jest DOM to provide custom Jest matches for better assertions on the DOM:
+
+```bash
+npm install --save-dev @testing-library/jest-dom
+```
+
+4. Install Babel and its presets to transpile your JavaScript code so that Jest can understand it:
+
+```bash
+npm install --save-dev @babel/core @babel/preset-env @babel/preset-react
+```
+
+5. Install Babel plugin to transform ES6 modules to CommonJS, as Jest currently does not understand ES6 module syntax:
+
+```bash
+npm install --save-dev @babel/plugin-transform-modules-commonjs
+```
+
+6. Install Jest Fetch Mock to mock the fetch function in your tests, if you're using fetch for API calls:
+
+```bash
+npm install --save-dev jest-fetch-mock
+```
+
+### How to Run
+
+1. set the environment variable
+
+```bash
+export PYTHONPATH="" # mac or linux | put path of src ""
+```
+
+```bash
+$env:PYTHONPATH="" # windows | put path of src ""
+```
+
+2. cd to `CSS566-Final-Project/src/client`
+
+```bash
+npm test
+```
+
+The application has style checking using [eslint][eslint] for the frontend.
 
 ```bash
 # Run style checking for the frontend

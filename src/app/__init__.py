@@ -29,7 +29,7 @@ from flask_jwt_extended import JWTManager
 from flask import Flask
 import os
 import sys
-from datetime import timedelta
+from datetime import timedelta, datetime
 import dotenv
 from pymongo import MongoClient
 
@@ -71,6 +71,10 @@ mongodb = MongoClient(
     f'mongodb+srv://{os.getenv("MONGODB_USERNAME")}:{os.getenv("MONGODB_PASSWORD")}@{os.getenv("MONGODB_HOST")}'
 )
 app.database = mongodb[f'{os.getenv("MONGODB_DB_NAME_TEST")}']
+
+
+# Test server time
+print(f'Flask App started. Server time: {datetime.now()}')
 
 
 # Import all routes in the end to avoid circular import
