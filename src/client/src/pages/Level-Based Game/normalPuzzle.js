@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { apiInstance } from "../../services/apiInstance";
 import { authApiInstance } from "../../services/authApiInstance";
 import "./styles.scss";
-import Button from "../../components/Button/Button";
 import Spinner from "../../components/Spinner/Spinner";
 import GameGrid from "../../components/GameGrid/GameGrid";
 
@@ -138,11 +137,11 @@ const normalPuzzle = ({ token }) => {
 			)}
 
 			<Dropdown
-      				trigger={<Button>Choose the Level:</Button>}
+      				trigger={<button>Choose the Level:</button>}
       					menu={[
-        				<Button onClick={handleLevelOne}>Level 1</Button>,
-        				<Button onClick={handleLevelTwo}>Level 2</Button>,
-					<Button onClick={handleLevelThree}>Level 3</Button>,
+        				<button onClick={handleLevelOne}>Level 1</button>,
+        				<button onClick={handleLevelTwo}>Level 2</button>,
+					<button onClick={handleLevelThree}>Level 3</button>,
       				]}
     			/>
 
