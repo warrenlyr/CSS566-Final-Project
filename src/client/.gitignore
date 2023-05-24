@@ -12,7 +12,7 @@
 /build
 
 # misc
-.env-cmdrc.json
+# .env-cmdrc.json
 .DS_Store
 .env.local
 .env.development.local
