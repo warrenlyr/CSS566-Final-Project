@@ -61,7 +61,10 @@ jwt = JWTManager(app)
 API URL prefix
 '''
 API_VERSION = 'v0'
-API_URL_PREFIX = '/api/' + API_VERSION
+# Update 5/24/2023: the cloud deployed this app on a subdomain /api directly
+# so we don't need to add the prefix /api/ anymore
+# API_URL_PREFIX = '/api/' + API_VERSION
+API_URL_PREFIX = '/' + API_VERSION
 
 
 '''
