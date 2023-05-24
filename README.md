@@ -209,7 +209,7 @@ While we utilize the cloud-based MongoDB Atlas, you may also choose to install M
 
 ## Testing
 
-## Installation
+### Installation
 
 1. **Install Jest, the main testing framework:**
    ```
@@ -236,7 +236,7 @@ While we utilize the cloud-based MongoDB Atlas, you may also choose to install M
    npm install --save-dev jest-fetch-mock
    ```
 
-## How to Run
+### How to Run
 
 * set the environment variable
 
@@ -247,7 +247,6 @@ export PYTHONPATH=""    // mac or linux | put path of src ""
 ```
 $env:PYTHONPATH=""      // windows |put path of src ""
 ```
-
 
 * **cd to CSS566-Final-Project\src\client**
 
