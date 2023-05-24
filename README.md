@@ -163,7 +163,7 @@ For more information, see https://docs.python.org/3/tutorial/venv.html.
 
 First, please make sure you have the `requirements.txt` in the src folder.
 
-`<img src="images/Python Required Packages.png">`
+![Python Required Packages](./images/Python%20Required%20Packages.png)
 
 Then make sure your terminal is now in the src folder, you should be fine if you have gone through step 2. Type the following command to install all required packages:
 
@@ -237,6 +237,17 @@ While we utilize the cloud-based MongoDB Atlas, you may also choose to install M
    ```
 
 ## How to Run
+
+* set the environment variable
+
+```
+export PYTHONPATH=""    // mac or linux | put path of src ""
+```
+
+```
+$env:PYTHONPATH=""      // windows |put path of src ""
+```
+
 
 * **cd to CSS566-Final-Project\src\client**
 
