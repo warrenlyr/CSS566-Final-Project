@@ -616,9 +616,9 @@ if __name__ == '__main__':
     # game._collection.delete_many({})
 
     # test create todays reward game
-    game = Game()
-    status, error = game.create_todays_reward_game()
-    print(status, error)
+    # game = Game()
+    # status, error = game.create_todays_reward_game()
+    # print(status, error)
 
     # test create random game
     # game = Game()
