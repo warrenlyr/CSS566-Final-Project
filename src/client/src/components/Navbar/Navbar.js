@@ -44,7 +44,7 @@ const Navbar = ({ token, removeToken, setToken }) => {
 			<div className="navbar">
 				<Link to="/">
 					<img
-						src={process.env.PUBLIC_URL + "/logo-transparent.png"}
+						src={process.env.PUBLIC_URL + "/logo192.png"}
 						alt="logo"
 						className="logo"
 					></img>
