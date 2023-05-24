@@ -73,5 +73,9 @@ mongodb = MongoClient(
 app.database = mongodb[f'{os.getenv("MONGODB_DB_NAME_TEST")}']
 
 
+# Test server time
+print(f'Flask App started. Server time: {datetime.now()}')
+
+
 # Import all routes in the end to avoid circular import
 from app.routes import *
