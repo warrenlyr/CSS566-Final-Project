@@ -17,7 +17,7 @@ const LandingPage = () => {
 				<GameHistory />
 			</div>
 			<div className="gameButtons">
-				<Link to="/game/normalgame">
+				<Link to="/game/normalpuzzle">
 					<Button additionalStyles={"buttons"} buttonType={"button"}>
 						Normal Puzzle
 					</Button>
