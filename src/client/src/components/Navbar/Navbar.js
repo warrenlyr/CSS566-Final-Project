@@ -87,7 +87,7 @@ const Navbar = ({ token, removeToken, setToken }) => {
 				newestOnTop={true}
 				closeOnClick={false}
 				rtl={false}
-				pauseOnFocusLoss
+				pauseOnFocusLoss={false}
 				draggable={false}
 				pauseOnHover={false}
 				theme="dark"

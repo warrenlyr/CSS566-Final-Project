@@ -5,7 +5,7 @@ import LandingPage from "./pages/Landing Page/landing";
 import DailyPuzzle from "./pages/Daily Puzzle/dailyPuzzle";
 import DesignPuzzle from "./pages/Design Puzzle/designPuzzle";
 import NormalPuzzle from "./pages/Normal Puzzle/normalPuzzle";
-import NotFound from "./pages/notFound";
+import NotFound from "./pages/Not Found/notFound";
 import Register from "./pages/Register Page/register";
 import Token from "./components/Token";
 
@@ -26,7 +26,7 @@ function App() {
 					element={<NormalPuzzle token={token} />} 
 				/>
 				<Route path="/game/designpuzzle" element={<DesignPuzzle />} />
-				<Route path="/register" element={<Register />} />
+				<Route path="/register" element={<Register setToken={setToken} />} />
 				<Route path="*" element={<NotFound />} />
 			</Routes>
 		</Router>
