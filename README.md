@@ -207,7 +207,35 @@ For instructions on how to connect to a MongoDB database, please refer to this l
 
 While we utilize the cloud-based MongoDB Atlas, you may also choose to install MongoDB on your local system if it better suits your needs. The official documentation for this process can be found here: https://www.mongodb.com/try/download/community-kubernetes-operator.
 
-## Testing
+
+
+### How to Run
+
+1. set the environment variable
+
+```bash
+export PYTHONPATH="<location_of_src_directory>" # Mac or linux | Put path of src ""
+```
+
+```bash
+$env:PYTHONPATH="<location_of_src_directory>" # Windows | Put path of src ""
+```
+
+2. cd to `CSS566-Final-Project/src/client`
+
+```bash
+npm test
+```
+
+The application has style checking using [eslint][eslint] for the frontend.
+
+```bash
+# Run style checking for the frontend
+cd client/
+npm run lint
+```
+
+## Front End Testing
 
 ### Installation
 
@@ -247,34 +275,7 @@ npm install --save-dev @babel/plugin-transform-modules-commonjs
 npm install --save-dev jest-fetch-mock
 ```
 
-### How to Run
-
-1. set the environment variable
-
-```bash
-export PYTHONPATH="<location_of_src_directory>" # Mac or linux | Put path of src ""
-```
-
-```bash
-$env:PYTHONPATH="<location_of_src_directory>" # Windows | Put path of src ""
-```
-
-2. cd to `CSS566-Final-Project/src/client`
-
-```bash
-npm test
-```
-
-The application has style checking using [eslint][eslint] for the frontend.
-
-```bash
-# Run style checking for the frontend
-cd client/
-npm run lint
-```
-
-
-### Testing Guide
+### Back End Testing
 
 Prerequisites: PYTHONPATH="<location_of_src_directory>"
 
@@ -289,6 +290,7 @@ To run the tests, navigate to the root directory of the project in your terminal
 
 ```bash
 cd path/to/project
+
 
 
 [eslint]: https://eslint.org/
