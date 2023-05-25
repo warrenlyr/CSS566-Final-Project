@@ -10,14 +10,29 @@
 	overflow-y: auto;
 }
 
+.gameHistoryContainer table{
+	width: 100%;
+}
+
+.gameHistoryContainer table th,
+.gameHistoryContainer table td{
+	text-align: center;
+}
+
 .gameHistoryTitle {
 	font-size: 30px;
 	font-weight: 500;
 }
 
 .History {
-	border: 1px;
-}
-.userHistory {
-	text-align: left;
+	width: 100%;
+
+	.historyRow{
+		display: flex;
+		justify-content: space-between;
+	}
+
+	.username{
+		margin-right: 20px;
+	}
 }
