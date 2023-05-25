@@ -252,11 +252,11 @@ npm install --save-dev jest-fetch-mock
 1. set the environment variable
 
 ```bash
-export PYTHONPATH="" # mac or linux | put path of src ""
+export PYTHONPATH="<location_of_src_directory>" # Mac or linux | Put path of src ""
 ```
 
 ```bash
-$env:PYTHONPATH="" # windows | put path of src ""
+$env:PYTHONPATH="<location_of_src_directory>" # Windows | Put path of src ""
 ```
 
 2. cd to `CSS566-Final-Project/src/client`
@@ -272,5 +272,23 @@ The application has style checking using [eslint][eslint] for the frontend.
 cd client/
 npm run lint
 ```
+
+
+### Testing Guide
+
+Prerequisites: PYTHONPATH="<location_of_src_directory>"
+
+This guide provides instructions for running tests using pytest for the project. The project contains the following test files:
+- `test_auth.py`: Tests for the authentication module.
+- `test_leaderboards.py`: Tests for the leaderboards module.
+- `test_user.py`: Tests for the user module.
+
+Before running the tests, make sure you have pytest installed.
+
+To run the tests, navigate to the root directory of the project in your terminal.
+
+```bash
+cd path/to/project
+
 
 [eslint]: https://eslint.org/
