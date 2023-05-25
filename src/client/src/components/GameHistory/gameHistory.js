@@ -15,7 +15,17 @@ const GameHistory = ({ styles}) => {
 		await authApiInstance
 			.get(path)
 			.then((res) => {
-				const data = res.data;
+				let data = res.data;
+
+				data.sort((a, b) => {
+					const dateTimePartsA = a.start_time.split(" ");
+					const isoDateTimeA = `${dateTimePartsA[0]}T${dateTimePartsA[1]}Z`;
+
+					const dateTimePartsB = b.start_time.split(" ");
+					const isoDateTimeB = `${dateTimePartsB[0]}T${dateTimePartsB[1]}Z`;
+
+					return new Date(isoDateTimeB) - new Date(isoDateTimeA);
+				});
 
 				const convertedData = data.map(game => {
 					const dateTimeParts = game.start_time.split(" ");
