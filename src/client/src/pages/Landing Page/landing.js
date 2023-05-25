@@ -7,9 +7,9 @@ import GameHistory from "../../components/GameHistory/gameHistory";
 
 const LandingPage = () => {
 	return (
-		<>
+		<div className="landingContainer">
 			<div className="pageTitle">Husky seeks Kitty</div>
-			<div className="landingContainer">
+			<div className="dataContainer">
 				<Leaderboard
 					styles={"landingLeaderboard"}
 					site={"landingPage"}
@@ -33,7 +33,7 @@ const LandingPage = () => {
 					</Button>
 				</Link>
 			</div>
-		</>
+		</div>
 	);
 };
 
