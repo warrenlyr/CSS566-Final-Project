@@ -6,6 +6,7 @@ import { apiInstance } from "../../services/apiInstance";
 const Leaderboard = ({ styles, site, gameId=null }) => {
 	const [leaderboardData, setLeaderboardData] = useState([]);
 	const [refreshClicked, setRefreshClicked] = useState(false);
+	const [noScoresText, setNoScoresText] = useState("");
 
 	useEffect(() => {
 		fetchData();
@@ -24,9 +25,10 @@ const Leaderboard = ({ styles, site, gameId=null }) => {
 			.then((res) => {
 				const data = res.data.leaderboard;
 				setLeaderboardData(data);
+				setNoScoresText("No scores to show");
 			})
-			.catch((error) => {
-				console.log(error); //change this
+			.catch(() => {
+				setNoScoresText("Sorry, Leaderboard was not found");
 			});
 	};
 
@@ -64,7 +66,7 @@ const Leaderboard = ({ styles, site, gameId=null }) => {
 					</tbody>
 				</table>
 			) : (
-				<div>No scores to show</div>
+				<div className="noScoresText">{noScoresText}</div>
 			)}
 		</div>
 	);
