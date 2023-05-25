@@ -33,7 +33,7 @@ const Leaderboard = ({ styles, site, gameId=null }) => {
 	return (
 		<div className={`leaderboardContainer ${styles}`}>
 			<div className="leaderboardheader">
-				<div className="leaderboardTitle">Leaderboard</div>
+				<div className="leaderboardTitle">{site === "landingPage" ? "Daily Leaderboard" : "Leaderboard"}</div>
 				<Button
 					additionalStyles={"leaderboardrefreshbutton"}
 					type={"button"}
