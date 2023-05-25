@@ -71,7 +71,7 @@ const DesignPuzzle = () => {
 			.post("/game/designpuzzle/submit", data)
 			.then((res) => {
 				if (res.data.status) {
-					toast.success("Puzzle successfully created, Redirecting", {
+					toast.success("Puzzle successfully created! Redirecting", {
 						autoClose: 3000
 					});
 					setTimeout(() => {

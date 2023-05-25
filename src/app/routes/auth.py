@@ -75,7 +75,7 @@ def auth_logout():
     '''
     Logout the user.
     '''
-    res = jsonify({'message': 'Logout successful'})
+    res = jsonify({'message': 'Sign out successful'})
     unset_jwt_cookies(res)
     return make_response(
         res,
