@@ -44,26 +44,30 @@ const GameHistory = ({ styles}) => {
 	return (
 		<div className={`gameHistoryContainer ${styles}`}>
 			<div className="gameHistoryTitle">User History</div>
-			<table>
-				<thead>
-					<tr>
-						<th>Game Name</th>
-						<th>Start Time</th>
-						<th>Score</th>
-					</tr>
-				</thead>
-				<tbody>
-					{gameHistoryData.map((game) => {
-						return (
-							<tr className="gameHistoryItem" key={game.game_history_id}>
-								<td>{game.game_name}</td>
-								<td>{game.start_time}</td>
-								<td>{game.score}</td>
-							</tr>
-						);
-					})}
-				</tbody>
-			</table>
+			{gameHistoryData.length === 0 ? (
+				<p>No user history to show</p>
+			) : (
+				<table>
+					<thead>
+						<tr>
+							<th>Game Name</th>
+							<th>Start Time</th>
+							<th>Score</th>
+						</tr>
+					</thead>
+					<tbody>
+						{gameHistoryData.map((game) => {
+							return (
+								<tr className="gameHistoryItem" key={game.game_history_id}>
+									<td>{game.game_name}</td>
+									<td>{game.start_time}</td>
+									<td>{game.score}</td>
+								</tr>
+							);
+						})}
+					</tbody>
+				</table>
+			)}
 		</div>
 	);
 };
