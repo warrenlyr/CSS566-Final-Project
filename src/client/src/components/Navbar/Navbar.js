@@ -63,7 +63,7 @@ const Navbar = ({ token, removeToken, setToken }) => {
 						buttonType={"button"}
 						handleClick={() => setIsOpen(true)}
 					>
-						Log in
+						Sign in
 					</Button>
 				) : (
 					<div>
@@ -73,7 +73,7 @@ const Navbar = ({ token, removeToken, setToken }) => {
 							buttonType={"button"}
 							handleClick={handleLogout}
 						>
-							Log out
+							Sign out
 						</Button>
 					</div>
 				)}
