@@ -9,6 +9,7 @@ const DailyPuzzle = ({ token }) => {
 	const [gameData, setGameData] = useState({});
 	const [gameHistoryId, setGameHistoryId] = useState("");
 	const [noGame, setNoGame] = useState(null);
+	const [noGameText, setNoGameText] = useState("Sorry No Daily Puzzle Available, come back later!");
 
 	const getGame = async () => {
 		if (token === null) {
@@ -27,12 +28,16 @@ const DailyPuzzle = ({ token }) => {
 			await authApiInstance
 				.get("/game/dailypuzzle")
 				.then((res) => {
+					console.log(res);
 					const data = res.data.game_data;
 					setGameData(data);
 					setGameHistoryId(res.data.game_history_id);
 					setNoGame(false);
 				})
-				.catch(() => {
+				.catch((error) => {
+					if(error.response.status == 423) {
+						setNoGameText("You have already played daily puzzle today!");
+					}
 					setNoGame(true);
 				});
 		}
@@ -50,7 +55,7 @@ const DailyPuzzle = ({ token }) => {
 				<>
 					<div className="dailyTitle">Daily Puzzle</div>
 					<div className="noGameText">
-						Sorry No Daily Puzzle Available, come back later!
+						{noGameText}
 					</div>
 				</>
 			) : (

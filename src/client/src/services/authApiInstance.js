@@ -17,13 +17,4 @@ authAxiosInstance.interceptors.request.use(
 	}
 );
 
-authAxiosInstance.interceptors.response.use(
-	(response) => {
-		return response;
-	},
-	(error) => {
-		console.log(error);
-	}
-);
-
 export const authApiInstance = authAxiosInstance;
