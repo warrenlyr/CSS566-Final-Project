@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import "./styles.scss";
 import { authApiInstance } from "../../services/authApiInstance";
 
-const GameHistory = ({ styles}) => {
+const GameHistory = () => {
 	const [gameHistoryData, setGameHistoryData] = useState([]);
+	const [noHistoryText, setNoHistoryText] = useState("");
 
 	useEffect(() => {
 		fetchData();
@@ -36,16 +37,16 @@ const GameHistory = ({ styles}) => {
 
 				setGameHistoryData(convertedData);
 			})
-			.catch((error) => {
-				console.log(error); 
+			.catch(() => {
+				setNoHistoryText("Sign in to view recent games");
 			});
 	};
 
 	return (
-		<div className={`gameHistoryContainer ${styles}`}>
+		<div className={"gameHistoryContainer"}>
 			<div className="gameHistoryTitle">User History</div>
 			{gameHistoryData.length === 0 ? (
-				<p>Sign in to view recent games</p>
+				<p className="noGamesText">{noHistoryText}</p>
 			) : (
 				<table>
 					<thead>
