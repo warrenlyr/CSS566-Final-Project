@@ -23,12 +23,16 @@ const Navbar = ({ token, removeToken, setToken }) => {
 		apiInstance
 			.post("/auth/logout")
 			.then((res) => {
-				toast.success(res.data.message);
+				toast.success(res.data.message, {
+					autoClose:3000
+				});
 				removeToken();
 				setUser("");
 			})
-			.catch((error) => {
-				console.log(error);
+			.catch(() => {
+				toast.error("Something went wrong while logging out", {
+					autoClose:3000
+				});
 			});
 	};
 
@@ -36,7 +40,11 @@ const Navbar = ({ token, removeToken, setToken }) => {
 		authApiInstance
 			.get("/auth/user/profile")
 			.then((res) => setUser(res.data.username))
-			.catch((e) => console.log(e));
+			.catch(() => {
+				toast.error("Something went wrong while fetching user information", {
+					autoClose:3000
+				});
+			});
 	};
 
 	return (
@@ -75,9 +83,8 @@ const Navbar = ({ token, removeToken, setToken }) => {
 			</div>
 			<ToastContainer
 				position="top-right"
-				autoClose={3000}
-				hideProgressBar
-				newestOnTop
+				hideProgressBar={false}
+				newestOnTop={true}
 				closeOnClick={false}
 				rtl={false}
 				pauseOnFocusLoss

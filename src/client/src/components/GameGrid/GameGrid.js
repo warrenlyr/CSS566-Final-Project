@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiInstance } from "../../services/apiInstance";
 import { authApiInstance } from "../../services/authApiInstance";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./styles.scss";
 import BoardSquare from "../BoardSquare/BoardSquare";
@@ -33,6 +33,7 @@ const GameGrid = ({
 	const [stopTimer, setStopTimer] = useState(false);
 
 	const maxSelected = size;
+	let navigate = useNavigate();
 
 	const handleClick = (row, col, letter) => {
 		if (canContinue) {
@@ -54,7 +55,9 @@ const GameGrid = ({
 						)
 					);
 				} else {
-					toast.info("Maximum amount of letters selected");
+					toast.info("Maximum amount of letters selected", {
+						autoClose: 3000
+					});
 				}
 			}
 		} else {
@@ -94,7 +97,9 @@ const GameGrid = ({
 
 		if (words.includes(word)) {
 			setGuessedWords([...guessedWords, word]);
-			toast.success(`Word found, ${word}`);
+			toast.success(`Word found, ${word}`, {
+				autoClose: 3000
+			});
 			handleClear();
 		} else {
 			const closeTime = level === 1 || level === 3 ? 3000 : 4000;
@@ -201,27 +206,40 @@ const GameGrid = ({
 				.post(`/leaderboard/sharescore/${gameHistoryId}`, data)
 				.then((res) => {
 					if (res.data.status) {
-						toast.success("Score successfully shared!");
+						toast.success("Score successfully shared!, Redirecting", {
+							autoClose: 3000
+						});
+						setTimeout(() => {
+							navigate("/");
+						}, 3500);
 					}
 				})
 				.catch(() => {
-					toast.error("Something went wrong while sharing scores");
+					toast.error("Something went wrong while sharing scores", {
+						autoClose: 3000
+					});
 				});
 		} else {
 			await authApiInstance
 				.post(`/leaderboard/sharescore/${gameHistoryId}`, data)
 				.then((res) => {
 					if (res.data.status) {
-						toast.success("Score successfully shared!");
+						toast.success("Score successfully shared!, Redirecting", {
+							autoClose: 3000
+						});
+						setTimeout(() => {
+							navigate("/");
+						}, 3500);
 					}
 				})
 				.catch(() => {
-					toast.error("Something went wrong while sharing scores");
+					toast.error("Something went wrong while sharing scores", {
+						autoClose: 3000
+					});
 				});
 		}
 	};
 
-	let navigate = useNavigate();
 	const handleModalClose = () => {
 		setIsOpen(false);
 		navigate("/");
@@ -366,18 +384,6 @@ const GameGrid = ({
 					</>
 				)}
 			</Modal>
-			<ToastContainer
-				position="top-right"
-				autoClose={3000}
-				hideProgressBar={false}
-				newestOnTop={true}
-				closeOnClick={false}
-				rtl={false}
-				pauseOnFocusLoss={false}
-				draggable={false}
-				pauseOnHover={false}
-				theme="dark"
-			/>
 		</>
 	);
 };

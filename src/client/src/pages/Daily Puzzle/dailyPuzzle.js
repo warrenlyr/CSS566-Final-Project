@@ -55,7 +55,7 @@ const DailyPuzzle = ({ token }) => {
 				</>
 			) : (
 				<>
-					<div className="pageTitle">Daily Puzzle</div>
+					<div className="dailyTitle">Daily Puzzle</div>
 					<GameGrid
 						puzzle={gameData.puzzle}
 						size={gameData.size}

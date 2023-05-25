@@ -45,7 +45,7 @@ const GameHistory = ({ styles}) => {
 		<div className={`gameHistoryContainer ${styles}`}>
 			<div className="gameHistoryTitle">User History</div>
 			{gameHistoryData.length === 0 ? (
-				<p>No user history to show</p>
+				<p>Sign in to view recent games</p>
 			) : (
 				<table>
 					<thead>

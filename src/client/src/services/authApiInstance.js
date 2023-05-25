@@ -22,7 +22,7 @@ authAxiosInstance.interceptors.response.use(
 		return response;
 	},
 	(error) => {
-		console.log(error); // change to refresh token
+		console.log(error);
 	}
 );
 

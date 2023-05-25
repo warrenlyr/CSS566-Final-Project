@@ -19,11 +19,11 @@ const Login = ({ onClose, setToken }) => {
 		apiInstance
 			.post("/auth/login", data)
 			.then((res) => {
+				window.location.reload(false);
 				setToken(res.data.access_token);
 				setUsername("");
 				setPass("");
 				setWrong(false);
-				onClose();
 			})
 			.catch(() => {
 				setWrong(true);
