@@ -5,9 +5,12 @@ import "./styles.scss";
 import Spinner from "../../components/Spinner/Spinner";
 import GameGrid from "../../components/GameGrid/GameGrid";
 import Select from "react-select";
-
+import NormalInstructionsModal from "../../components/InstructionsModal/NormalInstructionsModal";
+import useModal from "../../components/InstructionsModal/useInstructionsModal";
 
 const NormalPuzzle = ({ token }) => {
+
+	const {isShowing, toggle} = useModal();
 	const [gameData, setGameData] = useState({});
 	const [gameHistoryId, setGameHistoryId] = useState("");
 	const [noGame, setNoGame] = useState(null);
@@ -55,7 +58,15 @@ const NormalPuzzle = ({ token }) => {
 	}, [level]);
 
 	return (
+		
 		<>
+			<div className="helpButtonflex">
+				<button className={"helpButton"} onClick={toggle}>?</button>
+				<NormalInstructionsModal
+					isShowing={isShowing}
+					hide={toggle}
+				/>
+			</div>
 			{noGame === null || loading ? (
 				<Spinner />
 			) : noGame ? (

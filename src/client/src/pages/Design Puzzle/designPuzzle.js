@@ -8,8 +8,12 @@ import Button from "../../components/Button/Button";
 import { apiInstance } from "../../services/apiInstance";
 import DesignSquare from "../../components/DesignSquare/designSquare";
 import Spinner from "../../components/Spinner/Spinner";
+import DesignInstructionsModal from "../../components/InstructionsModal/DesignInstructionsModal";
+import useModal from "../../components/InstructionsModal/useInstructionsModal";
 
 const DesignPuzzle = () => {
+
+	const {isShowing, toggle} = useModal();
 	const [wordList, setWordList] = useState("");
 	const [levelDifficulty, setLevelDifficulty] = useState({ value: 1, label: "1" });
 	const [puzzleData, setPuzzleData] = useState({});
@@ -85,6 +89,13 @@ const DesignPuzzle = () => {
 	return (
 		<>
 			<div className="designContainer">
+				<div className="helpButtonflex">
+					<button className={"helpButton"} onClick={toggle}>?</button>
+					<DesignInstructionsModal
+						isShowing={isShowing}
+						hide={toggle}
+					/>
+				</div>
 				<div className="designTitle">Design Your Own Puzzle</div>
 				<form onSubmit={handleSubmit} className="puzzleForm">
 					<label htmlFor="wordList" className="wordsLabel">
