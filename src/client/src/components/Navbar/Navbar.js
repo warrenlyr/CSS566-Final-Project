@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./styles.scss";
@@ -13,6 +13,8 @@ const Navbar = ({ token, removeToken, setToken }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [user, setUser] = useState("");
 
+	let navigate = useNavigate();
+	
 	useEffect(() => {
 		if (token) {
 			getProfile();
@@ -23,11 +25,15 @@ const Navbar = ({ token, removeToken, setToken }) => {
 		apiInstance
 			.post("/auth/logout")
 			.then((res) => {
-				toast.success(res.data.message, {
-					autoClose:3000
+				toast.success(`${res.data.message}, Redirecting`, {
+					autoClose:2000
 				});
 				removeToken();
 				setUser("");
+				setTimeout(() => {
+					navigate("/");
+				}, 2800);
+
 			})
 			.catch(() => {
 				toast.error("Something went wrong while logging out", {
@@ -77,7 +83,7 @@ const Navbar = ({ token, removeToken, setToken }) => {
 						</Button>
 					</div>
 				)}
-				<Modal open={isOpen} onClose={() => setIsOpen(false)}>
+				<Modal additionalStyles={"loginModal"} open={isOpen} onClose={() => setIsOpen(false)}>
 					<Login onClose={() => setIsOpen(false)} setToken={setToken} />
 				</Modal>
 			</div>

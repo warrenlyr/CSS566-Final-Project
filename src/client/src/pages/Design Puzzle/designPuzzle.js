@@ -8,12 +8,12 @@ import Button from "../../components/Button/Button";
 import { apiInstance } from "../../services/apiInstance";
 import DesignSquare from "../../components/DesignSquare/designSquare";
 import Spinner from "../../components/Spinner/Spinner";
-import DesignInstructionsModal from "../../components/InstructionsModal/DesignInstructionsModal";
-import useModal from "../../components/InstructionsModal/useInstructionsModal";
+import Modal from "../../components/Modal/modal";
+import DesignInstructions from "../../components/Instructions/DesignInstructions/DesignInstructions";
 
 const DesignPuzzle = () => {
 
-	const {isShowing, toggle} = useModal();
+	const [isOpen, setIsOpen] = useState(false);
 	const [wordList, setWordList] = useState("");
 	const [levelDifficulty, setLevelDifficulty] = useState({ value: 1, label: "1" });
 	const [puzzleData, setPuzzleData] = useState({});
@@ -89,13 +89,7 @@ const DesignPuzzle = () => {
 	return (
 		<>
 			<div className="designContainer">
-				<div className="helpButtonflex">
-					<button className={"helpButton"} onClick={toggle}>?</button>
-					<DesignInstructionsModal
-						isShowing={isShowing}
-						hide={toggle}
-					/>
-				</div>
+				<Button additionalStyles={"designHelpButton"} buttonType={"button"} handleClick={() => setIsOpen(true)}>?</Button>
 				<div className="designTitle">Design Your Own Puzzle</div>
 				<form onSubmit={handleSubmit} className="puzzleForm">
 					<label htmlFor="wordList" className="wordsLabel">
@@ -179,6 +173,9 @@ const DesignPuzzle = () => {
 			{loading ?
 				<Spinner /> : null
 			}
+			<Modal additionalStyles={"designModal"} open={isOpen} onClose={() => setIsOpen(false)}>
+				<DesignInstructions onClose={() => setIsOpen(false)} />
+			</Modal>
 		</>
 	);
 };

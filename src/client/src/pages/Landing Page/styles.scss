@@ -1,5 +1,15 @@
 .landingContainer {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 
+	.landingHelpButton {
+		align-self: end;
+		font-size: 16px;
+		border-radius: 100%;
+		margin-top: 20px;
+		margin-right: 20px;
+	}
 
 	.pageTitle {
 		text-align: center;
@@ -8,6 +18,7 @@
 		margin-bottom: 16px;
 		margin-top: 16px;
 	}
+	
 	.dataContainer {
 		display: flex;
 		flex-wrap: wrap;
@@ -17,81 +28,42 @@
 		margin-top: 50px;
 		margin-bottom: 50px;
 	}
-}
 
-.gameButtons {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	justify-content: center;
-	gap: 1em;
+	.gameButtons {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
+		gap: 1em;
 
-	.buttons {
-		width: 160px;
-		height: 20%;
-		font-size: 16px;
-		border-radius: 10px;
-		padding: 4px 12px;
-		margin-bottom: 20px;
+		.buttons {
+			width: 160px;
+			height: 20%;
+			font-size: 16px;
+			border-radius: 10px;
+			padding: 4px 12px;
+			margin-bottom: 20px;
+		}
+
+		.buttonsspecial {
+			width: 200px;
+			height: 50px;
+			font-size: 20px;
+			border-radius: 10px;
+			padding: 4px 12px;
+			margin-bottom: 20px;
+		}
+		
 	}
 
-	.buttonsspecial {
-		width: 200px;
-		height: 50px;
-		font-size: 20px;
-		border-radius: 10px;
-		padding: 4px 12px;
-		margin-bottom: 20px;
+}
+
+.landingModal {
+	width: 50%;
+}
+
+@media only screen and (max-width: 1300px) {
+	.landingModal {
+		height: 60%;
 	}
-	
 }
-
-.helpButton {
-	appearance: none;
-	color: white;
-  	border: 2px solid #f28187;
-	background-color: #df6c4f;
-	box-sizing: border-box;
-	cursor: pointer;
-	display: inline-block;
-	font-weight: 600;
-	line-height: normal;
-	text-align: center;
-	text-decoration: none;
-	transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1);
-	user-select: none;
-	-webkit-user-select: none;
-	touch-action: manipulation;
-	align-items: center;
-	will-change: transform;
-	padding: 4px 12px;
-	width: 50px;
-	height: 50px;
-	font-size: 16px;
-	border-radius: 50%;
-	padding: 4px 12px;
-	margin-top: 10px;
-	margin-left: 20px;
-	margin-right: 20px;
-}
-
-.helpButton:disabled {
-	pointer-events: none;
-}
-
-.helpButton:hover {
-	box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
-	transform: translateY(-2px);
-}
-
-.helpButton:active {
-	box-shadow: none;
-	transform: translateY(0);
-}
-
-.helpButtonflex {
-	display: flex;
-	justify-content: flex-end;
-}
-
-

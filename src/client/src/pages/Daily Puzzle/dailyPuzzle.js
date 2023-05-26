@@ -4,12 +4,13 @@ import { authApiInstance } from "../../services/authApiInstance";
 import "./styles.scss";
 import Spinner from "../../components/Spinner/Spinner";
 import GameGrid from "../../components/GameGrid/GameGrid";
-import DailyInstructionsModal from "../../components/InstructionsModal/DailyInstructionsModal";
-import useModal from "../../components/InstructionsModal/useInstructionsModal";
+import Modal from "../../components/Modal/modal";
+import DailyInstructions from "../../components/Instructions/DailyInstructions/DailyInstructions";
+import Button from "../../components/Button/Button";
 
 const DailyPuzzle = ({ token }) => {
 
-	const {isShowing, toggle} = useModal();
+	const [isOpen, setIsOpen] = useState(false);
 	const [gameData, setGameData] = useState({});
 	const [gameHistoryId, setGameHistoryId] = useState("");
 	const [noGame, setNoGame] = useState(null);
@@ -52,14 +53,8 @@ const DailyPuzzle = ({ token }) => {
 	}, []);
 
 	return (
-		<>
-			<div className="helpButtonflex">
-				<button className={"helpButton"} onClick={toggle}>?</button>
-				<DailyInstructionsModal
-					isShowing={isShowing}
-					hide={toggle}
-				/>
-			</div>
+		<div className="dailyContainer">
+			<Button additionalStyles={"dailyHelpButton"} buttonType={"button"} handleClick={() => setIsOpen(true)}>?</Button>
 			{noGame === null ? (
 				<Spinner />
 			) : noGame ? (
@@ -83,7 +78,10 @@ const DailyPuzzle = ({ token }) => {
 					/>
 				</>
 			)}
-		</>
+			<Modal additionalStyles={"dailyModal"} open={isOpen} onClose={() => setIsOpen(false)}>
+				<DailyInstructions onClose={() => setIsOpen(false)} />
+			</Modal>
+		</div>
 	);
 };
 
