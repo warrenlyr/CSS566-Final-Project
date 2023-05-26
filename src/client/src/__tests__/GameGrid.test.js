@@ -29,8 +29,7 @@ describe("GameGrid Component", () => {
   });
 
   test("should display correct game level", async () => {
-    // If the component doesn't display the game level directly, you may need to mock this functionality
-    // or adjust the test to suit your application.
+    
   });
 
   test("should render the puzzle grid correctly", async () => {
@@ -57,9 +56,7 @@ describe("GameGrid Component", () => {
     await waitFor(() => {
         const firstCell = container.querySelector('.square');
         fireEvent.click(firstCell);
-        // You'll need to add the logic in your code to handle cell selection and test this 
-        // Below line may vary depending on your actual implementation
-        // expect(firstCell).toHaveClass('selected');
+        
       });
   });
 });
