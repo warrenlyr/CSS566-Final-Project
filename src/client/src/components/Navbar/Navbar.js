@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./styles.scss";
@@ -13,7 +13,6 @@ const Navbar = ({ token, removeToken, setToken }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [user, setUser] = useState("");
 
-	let navigate = useNavigate();
 	
 	useEffect(() => {
 		if (token) {
@@ -31,7 +30,7 @@ const Navbar = ({ token, removeToken, setToken }) => {
 				removeToken();
 				setUser("");
 				setTimeout(() => {
-					navigate("/");
+					window.location.href = "/";
 				}, 2800);
 
 			})

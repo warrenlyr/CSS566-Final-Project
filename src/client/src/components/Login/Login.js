@@ -1,7 +1,7 @@
 import { React, useState } from "react";
 import "./styles.scss";
 import "react-toastify/dist/ReactToastify.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { apiInstance } from "../../services/apiInstance";
 import Button from "../Button/Button";
 
@@ -10,7 +10,6 @@ const Login = ({ onClose, setToken }) => {
 	const [pass, setPass] = useState("");
 	const [wrong, setWrong] = useState(false);
 	
-	let navigate = useNavigate();
 
 	const handleLogin = (e) => {
 		const data = {
@@ -25,8 +24,7 @@ const Login = ({ onClose, setToken }) => {
 				setUsername("");
 				setPass("");
 				setWrong(false);
-				navigate("/");
-				onClose();
+				window.location.href = "/";
 			})
 			.catch(() => {
 				setWrong(true);
