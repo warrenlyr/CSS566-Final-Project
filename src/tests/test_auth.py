@@ -50,15 +50,19 @@ def test_auth_login(client):
     # Return the token so it can be used in other tests
     return token
 
+
 def test_auth_user_profile(client):
     token = test_auth_login(client)
 
     start_time = time.time()
-    response = client.get('/api/v0/auth/profile', headers={'Authorization': f'Bearer {token}'})
+    headers = {'Authorization': f'Bearer {token}'}
+    response = client.get('/api/v0/auth/user/profile', headers=headers)  # Update this line
     log_test_duration("test_auth_user_profile", start_time)
 
     assert response.status_code == 200
     assert 'username' in response.get_json()
+
+
 
 def test_auth_logout(client):
     token = test_auth_login(client)

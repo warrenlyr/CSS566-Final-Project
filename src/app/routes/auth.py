@@ -142,7 +142,7 @@ def auth_delete_account():
     )
 
 
-@app.route('/api/v0/auth/profile', methods=['GET'])
+@app.route(API_URL_PREFIX + '/auth/user/profile', methods=['GET'])
 @jwt_required()
 def auth_user_profile():
     '''
