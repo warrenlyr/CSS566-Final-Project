@@ -6,6 +6,7 @@ import { apiInstance } from "../../services/apiInstance";
 const Leaderboard = ({ styles, site, gameId=null }) => {
 	const [leaderboardData, setLeaderboardData] = useState([]);
 	const [refreshClicked, setRefreshClicked] = useState(false);
+	const [noScoresText, setNoScoresText] = useState("");
 
 	useEffect(() => {
 		fetchData();
@@ -24,9 +25,10 @@ const Leaderboard = ({ styles, site, gameId=null }) => {
 			.then((res) => {
 				const data = res.data.leaderboard;
 				setLeaderboardData(data);
+				setNoScoresText("No scores to show");
 			})
-			.catch((error) => {
-				console.log(error); //change this
+			.catch(() => {
+				setNoScoresText("Sorry, Leaderboard was not found");
 			});
 	};
 
@@ -43,23 +45,28 @@ const Leaderboard = ({ styles, site, gameId=null }) => {
 				</Button>
 			</div>
 			{leaderboardData.length !== 0 ? (
-				<table className="leaderboard">
+				<table>
+					<thead>
+						<tr>
+							<th className="rankColumn">Rank</th>
+							<th className="userColumn">User</th>
+							<th className="scoreColumn">Score</th>
+						</tr>
+					</thead>
 					<tbody>
-						{leaderboardData.map((el) => {
+						{leaderboardData.map((row) => {
 							return (
-								<tr className="leaderboardRow" key={el.rank}>
-									<td className="rankColumn"> {el.rank} </td>
-									<td className="scoreColumn">
-										<span className="username">{el.username}</span>{" "}
-										<span>{el.score}</span>
-									</td>
+								<tr className="leaderboardRow" key={row.rank}>
+									<td className="rankColumn"> {row.rank} </td>
+									<td className="userColumn">{row.username}</td>
+									<td className="scoreColumn">{row.score}</td>
 								</tr>
 							);
 						})}
 					</tbody>
 				</table>
 			) : (
-				<div>No scores to show</div>
+				<div className="noScoresText">{noScoresText}</div>
 			)}
 		</div>
 	);

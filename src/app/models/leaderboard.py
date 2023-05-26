@@ -100,7 +100,7 @@ class Leaderboard:
             bool: True if the score is inserted successfully, False otherwise
             error (str): error message if there is any
         '''
-        TOP_N = 10  # only keep the top 10 scores
+        TOP_N = 50  # only keep the top 50 scores
 
         game_history = GameHistory()
         game_history_record = game_history.get(game_history_id)

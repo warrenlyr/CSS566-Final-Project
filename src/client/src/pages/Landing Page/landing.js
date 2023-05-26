@@ -4,10 +4,21 @@ import "./styles.scss";
 import Button from "../../components/Button/Button";
 import Leaderboard from "../../components/LeaderBoard/leaderboard";
 import GameHistory from "../../components/GameHistory/gameHistory";
+import LandingInstructionsModal from "../../components/InstructionsModal/LandingInstructionsModal";
+import useModal from "../../components/InstructionsModal/useInstructionsModal";
 
 const LandingPage = () => {
+
+	const {isShowing, toggle} = useModal();
 	return (
 		<div className="landingContainer">
+			<div className="helpButtonflex">
+				<button className={"helpButton"} onClick={toggle}>?</button>
+				<LandingInstructionsModal
+					isShowing={isShowing}
+					hide={toggle}
+				/>
+			</div>
 			<div className="pageTitle">Husky seeks Kitty</div>
 			<div className="dataContainer">
 				<Leaderboard

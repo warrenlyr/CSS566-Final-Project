@@ -17,7 +17,6 @@ const GameHistory = () => {
 			.get(path)
 			.then((res) => {
 				let data = res.data;
-
 				data.sort((a, b) => {
 					const dateTimePartsA = a.start_time.split(" ");
 					const isoDateTimeA = `${dateTimePartsA[0]}T${dateTimePartsA[1]}Z`;
@@ -35,6 +34,7 @@ const GameHistory = () => {
 					return { ...game, start_time: startTimeInLocal};
 				});
 
+				setNoHistoryText("You have not played any games yet");
 				setGameHistoryData(convertedData);
 			})
 			.catch(() => {
@@ -43,7 +43,7 @@ const GameHistory = () => {
 	};
 
 	return (
-		<div className={"gameHistoryContainer"}>
+		<div className="gameHistoryContainer">
 			<div className="gameHistoryTitle">User History</div>
 			{gameHistoryData.length === 0 ? (
 				<p className="noGamesText">{noHistoryText}</p>
@@ -51,18 +51,18 @@ const GameHistory = () => {
 				<table>
 					<thead>
 						<tr>
-							<th>Game Name</th>
-							<th>Start Time</th>
-							<th>Score</th>
+							<th className="gameColumn">Game Name</th>
+							<th className="timeColumn">Start Time</th>
+							<th className="scoreColumn">Score</th>
 						</tr>
 					</thead>
 					<tbody>
 						{gameHistoryData.map((game) => {
 							return (
 								<tr className="gameHistoryItem" key={game.game_history_id}>
-									<td>{game.game_name}</td>
-									<td>{game.start_time}</td>
-									<td>{game.score}</td>
+									<td className="gameColumn">{game.game_name}</td>
+									<td className="timeColumn">{game.start_time}</td>
+									<td className="scoreColumn">{game.score}</td>
 								</tr>
 							);
 						})}

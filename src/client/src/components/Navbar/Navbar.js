@@ -63,7 +63,7 @@ const Navbar = ({ token, removeToken, setToken }) => {
 						buttonType={"button"}
 						handleClick={() => setIsOpen(true)}
 					>
-						Log in
+						Sign in
 					</Button>
 				) : (
 					<div>
@@ -73,7 +73,7 @@ const Navbar = ({ token, removeToken, setToken }) => {
 							buttonType={"button"}
 							handleClick={handleLogout}
 						>
-							Log out
+							Sign out
 						</Button>
 					</div>
 				)}
@@ -87,7 +87,7 @@ const Navbar = ({ token, removeToken, setToken }) => {
 				newestOnTop={true}
 				closeOnClick={false}
 				rtl={false}
-				pauseOnFocusLoss
+				pauseOnFocusLoss={false}
 				draggable={false}
 				pauseOnHover={false}
 				theme="dark"

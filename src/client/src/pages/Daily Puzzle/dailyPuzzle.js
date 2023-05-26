@@ -4,8 +4,12 @@ import { authApiInstance } from "../../services/authApiInstance";
 import "./styles.scss";
 import Spinner from "../../components/Spinner/Spinner";
 import GameGrid from "../../components/GameGrid/GameGrid";
+import DailyInstructionsModal from "../../components/InstructionsModal/DailyInstructionsModal";
+import useModal from "../../components/InstructionsModal/useInstructionsModal";
 
 const DailyPuzzle = ({ token }) => {
+
+	const {isShowing, toggle} = useModal();
 	const [gameData, setGameData] = useState({});
 	const [gameHistoryId, setGameHistoryId] = useState("");
 	const [noGame, setNoGame] = useState(null);
@@ -49,6 +53,13 @@ const DailyPuzzle = ({ token }) => {
 
 	return (
 		<>
+			<div className="helpButtonflex">
+				<button className={"helpButton"} onClick={toggle}>?</button>
+				<DailyInstructionsModal
+					isShowing={isShowing}
+					hide={toggle}
+				/>
+			</div>
 			{noGame === null ? (
 				<Spinner />
 			) : noGame ? (
