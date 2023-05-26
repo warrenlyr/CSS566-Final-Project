@@ -29,7 +29,7 @@ const GameHistory = () => {
 
 				const convertedData = data.map(game => {
 					const dateTimeParts = game.start_time.split(" ");
-					const isoDateTime = `${dateTimeParts[0]}T${dateTimeParts[1]}Z`;
+					const isoDateTime = `${dateTimeParts[0]}T${dateTimeParts[1]}`;
 					const startTimeInLocal = new Date(isoDateTime).toLocaleString();
 					return { ...game, start_time: startTimeInLocal};
 				});

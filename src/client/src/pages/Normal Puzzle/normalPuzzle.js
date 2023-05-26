@@ -5,12 +5,13 @@ import "./styles.scss";
 import Spinner from "../../components/Spinner/Spinner";
 import GameGrid from "../../components/GameGrid/GameGrid";
 import Select from "react-select";
-import NormalInstructionsModal from "../../components/InstructionsModal/NormalInstructionsModal";
-import useModal from "../../components/InstructionsModal/useInstructionsModal";
+import Modal from "../../components/Modal/modal";
+import NormalInstructions from "../../components/Instructions/NormalInstructions/NormalInstructions"; 
+import Button from "../../components/Button/Button";
 
 const NormalPuzzle = ({ token }) => {
 
-	const {isShowing, toggle} = useModal();
+	const [isOpen, setIsOpen] = useState(false);
 	const [gameData, setGameData] = useState({});
 	const [gameHistoryId, setGameHistoryId] = useState("");
 	const [noGame, setNoGame] = useState(null);
@@ -59,14 +60,8 @@ const NormalPuzzle = ({ token }) => {
 
 	return (
 		
-		<>
-			<div className="helpButtonflex">
-				<button className={"helpButton"} onClick={toggle}>?</button>
-				<NormalInstructionsModal
-					isShowing={isShowing}
-					hide={toggle}
-				/>
-			</div>
+		<div className="normalContainer">
+			<Button additionalStyles={"normalHelpButton"} buttonType={"button"} handleClick={() => setIsOpen(true)}>?</Button>
 			{noGame === null || loading ? (
 				<Spinner />
 			) : noGame ? (
@@ -97,7 +92,10 @@ const NormalPuzzle = ({ token }) => {
 					/>
 				</>
 			)}
-		</>
+			<Modal additionalStyles={"normalModal"} open={isOpen} onClose={() => setIsOpen(false)}>
+				<NormalInstructions onClose={() => setIsOpen(false)} />
+			</Modal>
+		</div>
 	);
 };
 

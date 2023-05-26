@@ -13,6 +13,7 @@ const Navbar = ({ token, removeToken, setToken }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [user, setUser] = useState("");
 
+	
 	useEffect(() => {
 		if (token) {
 			getProfile();
@@ -23,11 +24,15 @@ const Navbar = ({ token, removeToken, setToken }) => {
 		apiInstance
 			.post("/auth/logout")
 			.then((res) => {
-				toast.success(res.data.message, {
-					autoClose:3000
+				toast.success(`${res.data.message}, Redirecting`, {
+					autoClose:2000
 				});
 				removeToken();
 				setUser("");
+				setTimeout(() => {
+					window.location.href = "/";
+				}, 2800);
+
 			})
 			.catch(() => {
 				toast.error("Something went wrong while logging out", {
@@ -77,7 +82,7 @@ const Navbar = ({ token, removeToken, setToken }) => {
 						</Button>
 					</div>
 				)}
-				<Modal open={isOpen} onClose={() => setIsOpen(false)}>
+				<Modal additionalStyles={"loginModal"} open={isOpen} onClose={() => setIsOpen(false)}>
 					<Login onClose={() => setIsOpen(false)} setToken={setToken} />
 				</Modal>
 			</div>

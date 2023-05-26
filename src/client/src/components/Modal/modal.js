@@ -2,13 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./styles.scss";
 
-const Modal = ({ open, children, onClose }) => {
+const Modal = ({ additionalStyles=null, open, children, onClose }) => {
 	if (!open) return null;
 
 	return ReactDOM.createPortal(
 		<>
 			<div className="overlay" />
-			<div className="modal">
+			<div className={`modal ${additionalStyles}`}>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					viewBox="0 0 20 20"
