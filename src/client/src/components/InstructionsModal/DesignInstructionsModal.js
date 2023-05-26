@@ -21,7 +21,6 @@ const DesignInstructionsModal = ({ isShowing, hide }) => isShowing ? ReactDOM.cr
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				
 			</div>
 		</div>
 	</React.Fragment>, document.body

@@ -20,8 +20,7 @@ const NormalInstructionsModal = ({ isShowing, hide }) => isShowing ? ReactDOM.cr
 					<button type="button" className="modal-close-button" data-dismiss="modal" aria-label="Close" onClick={hide}>
 						<span aria-hidden="true">&times;</span>
 					</button>
-				</div>
-				
+				</div>	
 			</div>
 		</div>
 	</React.Fragment>, document.body

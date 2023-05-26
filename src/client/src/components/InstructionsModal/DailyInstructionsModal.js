@@ -20,7 +20,6 @@ const DailyInstructionsModal = ({ isShowing, hide }) => isShowing ? ReactDOM.cre
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				
 			</div>
 		</div>
 	</React.Fragment>, document.body
