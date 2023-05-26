@@ -13,6 +13,7 @@ const Navbar = ({ token, removeToken, setToken }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [user, setUser] = useState("");
 
+	
 	useEffect(() => {
 		if (token) {
 			getProfile();
@@ -23,12 +24,20 @@ const Navbar = ({ token, removeToken, setToken }) => {
 		apiInstance
 			.post("/auth/logout")
 			.then((res) => {
-				toast.success(res.data.message);
+				toast.success(`${res.data.message}, Redirecting`, {
+					autoClose:2000
+				});
 				removeToken();
 				setUser("");
+				setTimeout(() => {
+					window.location.href = "/";
+				}, 2800);
+
 			})
-			.catch((error) => {
-				console.log(error);
+			.catch(() => {
+				toast.error("Something went wrong while logging out", {
+					autoClose:3000
+				});
 			});
 	};
 
@@ -36,7 +45,11 @@ const Navbar = ({ token, removeToken, setToken }) => {
 		authApiInstance
 			.get("/auth/user/profile")
 			.then((res) => setUser(res.data.username))
-			.catch((e) => console.log(e));
+			.catch(() => {
+				toast.error("Something went wrong while fetching user information", {
+					autoClose:3000
+				});
+			});
 	};
 
 	return (
@@ -55,7 +68,7 @@ const Navbar = ({ token, removeToken, setToken }) => {
 						buttonType={"button"}
 						handleClick={() => setIsOpen(true)}
 					>
-						Log in
+						Sign in
 					</Button>
 				) : (
 					<div>
@@ -65,22 +78,21 @@ const Navbar = ({ token, removeToken, setToken }) => {
 							buttonType={"button"}
 							handleClick={handleLogout}
 						>
-							Log out
+							Sign out
 						</Button>
 					</div>
 				)}
-				<Modal open={isOpen} onClose={() => setIsOpen(false)}>
+				<Modal additionalStyles={"loginModal"} open={isOpen} onClose={() => setIsOpen(false)}>
 					<Login onClose={() => setIsOpen(false)} setToken={setToken} />
 				</Modal>
 			</div>
 			<ToastContainer
 				position="top-right"
-				autoClose={3000}
-				hideProgressBar
-				newestOnTop
+				hideProgressBar={false}
+				newestOnTop={true}
 				closeOnClick={false}
 				rtl={false}
-				pauseOnFocusLoss
+				pauseOnFocusLoss={false}
 				draggable={false}
 				pauseOnHover={false}
 				theme="dark"

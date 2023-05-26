@@ -9,6 +9,7 @@ const Login = ({ onClose, setToken }) => {
 	const [username, setUsername] = useState("");
 	const [pass, setPass] = useState("");
 	const [wrong, setWrong] = useState(false);
+	
 
 	const handleLogin = (e) => {
 		const data = {
@@ -23,7 +24,7 @@ const Login = ({ onClose, setToken }) => {
 				setUsername("");
 				setPass("");
 				setWrong(false);
-				onClose();
+				window.location.href = "/";
 			})
 			.catch(() => {
 				setWrong(true);

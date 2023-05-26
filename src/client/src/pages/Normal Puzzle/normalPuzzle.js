@@ -5,9 +5,13 @@ import "./styles.scss";
 import Spinner from "../../components/Spinner/Spinner";
 import GameGrid from "../../components/GameGrid/GameGrid";
 import Select from "react-select";
-
+import Modal from "../../components/Modal/modal";
+import NormalInstructions from "../../components/Instructions/NormalInstructions/NormalInstructions"; 
+import Button from "../../components/Button/Button";
 
 const NormalPuzzle = ({ token }) => {
+
+	const [isOpen, setIsOpen] = useState(false);
 	const [gameData, setGameData] = useState({});
 	const [gameHistoryId, setGameHistoryId] = useState("");
 	const [noGame, setNoGame] = useState(null);
@@ -55,7 +59,9 @@ const NormalPuzzle = ({ token }) => {
 	}, [level]);
 
 	return (
-		<>
+		
+		<div className="normalContainer">
+			<Button additionalStyles={"normalHelpButton"} buttonType={"button"} handleClick={() => setIsOpen(true)}>?</Button>
 			{noGame === null || loading ? (
 				<Spinner />
 			) : noGame ? (
@@ -67,7 +73,7 @@ const NormalPuzzle = ({ token }) => {
 				<>
 					<div className="normalTitle">Normal Puzzle</div>
 					<div className="levelSelection">
-						<div className="levelText">Level Difficulty</div>
+						<div className="levelText">Difficulty Level</div>
 						<Select
 							className="levelDropdown"
 							defaultValue={level}
@@ -86,7 +92,10 @@ const NormalPuzzle = ({ token }) => {
 					/>
 				</>
 			)}
-		</>
+			<Modal additionalStyles={"normalModal"} open={isOpen} onClose={() => setIsOpen(false)}>
+				<NormalInstructions onClose={() => setIsOpen(false)} />
+			</Modal>
+		</div>
 	);
 };
 

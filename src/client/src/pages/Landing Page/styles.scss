@@ -1,49 +1,69 @@
-.pageTitle {
-	text-align: center;
-	font-size: 34px;
-	font-weight: 700;
-	margin-bottom: 16px;
-	margin-top: 16px;
-}
-
 .landingContainer {
 	display: flex;
-	height: 550px;
-	flex-direction: row;
-	justify-content: center;
-	margin-top: 50px;
-	margin-bottom: 100px;
-
-	.landingLeaderboard {
-		margin-right: 30px;
-	}
-}
-
-.gameButtons {
-	display: flex;
-	align-items: center;
+	flex-direction: column;
 	justify-content: center;
 
-	.buttons {
-		width: 160px;
-		height: 20%;
+	.landingHelpButton {
+		align-self: end;
 		font-size: 16px;
-		border-radius: 10px;
-		padding: 4px 12px;
-		margin-left: 20px;
+		border-radius: 100%;
+		margin-top: 20px;
 		margin-right: 20px;
-		margin-bottom: 20px;
 	}
 
-	.buttonsspecial {
-		width: 200px;
-		height: 50px;
-		font-size: 20px;
-		border-radius: 10px;
-		padding: 4px 12px;
-		margin-bottom: 20px;
+	.pageTitle {
+		text-align: center;
+		font-size: 34px;
+		font-weight: 700;
+		margin-bottom: 16px;
+		margin-top: 16px;
 	}
 	
+	.dataContainer {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 2em;
+		flex-direction: row;
+		justify-content: center;
+		margin-top: 50px;
+		margin-bottom: 50px;
+	}
+
+	.gameButtons {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
+		gap: 1em;
+
+		.buttons {
+			width: 160px;
+			height: 20%;
+			font-size: 16px;
+			border-radius: 10px;
+			padding: 4px 12px;
+			margin-bottom: 20px;
+		}
+
+		.buttonsspecial {
+			width: 200px;
+			height: 50px;
+			font-size: 20px;
+			border-radius: 10px;
+			padding: 4px 12px;
+			margin-bottom: 20px;
+		}
+		
+	}
+
 }
 
+.landingModal {
+	width: 50%;
+}
 
+@media only screen and (max-width: 1300px) {
+	.landingModal {
+		height: 60%;
+	}
+}

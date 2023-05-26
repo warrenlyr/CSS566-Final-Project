@@ -1,14 +1,19 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./styles.scss";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Select from "react-select";
 import Button from "../../components/Button/Button";
 import { apiInstance } from "../../services/apiInstance";
 import DesignSquare from "../../components/DesignSquare/designSquare";
 import Spinner from "../../components/Spinner/Spinner";
+import Modal from "../../components/Modal/modal";
+import DesignInstructions from "../../components/Instructions/DesignInstructions/DesignInstructions";
 
 const DesignPuzzle = () => {
+
+	const [isOpen, setIsOpen] = useState(false);
 	const [wordList, setWordList] = useState("");
 	const [levelDifficulty, setLevelDifficulty] = useState({ value: 1, label: "1" });
 	const [puzzleData, setPuzzleData] = useState({});
@@ -16,6 +21,7 @@ const DesignPuzzle = () => {
 	const [showBoard, setShowBoard] = useState(false);
 	const [loading, setLoading] = useState(false);
 
+	let navigate = useNavigate();
 	const options = [
 		{ value: 1, label: "1" },
 		{ value: 2, label: "2" },
@@ -37,12 +43,16 @@ const DesignPuzzle = () => {
 					setPuzzleData(res.data.game);
 					setGameID(res.data.game_id);
 				}).catch((e) => {
-					toast.error(e.response.data.error);
+					toast.error(e.response.data.error, {
+						autoClose: 3000
+					});
 				});
 			setShowBoard(true);
 			
 		} else {
-			toast.error("Words are not containing just letters.");
+			toast.error("Words are not containing just letters.", {
+				autoClose: 3000
+			});
 			setShowBoard(false);
 		}
 		setLoading(false);
@@ -61,10 +71,17 @@ const DesignPuzzle = () => {
 			.post("/game/designpuzzle/submit", data)
 			.then((res) => {
 				if (res.data.status) {
-					toast.success("Puzzle successfully created");
+					toast.success("Puzzle successfully created! Redirecting", {
+						autoClose: 3000
+					});
+					setTimeout(() => {
+						navigate("/");
+					}, 3500);
 				}
 			}).catch(() => {
-				toast.error("Something went wrong");
+				toast.error("Something went wrong", {
+					autoClose: 3000
+				});
 			});
 	};
 	
@@ -72,6 +89,7 @@ const DesignPuzzle = () => {
 	return (
 		<>
 			<div className="designContainer">
+				<Button additionalStyles={"designHelpButton"} buttonType={"button"} handleClick={() => setIsOpen(true)}>?</Button>
 				<div className="designTitle">Design Your Own Puzzle</div>
 				<form onSubmit={handleSubmit} className="puzzleForm">
 					<label htmlFor="wordList" className="wordsLabel">
@@ -83,15 +101,17 @@ const DesignPuzzle = () => {
 						type="text"
 						className="wordsInput"
 					/>
-					<label htmlFor="difficulty" className="difficultyLabel">
-						Level Difficulty
-					</label>
-					<Select
-						className="wordsDropdown"
-						defaultValue={options[0]}
-						options={options}
-						onChange={setLevelDifficulty}
-					/>
+					<div className="level">
+						<label htmlFor="difficulty" className="difficultyLabel">
+							Level Difficulty
+						</label>
+						<Select
+							className="wordsDropdown"
+							defaultValue={options[0]}
+							options={options}
+							onChange={setLevelDifficulty}
+						/>
+					</div>
 					<Button type={"submit"} additionalStyles={"wordsButton"}>
 						Generate
 					</Button>
@@ -150,21 +170,12 @@ const DesignPuzzle = () => {
 					</div>
 				): null}
 			</div>
-			<ToastContainer
-				position="top-right"
-				autoClose={4000}
-				hideProgressBar={false}
-				newestOnTop={true}
-				closeOnClick={false}
-				rtl={false}
-				pauseOnFocusLoss={false}
-				draggable={false}
-				pauseOnHover={false}
-				theme="dark"
-			/>
 			{loading ?
 				<Spinner /> : null
 			}
+			<Modal additionalStyles={"designModal"} open={isOpen} onClose={() => setIsOpen(false)}>
+				<DesignInstructions onClose={() => setIsOpen(false)} />
+			</Modal>
 		</>
 	);
 };

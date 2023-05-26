@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiInstance } from "../../services/apiInstance";
 import { authApiInstance } from "../../services/authApiInstance";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./styles.scss";
 import BoardSquare from "../BoardSquare/BoardSquare";
@@ -33,6 +33,7 @@ const GameGrid = ({
 	const [stopTimer, setStopTimer] = useState(false);
 
 	const maxSelected = size;
+	let navigate = useNavigate();
 
 	const handleClick = (row, col, letter) => {
 		if (canContinue) {
@@ -54,12 +55,14 @@ const GameGrid = ({
 						)
 					);
 				} else {
-					toast.info("Maximum amount of letters selected");
+					toast.info("Maximum amount of letters selected", {
+						autoClose: 1500
+					});
 				}
 			}
 		} else {
 			toast.info("Wait for the previous blocks to close", {
-				autoClose: 1000,
+				autoClose: 1500,
 			});
 		}
 	};
@@ -88,16 +91,17 @@ const GameGrid = ({
 		}
 
 		const prevOpenedLetters = openedLetters;
-		const newArray = openedLetters.concat(selectedBlocks);
-		setOpenedLetters(newArray);
+		const currentlyOpenedLetters = openedLetters.concat(selectedBlocks);
+		setOpenedLetters(currentlyOpenedLetters);
 		setNumberOfAttempts(numberOfAttempts + 1);
 
 		if (words.includes(word)) {
 			setGuessedWords([...guessedWords, word]);
-			toast.success(`Word found, ${word}`);
-			handleClear();
+			toast.success(`Word found, ${word}`, {
+				autoClose: 2000
+			});
 		} else {
-			const closeTime = level === 1 || level === 3 ? 3000 : 4000;
+			const closeTime = level === 1 ? 1500 : 2000;
 			if(word === "") {
 				toast.error("At least one block needs to be selected", {
 					autoClose: 1500,
@@ -111,21 +115,19 @@ const GameGrid = ({
 			
 			if (level === 1) {
 				setCanContinue(true);
-				handleClear();
 			} else if (level === 2) {
 				setTimeout(() => {
 					setOpenedLetters(prevOpenedLetters);
 					setCanContinue(true);
-					handleClear();
-				}, 4700);
+				}, 2800);
 			} else {
 				setTimeout(() => {
 					setOpenedLetters(prevOpenedLetters);
 					setCanContinue(true);
-					handleClear();
-				}, 3700);
+				}, 2800);
 			}
 		}
+		handleClear();
 	};
 
 	const handleClear = () => {
@@ -173,8 +175,10 @@ const GameGrid = ({
 				.then((res) => {
 					setFinishedGameData(res.data);
 				})
-				.catch((error) => {
-					console.log(error); //change this
+				.catch(() => {
+					toast.error("Something went wrong trying to finish the game", {
+						autoClose: 3000
+					});
 				});
 		} else {
 			await authApiInstance
@@ -182,8 +186,10 @@ const GameGrid = ({
 				.then((res) => {
 					setFinishedGameData(res.data);
 				})
-				.catch((error) => {
-					console.log(error); //change this
+				.catch(() => {
+					toast.error("Something went wrong trying to finish the game", {
+						autoClose: 3000
+					});
 				});
 		}
 		setIsOpen(true);
@@ -201,27 +207,40 @@ const GameGrid = ({
 				.post(`/leaderboard/sharescore/${gameHistoryId}`, data)
 				.then((res) => {
 					if (res.data.status) {
-						toast.success("Score successfully shared!");
+						toast.success("Score successfully shared! Redirecting", {
+							autoClose: 2000
+						});
+						setTimeout(() => {
+							navigate("/");
+						}, 2800);
 					}
 				})
 				.catch(() => {
-					toast.error("Something went wrong while sharing scores");
+					toast.error("Something went wrong while sharing scores", {
+						autoClose: 3000
+					});
 				});
 		} else {
 			await authApiInstance
 				.post(`/leaderboard/sharescore/${gameHistoryId}`, data)
 				.then((res) => {
 					if (res.data.status) {
-						toast.success("Score successfully shared!");
+						toast.success("Score successfully shared! Redirecting", {
+							autoClose: 2000
+						});
+						setTimeout(() => {
+							navigate("/");
+						}, 2800);
 					}
 				})
 				.catch(() => {
-					toast.error("Something went wrong while sharing scores");
+					toast.error("Something went wrong while sharing scores", {
+						autoClose: 3000
+					});
 				});
 		}
 	};
 
-	let navigate = useNavigate();
 	const handleModalClose = () => {
 		setIsOpen(false);
 		navigate("/");
@@ -333,7 +352,7 @@ const GameGrid = ({
 				</div>
 			</div>
 
-			<Modal open={isOpen} onClose={handleModalClose}>
+			<Modal additionalStyles={"scoreModal"} open={isOpen} onClose={handleModalClose}>
 				{finishedGameData.error && finishedGameData.score === 0 ? (
 					<>
 						<div className="modalTitle">Uh Oh!</div>
@@ -366,18 +385,6 @@ const GameGrid = ({
 					</>
 				)}
 			</Modal>
-			<ToastContainer
-				position="top-right"
-				autoClose={3000}
-				hideProgressBar={false}
-				newestOnTop={true}
-				closeOnClick={false}
-				rtl={false}
-				pauseOnFocusLoss={false}
-				draggable={false}
-				pauseOnHover={false}
-				theme="dark"
-			/>
 		</>
 	);
 };
