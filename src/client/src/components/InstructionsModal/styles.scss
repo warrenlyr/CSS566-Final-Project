@@ -24,10 +24,10 @@
 
 .modal {
   z-index: 1000;
-  background: white;
+  background: #F1F1F1;
   position: fixed;
   color: black;
-  text-align: center;
+  text-align: start;
   margin: 1.75rem auto;
   border-radius: 3px;
   max-width: 1000px;
@@ -36,20 +36,33 @@
 
 .modal-header {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
-  width: 150px;
+  // width: 150px;
  // height: 150px;
+}
+
+.modal-section-header{
+  font-weight: bold;
+  font-size: large;
+  align-items: start;
+  margin-bottom: 0.25rem;
+}
+
+.model-section-text{
+  margin-top: 0.25rem;
 }
 
 .modal-close-button {
   font-size: 1.4rem;
   font-weight: 700;
   line-height: 1;
-  color: #000;
-  opacity: .3;
+  color: rgb(255, 255, 255);
+  background-color: #7dc2ad;
+  opacity: 1;
   cursor: pointer;
   border: none;
+  width: 100%;
 }
 
 button {
@@ -65,4 +78,8 @@ button {
   background: black;
   color: #df6c4f;
   border-color: #f28187;
+}
+
+.instruction{
+  padding-bottom: 0.5rem;
 }

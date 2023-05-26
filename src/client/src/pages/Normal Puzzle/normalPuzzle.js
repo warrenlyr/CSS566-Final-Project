@@ -78,7 +78,7 @@ const NormalPuzzle = ({ token }) => {
 				<>
 					<div className="normalTitle">Normal Puzzle</div>
 					<div className="levelSelection">
-						<div className="levelText">Level Difficulty</div>
+						<div className="levelText">Difficulty Level</div>
 						<Select
 							className="levelDropdown"
 							defaultValue={level}
