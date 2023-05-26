@@ -5,10 +5,30 @@ import "react-toastify/dist/ReactToastify.css";
 import "./styles.scss";
 import { apiInstance } from "../../services/apiInstance";
 
-const Register = () => {
+const Register = ({ setToken }) => {
 	const [username, setUsername] = useState("");
 	const [pass, setPass] = useState("");
 	const navigate = useNavigate();
+
+	const handleLogin = (data, message) => {
+		apiInstance
+			.post("/auth/login", data)
+			.then((loginRes) => {
+				setToken(loginRes.data.access_token);
+
+				toast.success(`${message}, Redirecting`, {
+					autoClose: 2000
+				});
+				setTimeout(() => {
+					navigate("/");
+				}, 2800);
+			})
+			.catch((error) => {
+				toast.error(error.response.data.error, {
+					autoClose: 3000
+				});
+			});
+	};
 
 	const handleRegister = (e) => {
 		const data = {
@@ -18,12 +38,9 @@ const Register = () => {
 		apiInstance
 			.post("/auth/register", data)
 			.then((res) => {
-				toast.success(`${res.data.message}, Redirecting`, {
-					autoClose: 3000
-				});
-				setTimeout(() => {
-					navigate("/");
-				}, 3500);
+				if(res.status === 200) {
+					handleLogin(data, res.data.message);
+				}
 			})
 			.catch((error) => {
 				toast.error(error.response.data.error, {
