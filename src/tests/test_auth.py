@@ -68,7 +68,8 @@ def test_auth_logout(client):
     log_test_duration("test_auth_logout", start_time)
 
     assert response.status_code == 200
-    assert 'Logout successful' in response.get_json().values()
+    assert 'Sign out successful' in response.get_json().values()
+
 
 def test_auth_delete_account(client):
     token = test_auth_login(client)
