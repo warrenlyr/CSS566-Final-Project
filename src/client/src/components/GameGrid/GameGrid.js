@@ -352,7 +352,7 @@ const GameGrid = ({
 				</div>
 			</div>
 
-			<Modal open={isOpen} onClose={handleModalClose}>
+			<Modal additionalStyles={"scoreModal"} open={isOpen} onClose={handleModalClose}>
 				{finishedGameData.error && finishedGameData.score === 0 ? (
 					<>
 						<div className="modalTitle">Uh Oh!</div>

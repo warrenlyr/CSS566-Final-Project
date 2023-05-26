@@ -9,6 +9,7 @@ const Login = ({ onClose, setToken }) => {
 	const [username, setUsername] = useState("");
 	const [pass, setPass] = useState("");
 	const [wrong, setWrong] = useState(false);
+	
 
 	const handleLogin = (e) => {
 		const data = {
@@ -19,11 +20,11 @@ const Login = ({ onClose, setToken }) => {
 		apiInstance
 			.post("/auth/login", data)
 			.then((res) => {
-				window.location.reload(false);
 				setToken(res.data.access_token);
 				setUsername("");
 				setPass("");
 				setWrong(false);
+				window.location.href = "/";
 			})
 			.catch(() => {
 				setWrong(true);

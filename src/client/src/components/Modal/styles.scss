@@ -21,24 +21,12 @@
 	z-index: 1000;
 	width: 15%;
 	overflow: auto;
+	color: $textColorBlack;
 
 	.closeButton {
-		color: $textColorBlack;
 		display: block;
 		cursor: pointer;
 		height: 35px;
 		margin-left: auto;
-	}
-}
-
-@media only screen and (max-width: 600px) {
-	.modal {
-		width: 40%;
-	}
-}
-
-@media only screen and (max-height: 500px) {
-	.modal {
-		height: 50%;
 	}
 }

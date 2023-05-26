@@ -88,7 +88,7 @@ npm run start:prod
 
 Wait for the client to be started. Once all services are started, a new page will be opened in the default browser as shown below.
 
-![NodeJS Installer](./images/NodeJS%20Server.png)
+![NodeJS Installer](./images/Client.png)
 
 ### Backend
 
