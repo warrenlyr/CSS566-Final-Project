@@ -1,4 +1,4 @@
-# CSS566-Final-Project
+# Searching Kitty - Word Search Game
 
 The primary objective of this project is to develop a web-based straightforward Word Search game. <u>Instead of emphasizing software development, the project seeks to provide an opportunity to experience the Scrum management framework.</u>
 
