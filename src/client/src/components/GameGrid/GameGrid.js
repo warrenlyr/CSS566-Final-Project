@@ -95,9 +95,11 @@ const GameGrid = ({
 		setOpenedLetters(currentlyOpenedLetters);
 		setNumberOfAttempts(numberOfAttempts + 1);
 
-		if (words.includes(word)) {
-			setGuessedWords([...guessedWords, word]);
-			toast.success(`Word found, ${word}`, {
+		const reversedWord = word.split("").reverse().join("");
+		if (words.includes(word) || words.includes(reversedWord)) {
+			const wordToBeAdded = words.includes(word) ? word : reversedWord;
+			setGuessedWords([...guessedWords, wordToBeAdded]);
+			toast.success(`Word found, ${wordToBeAdded}`, {
 				autoClose: 2000
 			});
 		} else {
