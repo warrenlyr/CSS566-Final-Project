@@ -5,7 +5,7 @@ The primary objective of this project is to develop a web-based straightforward 
 In constructing the Word Search Game, we leveraged React and Node.js for the frontend client, while Flask was utilized for the backend server with RESTful API deployed for communication. All data was preserved in the MongoDB Atlas cloud.
 
 - Guidance for setting up the local environment can be found on the [Wiki page](https://github.com/warrenlyr/CSS566-Final-Project/wiki).
-- All documents including PRD, SDD, QA plan, UI/UX design, and API Endpoints can be found both on the [Wiki page](https://github.com/warrenlyr/CSS566-Final-Project/wiki) and in the Document folder.
+- All documents including PRD, SDD, QA plan, UI/UX design, and API Endpoints can be found both on the [Wiki page](https://github.com/warrenlyr/CSS566-Final-Project/wiki) and in the [Document folder](https://github.com/warrenlyr/CSS566-Final-Project/tree/master/Documentation).
 
 ## Team Information
 
