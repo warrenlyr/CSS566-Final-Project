@@ -264,6 +264,29 @@ class GameHistory:
             return game_history
         
         return None
+    
+    def clean_unfinished_game_histories(self):
+        '''
+        Clean all the unfinished game histories that
+        are created more than 2 hours ago.
+        '''
+        # get all the unfinished game histories
+        game_histories = list(self._collection.find({'finished': False}))
+
+        # get the current time
+        current_time = datetime.now()
+
+        # iterate through all the unfinished game histories
+        count = 0
+        for game_history in game_histories:
+            # if the game history is created more than 2 hours ago
+            if (current_time - game_history['start_time']).total_seconds() > 7200:
+                # delete the game history
+                self._collection.delete_one({'_id': game_history['_id']})
+                count += 1
+
+        print(f'{count} unfinished game histories are cleaned up')
+        
 
             
 
@@ -300,19 +323,22 @@ if __name__ == '__main__':
     # print(history.get_game_history_of_user('645875a9f49e2e790f72eee6'))
 
     # generate some test data
-    for i in range(10):
-        # start a game
-        game_history_id = history.create(
-            user_id='646556146471c08c55b3f2bf',
-            game_id='646be65072bc5379c568bd4d'
-        )
+    # for i in range(10):
+    #     # start a game
+    #     game_history_id = history.create(
+    #         user_id='646556146471c08c55b3f2bf',
+    #         game_id='646be65072bc5379c568bd4d'
+    #     )
 
-        # finish the game
-        print(history.finish(
-            game_history_id=game_history_id,
-            time_elapsed='1000',
-            attempts=i
-        ))
+    #     # finish the game
+    #     print(history.finish(
+    #         game_history_id=game_history_id,
+    #         time_elapsed='1000',
+    #         attempts=i
+    #     ))
+
+    # test clean unfinished game histories
+    history.clean_unfinished_game_histories()
 
 
 

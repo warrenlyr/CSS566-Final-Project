@@ -6,7 +6,7 @@ from word_search_generator import WordSearch
 import json
 from bson import ObjectId
 from datetime import datetime, timedelta
-from random import randint
+from random import randint, choice
 
 # TEST USE: to insert app into sys.path
 import os
@@ -444,18 +444,21 @@ class Game:
         # exclude the created_by, created_at, customized, and key fields
         if current_game_id:
             try:
-                game = self._collection.find_one(
+                game = list(self._collection.find(
                     {'level': level, 'type': 'normal', '_id': {'$ne': ObjectId(current_game_id)}},
                     {'created_by': 0, 'customized': 0, 'created_at': 0, 'key': 0}
-                )
+                ))
+                game = choice(games) if games else None
             except:
                 game = None
         else:
             try:
-                game = self._collection.find_one(
+                games = list(self._collection.find(
                     {'level': level, 'type': 'normal'},
                     {'created_by': 0, 'customized': 0, 'created_at': 0, 'key': 0}
-                )
+                ))
+
+                game = choice(games) if games else None
             except:
                 game = None
 

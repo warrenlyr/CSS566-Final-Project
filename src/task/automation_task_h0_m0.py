@@ -12,6 +12,7 @@ This script will run tasks once a day at 00:00:00.
 However, the DigitalOcean server does not support cron job.
 Therefore, we need to set this script to run permanently
 in the background.
+Although this is silly, it works for now.
 '''
 
 # need to add the app folder to the python path
@@ -24,7 +25,7 @@ sys.path.insert(0, app_path)
 from datetime import datetime, timedelta
 import time
 
-from app.models import Game, User
+from app.models import Game, User, GameHistory
 
 
 if __name__ == '__main__':
@@ -76,6 +77,12 @@ if __name__ == '__main__':
         ## update `todays_reward_game_played` attribute of all users to 0 ##
         print('Updating `todays_reward_game_played` attribute of all users to 0...')
         User().clear_all_users_todays_reward_game_played()
+        print('Done')
+
+
+        ## clean up the unfinished games ##
+        print('Cleaning up the unfinished games...')
+        GameHistory().clean_unfinished_game_histories()
         print('Done')
 
 
