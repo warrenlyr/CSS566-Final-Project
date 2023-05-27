@@ -6,7 +6,8 @@ In constructing the Word Search Game, we leveraged React and Node.js for the fro
 
 - Guidance for setting up the local environment can be found on the [Wiki page](https://github.com/warrenlyr/CSS566-Final-Project/wiki).
 - All documents including PRD, SDD, QA plan, UI/UX design, and API Endpoints can be found both on the [Wiki page](https://github.com/warrenlyr/CSS566-Final-Project/wiki) and in the [Document folder](https://github.com/warrenlyr/CSS566-Final-Project/tree/master/Documentation).
-- Check out our product announcement [here](https://github.com/warrenlyr/CSS566-Final-Project/tree/master/Documentation/Product%20Announcement)!
+- Check out our product announcement](https://github.com/warrenlyr/CSS566-Final-Project/tree/master/Documentation/Product%20Announcement)!
+- Our project is deployed [here](https://word-search-game-mya5y.ondigitalocean.app/) as of 5/26/2023, we may shut this server down after this quarter.
 
 ## Team Information
 
