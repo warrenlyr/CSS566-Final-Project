@@ -13,7 +13,10 @@ const LandingPage = () => {
 	return (
 		<>
 			<div className="landingContainer">
-				<Button additionalStyles={"landingHelpButton"} buttonType={"button"} handleClick={() => setIsOpen(true)}>?</Button>
+				<div className="infoContainer">
+					<a className="feedbackLink" href="https://forms.office.com/r/MJcxbwsKL5">Give Us Feedback!</a>
+					<Button additionalStyles={"landingHelpButton"} buttonType={"button"} handleClick={() => setIsOpen(true)}>?</Button>
+				</div>
 				<div className="pageTitle">Searching Kitty</div>
 				<div className="dataContainer">
 					<Leaderboard
